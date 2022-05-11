@@ -2,7 +2,7 @@
 
 The **Grizzly** Data Warehouse is a **deployable blueprint** to create and operate an **analyst-first data platform centered around BigQuery** with minimal engineering support.  It provides a simple Git .yml and .sql file interface as the single pane of glass to configure and run the following components in concert:
 - [BigQuery](https://cloud.google.com/bigquery) including its database, [function](https://cloud.google.com/bigquery/docs/reference/standard-sql/functions-and-operators), [assert](https://cloud.google.com/bigquery/docs/reference/standard-sql/debugging-statements), [table-level security](https://cloud.google.com/bigquery/docs/table-access-controls), [column-level security](https://cloud.google.com/bigquery/docs/column-level-security-intro), [row-level security](https://cloud.google.com/bigquery/docs/row-level-security-intro), and [machine learning](https://cloud.google.com/bigquery-ml/docs/introduction) functionality.
-- [Cloud Composer](https://cloud.google.com/composer) as a complete end-to-end data movement/integration tool for BigQuery, Cloud Spanner, CloudSQL, and Google Sheets.
+- [Cloud Composer](https://cloud.google.com/composer) as a complete end-to-end data movement/integration tool for BigQuery, Cloud Spanner, CloudSQL, Cloud Storage, and Google Sheets.
 - [Cloud Data Loss Prevention](https://cloud.google.com/dlp) to detect and mask or remove sensitive data automatically.
 - [Cloud Pub/Sub](https://cloud.google.com/pubsub) to provide outbound event-driven data and streaming analytics.
 - [Cloud Source Repositories](https://cloud.google.com/source-repositories) to control code.
