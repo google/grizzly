@@ -12,7 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Import cloud build history."""
+"""Import cloud build history into BQ table.
+
+Load information form GCP build logs into BQ log table
+etl_log.cb_trigger_execution.
+
+Args:
+  env: Environment name (dev, uat, prod)
+  metadata_project_id: GCP project id where GIT repository located.
+  env_config_file: Environment configuration file.
+  folder: File folder.
+
+Example:
+  python3 ./import_cloud_build_log.py -e <ENVIRONMENT>
+    -m <METADATA_PROJECT_ID>
+    -c <ENV_CONFIG_FILE>
+    -f <FOLDER_PATH>
+"""
+
 import argparse
 import json
 import sys
@@ -34,7 +51,7 @@ from grizzly_git.config import SUBJECT_AREA_BUILD_TABLE_SCHEMA
 
 
 def get_auth_http() -> AuthorizedHttp:
-  """Return auth for gcp cloud access."""
+  """Return AuthorizedHttp for gcp cloud access."""
 
   scopes = ['https://www.googleapis.com/auth/cloud-platform']
 
@@ -46,7 +63,14 @@ def get_auth_http() -> AuthorizedHttp:
 
 
 def get_cloud_build_rows(base_url: str) -> List[any]:
-  """Convert REST API data from Cloud Build API into rows."""
+  """Convert REST API data from Cloud Build API into BQ rows.
+
+  Args:
+    base_url (str): Base part of GCP RestAPI url used for data extraction.
+
+  Returns:
+    (List[any]): List of rows to be inserted into BQ table.
+  """
 
   authed_http = get_auth_http()
 
@@ -111,7 +135,12 @@ def get_cloud_build_rows(base_url: str) -> List[any]:
 def cb_triggers_execution_data_proc(
     bq_utils: BQUtils,
     metadata_project_id: str) -> None:
-  """Insert Cloud Build Trigger historical data into CB_TRIGGER_EXECUTION."""
+  """Insert Cloud Build Trigger historical data into BQ table.
+
+  Args:
+    bq_utils (BQUtils): Instance of BQUtils used for table data uploading.
+    metadata_project_id (str): GCP project id with GIT repository.
+  """
 
   table_name = f'{GIT_DATASET}.{CB_TRIGGER_EXECUTION_TABLE_NAME}'
   tmp_table_name = f'{STAGE_DATASET}.{CB_TRIGGER_EXECUTION_TABLE_NAME}'
@@ -144,8 +173,11 @@ def cb_triggers_execution_data_proc(
 
 
 def subject_area_build_data_proc(bq_utils: BQUtils) -> None:
-  """Insert data into SUBJECT_AREA_BUILD table."""
+  """Insert data into SUBJECT_AREA_BUILD table.
 
+  Args:
+    bq_utils (BQUtils): Instance of BQUtils used for table data uploading.
+  """
   table_name = f'{GIT_DATASET}.{SUBJECT_AREA_BUILD_TABLE_NAME}'
   bq_utils.create_table(table_name=table_name,
                         table_schema=SUBJECT_AREA_BUILD_TABLE_SCHEMA)
@@ -155,7 +187,7 @@ def subject_area_build_data_proc(bq_utils: BQUtils) -> None:
 
 
 def main(args: argparse.Namespace) -> None:
-
+  """Implement the command line interface described in the module doc string."""
   env = args.env.lower()
   env_config_file = args.env_config_file
   metadata_project_id = args.metadata_project_id
@@ -172,7 +204,7 @@ if __name__ == '__main__':
   try:
     # Construct the argument parser
     ap = argparse.ArgumentParser(
-        description='Script used for SYNC/MERGE of DLP templates')
+        description='Script uploads Cloud Build logs into BQ log table.')
     # Add the arguments to the parser
     ap.add_argument(
         '-e',

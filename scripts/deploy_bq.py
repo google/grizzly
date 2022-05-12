@@ -67,10 +67,10 @@ def main(args: argparse.Namespace) -> None:
     # Wait for query to finish.
     query_job = bqclient.query(query)
     time.sleep(10)
-    run_time=10
+    run_time = 10
     while query_job.running():
       print(f'Waiting for job to complete : {f.name}, {query_job.job_id}, ({run_time})')
-      run_time+=10
+      run_time += 10
       time.sleep(10)
 
     # Check if job had errors.

@@ -67,7 +67,7 @@ def clear_file_path(file_path):
 
 
 def get_files_commit():
-  """Return files for each coomits."""
+  """Return files for each commit."""
 
   res = {}
 

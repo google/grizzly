@@ -12,9 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Import git dataset."""
+"""Import git dataset.
+
+Create DB objects with information about GIT repository.
+
+Args:
+  env: Environment name (dev, uat, prod)
+  env_config_file: Environment configuration file.
+
+Example:
+  python3 ./git_dataset_init.py -e <ENVIRONMENT>
+    -c <ENV_CONFIG_FILE>
+"""
+
 import argparse
 import sys
+from typing import Any, List
 
 from deployment_utils import BQUtils
 from deployment_utils import ImportToolConfig
@@ -40,17 +53,20 @@ from grizzly_git.config import SUBJECT_AREA_TABLE_SCHEMA
 
 def create_table(bq_uitls: BQUtils,
                  table_name: str,
-                 table_schema: str) -> None:
+                 table_schema: List[Any]) -> None:
+  """Create BQ table with defined schema.
+
+  Args:
+      bq_uitls (BQUtils): Instance of BQUtils used for work with tables.
+      table_name (str): Name of a table to be created.
+      table_schema (List[Any]): BQ table definition.
+  """
   table_name = f'{GIT_DATASET}.{table_name}'
   bq_uitls.create_table(table_name=table_name, table_schema=table_schema)
 
 
 def main(args: argparse.Namespace) -> None:
-  """Import data catalog.
-
-  Args:
-    args (argparse.Namespace): arguments passed in the commandline
-  """
+  """Implement the command line interface described in the module doc string."""
   env = args.env.lower()
   env_config_file = args.env_config_file
 
@@ -91,7 +107,7 @@ if __name__ == '__main__':
   try:
     # Construct the argument parser
     ap = argparse.ArgumentParser(
-        description='Script used for SYNC/MERGE of DLP templates')
+        description='Create DB objects with information about GIT repository.')
     # Add the arguments to the parser
     ap.add_argument(
         '-e',

@@ -1,9 +1,9 @@
 # Table Definition File
-Table definition files provide instructions to Grizzly on how to generate your BigQuery Tables. One table definition file exists for each table in your Grizzly installation. 
+Table definition files provide instructions to Grizzly on how to generate your BigQuery Tables. One table definition file exists for each table in your Grizzly installation.
 
 The files are written in YAML. The files should be named "[dataset].[table_name].yml"
 
-For a table to be generated and updated, it needs to be listed in a [Scope file](./scope_file.md)'s etl_scope field. After creating a table definition file, be sure to add it to a [Scope file](./scope_file.md). 
+For a table to be generated and updated, it needs to be listed in a [Scope file](./scope_file.md)'s etl_scope field. After creating a table definition file, be sure to add it to a [Scope file](./scope_file.md).
 
 | Field name | Notes |
 |------------|-------|

@@ -6,7 +6,7 @@
 
 - [Installation](./install.md) - Steps on how to install the infrastructure for your own Grizzly deployment.
 
-- [Configuration](./configuration.md) - Instructions on how to build out the data layers for your Grizzly deployment. 
+- [Configuration](./configuration.md) - Instructions on how to build out the data layers for your Grizzly deployment.
 
 ## Architecture
 ![](./images/grizzly_architecture.png)

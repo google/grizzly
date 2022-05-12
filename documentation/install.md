@@ -92,7 +92,7 @@ session to initialize.
         user:joe@example.com or group:demo@google.com.
 
         ```
-        cd ~/grizzly_repo/grizzly_framework
+        cd ~/grizzly_repo/grizzly
         ./tools/init_grizzly_environment_from_scratch.sh \
         --GCP_PROJECT_METADATA "[stem_name]-metadata" \
         --GCP_PROJECT_DEV "[stem_name]-dev" \
@@ -106,7 +106,7 @@ session to initialize.
         For example,
 
         ```
-        cd ~/grizzly_repo/grizzly_framework
+        cd ~/grizzly_repo/grizzly
         ./tools/init_grizzly_environment_from_scratch.sh \
         --GCP_PROJECT_METADATA "grizzly-metadata" \
         --GCP_PROJECT_DEV "grizzly-dev" \
@@ -136,49 +136,49 @@ session to initialize.
 4.  In Cloud Shell, build the [stem_name]-dev, -uat, and -prod GCP projects.
 
     ```
-    cd ~/grizzly_repo/grizzly_framework/tools
+    cd ~/grizzly_repo/grizzly/tools
     ./apply_grizzy_terraform.sh \
     --GCP_PROJECT_METADATA "[stem_name]-metadata" \
     --ENVIRONMENT dev
     ```
 
     ```
-    cd ~/grizzly_repo/grizzly_framework/tools
+    cd ~/grizzly_repo/grizzly/tools
     ./apply_grizzy_terraform.sh \
     --GCP_PROJECT_METADATA "[stem_name]-metadata" \
     --ENVIRONMENT uat
     ```
 
     ```
-    cd ~/grizzly_repo/grizzly_framework/tools
+    cd ~/grizzly_repo/grizzly/tools
     ./apply_grizzy_terraform.sh \
     --GCP_PROJECT_METADATA "[stem_name]-metadata" \
     --ENVIRONMENT prod
     ```
-    
+
 5.  In the [stem_name]-dev project, monitor the first run of each DAG by navigating to
     Composer and then opening the
-    Airflow instance.  
+    Airflow instance.
     <img src="./images/composer.png" width="400" height="400">
     ![](./images/airflow.png)
-    
+
 6.  Once the Airflow DAGs finish, navigate to
     Cloud Build
-    in the [stem_name]-metadata project.  
+    in the [stem_name]-metadata project.
     <img src="./images/cloud_build.png" width="400" height="400">
 
     *   Deploy the demo machine learning model by running the deploy-bigquery trigger
         after setting its SCOPE_FILE value
-        to SCOPE_ML.yml.  
-        ![](./images/deploy_bigquery_trigger1.png) 
+        to SCOPE_ML.yml.
+        ![](./images/deploy_bigquery_trigger1.png)
         ![](./images/deploy_bigquery_trigger2.png)
-        
+
     *   Import the initial Git metadata into Grizzly's log tables by running the
         import-git-rep trigger
         after setting its Branch value
-        to dev.  
-        ![](./images/import_git_rep_trigger1.png)  
-        ![](./images/import_git_rep_trigger2.png)   
+        to dev.
+        ![](./images/import_git_rep_trigger1.png)
+        ![](./images/import_git_rep_trigger2.png)
 
 7.  Install and configure the
     [Superset application](https://superset.apache.org/) to see the demo
@@ -209,11 +209,11 @@ session to initialize.
         ```
         sudo echo "pybigquery" >> ./docker/requirements-local.txt
         ```
-        
+
         ```
         sudo chmod 770 ./docker/requirements-local.txt
         ```
-        
+
         ```
         docker-compose build --force-rm
         ```
@@ -229,12 +229,12 @@ session to initialize.
     *   In the [stem_name]-dev project,
         create a Service Account Key with the BigQuery Data Viewer, BigQuery Job User,
         and BigQuery Read Session User permissions. Download the key as a json
-        file to your desktop.  
-        ![](./images/service_account1.png)  
-        ![](./images/service_account2.png)  
-        ![](./images/service_account3.png)  
-        ![](./images/service_account4.png)  
-        ![](./images/service_account5.png)  
+        file to your desktop.
+        ![](./images/service_account1.png)
+        ![](./images/service_account2.png)
+        ![](./images/service_account3.png)
+        ![](./images/service_account4.png)
+        ![](./images/service_account5.png)
         ![](./images/service_account6.png)
 
     *   In Superset,

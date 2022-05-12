@@ -88,7 +88,7 @@ class ETLMerge:
     target_table_name = self.task_config.target_table_name
     staging_table_name = self.task_config.staging_table_name
 
-    if  self._is_table_exists(target_table_name):
+    if self._is_table_exists(target_table_name):
       target_schema = self._get_schema(target_table_name)
       source_schema = self._get_schema(staging_table_name)
 
