@@ -167,7 +167,7 @@ class DataCatalogPolicyTagTaxonomy:
       print(f'Importing file [{template_file}]')
       taxonomy_template = DeploymentUtils.proto_load(
           path=template_path,
-          filter=f'{self.location}{self.FILE_EXTENSION}',
+          file_filter=f'{self.location}{self.FILE_EXTENSION}',
           proto_class=InlineSource)
       # in case of taxonomies we are working only with one file per location
       taxonomy_template = taxonomy_template[str(template_file)]
