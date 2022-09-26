@@ -1,0 +1,14 @@
+IF EXISTS(
+  SELECT size_bytes FROM `{{data.dataset}}.__TABLES__` WHERE table_id='{{data.table}}'
+) THEN
+
+  ALTER TABLE {{ task_config.target_table_name }}
+  ADD COLUMN IF NOT EXISTS sys_job_id INTEGER;
+
+  ALTER TABLE {{ task_config.target_table_name }}
+  ADD COLUMN IF NOT EXISTS sys_job_write_mode STRING;
+
+  ALTER TABLE {{ task_config.target_table_name }}
+  ADD COLUMN IF NOT EXISTS sys_row_timestamp TIMESTAMP;
+
+END IF;

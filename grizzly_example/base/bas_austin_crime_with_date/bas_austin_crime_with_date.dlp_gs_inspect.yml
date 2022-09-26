@@ -1,0 +1,24 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+operator_type: grizzly_dlp_operator
+target_table_name: bas_austin_crime_with_date.crime_dlp_gs_analysis
+
+dlp_inspect_config:
+  storage_type: cloud_storage
+  source_gs_url: gs://{{ grizzly_config.GS_BUCKET }}/data/EXPORT/BAS_AUSTIN_CRIME_WITH_DATE/
+  template_name: projects/{{ task_instance.gcp_project_id }}/locations/global/inspectTemplates/address
+
+parent_tasks:
+  - bas_austin_crime_with_date.export_to_gs

@@ -1,0 +1,13 @@
+[
+  {
+    "template":"projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+    "fields":{
+      "crime":{
+        "boolValue":true
+      },
+      "violence":{
+        "boolValue":true
+      }
+    }
+  }
+]

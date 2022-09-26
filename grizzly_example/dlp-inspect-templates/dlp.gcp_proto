@@ -1,0 +1,25 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/global/inspectTemplates/dlp",
+  "displayName": "dlp test inspection template",
+  "createTime": "2021-10-29T18:00:34.150293Z",
+  "updateTime": "2021-10-29T18:00:34.150293Z",
+  "inspectConfig": {
+    "infoTypes": [
+      {
+        "name": "US_SOCIAL_SECURITY_NUMBER"
+      }
+    ],
+    "minLikelihood": 3,
+    "limits": {
+      "maxFindingsPerItem": 0,
+      "maxFindingsPerRequest": 0,
+      "maxFindingsPerInfoType": []
+    },
+    "includeQuote": false,
+    "excludeInfoTypes": false,
+    "customInfoTypes": [],
+    "contentOptions": [],
+    "ruleSet": []
+  },
+  "description": ""
+}

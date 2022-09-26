@@ -1,0 +1,18 @@
+create table {{ task_config.target_table_name }}
+as
+select source.*,
+  TO_JSON_STRING( struct( {{ task_config.keys|join(',') }} )) as sys_kyes,
+
+    {%- if task_config|attr('delta_compare') %}
+      MD5( TO_JSON_STRING( struct( {{ task_config.delta_compare|join(',') }} )) ) as sys_hash,
+    {%- endif %}
+    {%- if not task_config|attr('delta_compare') %}
+      MD5( TO_JSON_STRING( source ) ) as sys_hash,
+    {%- endif %}
+    current_timestamp() as sys_act_ts,
+    'I' as sys_act_id,
+
+    {{ task_config._context['dag_run'].id }} as sys_etl_task_id,
+
+
+from {{ task_config.staging_table_name }} as source

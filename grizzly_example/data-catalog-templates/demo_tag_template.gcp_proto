@@ -1,0 +1,59 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template",
+  "displayName": "Demo Tag Template",
+  "fields": {
+    "valid_from": {
+      "displayName": "Valid From",
+      "type": {
+        "primitiveType": 4
+      },
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/valid_from",
+      "isRequired": false,
+      "description": "",
+      "order": 0
+    },
+    "has_pii": {
+      "displayName": "Has PII",
+      "type": {
+        "primitiveType": 3
+      },
+      "order": 2,
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/has_pii",
+      "isRequired": false,
+      "description": ""
+    },
+    "pii_type": {
+      "displayName": "PII type",
+      "type": {
+        "enumType": {
+          "allowedValues": [
+            {
+              "displayName": "EMAIL_ADDRESS"
+            },
+            {
+              "displayName": "US_SOCIAL_SECURITY_NUMBER"
+            },
+            {
+              "displayName": "NONE"
+            }
+          ]
+        }
+      },
+      "order": 1,
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/pii_type",
+      "isRequired": false,
+      "description": ""
+    },
+    "source": {
+      "displayName": "Source of data asset",
+      "type": {
+        "primitiveType": 2
+      },
+      "isRequired": true,
+      "order": 3,
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/source",
+      "description": ""
+    }
+  },
+  "isPubliclyReadable": false
+}

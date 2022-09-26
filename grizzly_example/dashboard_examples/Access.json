@@ -1,0 +1,335 @@
+{
+    "dashboards": [
+        {
+            "__Dashboard__": {
+                "css": "",
+                "dashboard_title": "Access",
+                "description": null,
+                "json_metadata": "{\"show_native_filters\": true, \"color_scheme\": \"\", \"refresh_frequency\": 0, \"expanded_slices\": {}, \"label_colors\": {}, \"timed_refresh_immune_slices\": [], \"default_filters\": \"{}\", \"chart_configuration\": {}, \"remote_id\": 17}",
+                "position_json": "{\"CHART-oMn0w8C_Tt\":{\"children\":[],\"id\":\"CHART-oMn0w8C_Tt\",\"meta\":{\"chartId\":1039,\"height\":50,\"sliceName\":\"Access\",\"uuid\":\"32b6b7a6-20a8-44c0-b1ff-07955df372b6\",\"width\":12},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-ZIu64UTZUU\"],\"type\":\"CHART\"},\"DASHBOARD_VERSION_KEY\":\"v2\",\"GRID_ID\":{\"children\":[\"ROW-ZIu64UTZUU\"],\"id\":\"GRID_ID\",\"parents\":[\"ROOT_ID\"],\"type\":\"GRID\"},\"HEADER_ID\":{\"id\":\"HEADER_ID\",\"meta\":{\"text\":\"Access\"},\"type\":\"HEADER\"},\"ROOT_ID\":{\"children\":[\"GRID_ID\"],\"id\":\"ROOT_ID\",\"type\":\"ROOT\"},\"ROW-ZIu64UTZUU\":{\"children\":[\"CHART-oMn0w8C_Tt\"],\"id\":\"ROW-ZIu64UTZUU\",\"meta\":{\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"}}",
+                "slices": [
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "etl_log.project_table_access",
+                            "datasource_type": "table",
+                            "id": 1039,
+                            "params": "{\"adhoc_filters\": [], \"all_columns\": [\"dataset_id\", \"table_id\", \"type\", \"last_modified_month\", \"ds_grantee\", \"ds_privilege\", \"tbl_grantee\", \"tbl_privilege\", \"cont\"], \"color_pn\": true, \"conditional_formatting\": [], \"datasource\": \"29__table\", \"extra_form_data\": {}, \"groupby\": [], \"include_search\": true, \"order_by_cols\": [], \"order_desc\": true, \"percent_metrics\": [], \"query_mode\": \"raw\", \"row_limit\": 10000, \"server_page_length\": 10, \"show_cell_bars\": true, \"slice_id\": 1039, \"table_timestamp_format\": \"smart_date\", \"time_grain_sqla\": \"P1D\", \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"url_params\": {}, \"viz_type\": \"table\", \"remote_id\": 1039, \"datasource_name\": \"project_table_access\", \"schema\": \"etl_log\", \"database_name\": \"bq_connection\"}",
+                            "query_context": "{\"datasource\":{\"id\":29,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"filters\":[],\"extras\":{\"time_grain_sqla\":\"P1D\",\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[\"dataset_id\",\"table_id\",\"type\",\"last_modified_month\",\"ds_grantee\",\"ds_privilege\",\"tbl_grantee\",\"tbl_privilege\",\"cont\"],\"orderby\":[],\"annotation_layers\":[],\"row_limit\":10000,\"timeseries_limit\":0,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"post_processing\":[]}],\"form_data\":{\"viz_type\":\"table\",\"datasource\":\"29__table\",\"slice_id\":1039,\"url_params\":{},\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"time_grain_sqla\":\"P1D\",\"time_range\":\"No filter\",\"query_mode\":\"raw\",\"groupby\":[],\"all_columns\":[\"dataset_id\",\"table_id\",\"type\",\"last_modified_month\",\"ds_grantee\",\"ds_privilege\",\"tbl_grantee\",\"tbl_privilege\",\"cont\"],\"percent_metrics\":[],\"adhoc_filters\":[],\"order_by_cols\":[],\"row_limit\":10000,\"server_page_length\":10,\"include_time\":false,\"order_desc\":true,\"table_timestamp_format\":\"smart_date\",\"include_search\":true,\"show_cell_bars\":true,\"color_pn\":true,\"conditional_formatting\":[],\"extra_form_data\":{},\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Access",
+                            "viz_type": "table"
+                        }
+                    }
+                ],
+                "slug": null
+            }
+        }
+    ],
+    "datasources": [
+        {
+            "__SqlaTable__": {
+                "cache_timeout": null,
+                "columns": [
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "ds_privilege",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 833,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "6d6daae5-9db1-4e96-a795-0963ab84cd49",
+                            "verbose_name": "Dataset Privilege"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "ds_grantee",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 834,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "b58453f1-79d2-4a2c-a4bd-a0c5f82f756b",
+                            "verbose_name": "Dataset Grantee"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "tbl_privilege",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 835,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "06086710-ecf5-4d8f-97ad-c06cb4533ba0",
+                            "verbose_name": "Table Privilege"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "tbl_grantee",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 836,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "b198d165-f675-4a1a-aae1-e9aa994d8ac3",
+                            "verbose_name": "Table Grantee"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "project_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 828,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "020a6256-34fa-4627-b7a4-829766be511e",
+                            "verbose_name": "Project"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "dataset_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 829,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "dd22fbf1-cb9f-4c38-bedd-6aaddaca8937",
+                            "verbose_name": "Dataset"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "table_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 830,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "21b80ba6-9953-4276-9345-8b5ca19ea5e7",
+                            "verbose_name": "Table"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "type",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 831,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "9a39f2c0-c34a-4354-8e4f-7f1187391783",
+                            "verbose_name": "Type"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "column_name": "last_modified_month",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 832,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "69e2dd1f-1523-42bd-9ca2-1a799a0556e1",
+                            "verbose_name": "Last Modified Month"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T17:09:27"
+                            },
+                            "column_name": "cont",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T19:00:21"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 863,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 29,
+                            "type": "STRING",
+                            "uuid": "16eff802-c8af-426d-969b-7bccee814bdb",
+                            "verbose_name": "Row Privilege"
+                        }
+                    }
+                ],
+                "database_id": 3,
+                "default_endpoint": null,
+                "description": null,
+                "extra": null,
+                "fetch_values_predicate": null,
+                "filter_select_enabled": false,
+                "main_dttm_col": null,
+                "metrics": [
+                    {
+                        "__SqlMetric__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T06:07:15"
+                            },
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T05:58:32"
+                            },
+                            "d3format": null,
+                            "description": null,
+                            "expression": "COUNT(*)",
+                            "extra": "{\"warning_markdown\":\"\"}",
+                            "id": 36,
+                            "metric_name": "count",
+                            "metric_type": "count",
+                            "table_id": 29,
+                            "uuid": "ba98344b-2209-4ecb-883e-cc3d0806e2be",
+                            "verbose_name": "COUNT(*)",
+                            "warning_text": null
+                        }
+                    }
+                ],
+                "offset": 0,
+                "params": "{\"remote_id\": 29, \"database_name\": \"bq_connection\"}",
+                "schema": "etl_log",
+                "sql": "",
+                "table_name": "project_table_access",
+                "template_params": null
+            }
+        }
+    ]
+}

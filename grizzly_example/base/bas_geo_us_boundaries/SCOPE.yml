@@ -1,0 +1,33 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+schedule_interval: 0 4 * * *
+execution_timeout_per_table: 1200
+etl_scope:
+  - bas_geo_us_boundaries.adjacent_counties
+  - bas_geo_us_boundaries.adjacent_states
+  - bas_geo_us_boundaries.cbsa
+  - bas_geo_us_boundaries.cnecta
+  - bas_geo_us_boundaries.coastline
+  - bas_geo_us_boundaries.congress_district_115
+  - bas_geo_us_boundaries.congress_district_116
+  - bas_geo_us_boundaries.counties
+  - bas_geo_us_boundaries.csa
+  - bas_geo_us_boundaries.metropolitan_divisions
+  - bas_geo_us_boundaries.national_outline
+  - bas_geo_us_boundaries.nws_forecast_regions
+  - bas_geo_us_boundaries.railways
+  - bas_geo_us_boundaries.states
+  - bas_geo_us_boundaries.urban_areas
+  - bas_geo_us_boundaries.zip_codes

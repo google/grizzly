@@ -1,0 +1,13 @@
+# Don't track content of these folders
+token.pickle
+..gitignore.swp
+__pycache__/
+.venv/
+.vscode/
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.hcl
+*.tfvars
+*.theia-workspace
+.idea/

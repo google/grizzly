@@ -1,0 +1,437 @@
+{
+    "dashboards": [
+        {
+            "__Dashboard__": {
+                "css": "",
+                "dashboard_title": "Chicago",
+                "description": null,
+                "json_metadata": "{\"timed_refresh_immune_slices\": [], \"expanded_slices\": {}, \"refresh_frequency\": 0, \"default_filters\": \"{\\\"135\\\": {\\\"year\\\": \\\"2018\\\"}}\", \"color_scheme\": null, \"filter_scopes\": {\"1061\": {\"year\": {\"scope\": [\"ROOT_ID\"], \"immune\": []}}}, \"remote_id\": 31, \"import_time\": 1643400280}",
+                "position_json": "{\"CHART-8OQWzVjjZ7\": {\"children\": [], \"id\": \"CHART-8OQWzVjjZ7\", \"meta\": {\"chartId\": 1059, \"height\": 81, \"sliceName\": \"Chicago\", \"uuid\": \"e66512f5-14db-4132-9fec-730adabc508c\", \"width\": 4}, \"parents\": [\"ROOT_ID\", \"GRID_ID\", \"ROW-qzbqArVuAN\", \"COLUMN-_mxm6NDqBI\"], \"type\": \"CHART\"}, \"CHART-brDUmJfueo\": {\"children\": [], \"id\": \"CHART-brDUmJfueo\", \"meta\": {\"chartId\": 1061, \"height\": 22, \"sliceName\": \"Chicago Filters\", \"sliceNameOverride\": \"Filters\", \"uuid\": \"57e3b631-5efa-4f3d-818b-ee783145751b\", \"width\": 12}, \"parents\": [\"ROOT_ID\", \"GRID_ID\", \"ROW-kkJpB5fMyl\"], \"type\": \"CHART\"}, \"CHART-ggjTW1rNhn\": {\"children\": [], \"id\": \"CHART-ggjTW1rNhn\", \"meta\": {\"chartId\": 1060, \"height\": 81, \"sliceName\": \"Chicago Table\", \"sliceNameOverride\": \"Data Table\", \"uuid\": \"e7db8016-2a31-4d24-afb7-15d66788847e\", \"width\": 4}, \"parents\": [\"ROOT_ID\", \"GRID_ID\", \"ROW-qzbqArVuAN\", \"COLUMN-GYRnrKkzxW\"], \"type\": \"CHART\"}, \"COLUMN-GYRnrKkzxW\": {\"children\": [\"CHART-ggjTW1rNhn\"], \"id\": \"COLUMN-GYRnrKkzxW\", \"meta\": {\"background\": \"BACKGROUND_TRANSPARENT\", \"width\": 8}, \"parents\": [\"ROOT_ID\", \"GRID_ID\", \"ROW-qzbqArVuAN\"], \"type\": \"COLUMN\"}, \"COLUMN-_mxm6NDqBI\": {\"children\": [\"CHART-8OQWzVjjZ7\"], \"id\": \"COLUMN-_mxm6NDqBI\", \"meta\": {\"background\": \"BACKGROUND_TRANSPARENT\", \"width\": 4}, \"parents\": [\"ROOT_ID\", \"GRID_ID\", \"ROW-qzbqArVuAN\"], \"type\": \"COLUMN\"}, \"DASHBOARD_VERSION_KEY\": \"v2\", \"GRID_ID\": {\"children\": [\"ROW-kkJpB5fMyl\", \"ROW-qzbqArVuAN\"], \"id\": \"GRID_ID\", \"parents\": [\"ROOT_ID\"], \"type\": \"GRID\"}, \"HEADER_ID\": {\"id\": \"HEADER_ID\", \"meta\": {\"text\": \"Chicago\"}, \"type\": \"HEADER\"}, \"ROOT_ID\": {\"children\": [\"GRID_ID\"], \"id\": \"ROOT_ID\", \"type\": \"ROOT\"}, \"ROW-kkJpB5fMyl\": {\"children\": [\"CHART-brDUmJfueo\"], \"id\": \"ROW-kkJpB5fMyl\", \"meta\": {\"background\": \"BACKGROUND_TRANSPARENT\"}, \"parents\": [\"ROOT_ID\", \"GRID_ID\"], \"type\": \"ROW\"}, \"ROW-qzbqArVuAN\": {\"children\": [\"COLUMN-_mxm6NDqBI\", \"COLUMN-GYRnrKkzxW\"], \"id\": \"ROW-qzbqArVuAN\", \"meta\": {\"background\": \"BACKGROUND_TRANSPARENT\"}, \"parents\": [\"ROOT_ID\", \"GRID_ID\"], \"type\": \"ROW\"}}",
+                "slices": [
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "prs_store_research.vw_locations",
+                            "datasource_type": "table",
+                            "id": 1059,
+                            "params": "{\"adhoc_filters\": [], \"autozoom\": true, \"datasource\": \"27__table\", \"extra_form_data\": {}, \"extruded\": false, \"fill_color_picker\": {\"a\": 1, \"b\": 135, \"g\": 122, \"r\": 0}, \"filled\": true, \"filter_nulls\": true, \"js_columns\": [], \"js_tooltip\": \"\", \"legend_format\": \"~g\", \"legend_position\": null, \"line_column\": \"geometry\", \"line_type\": \"json\", \"line_width\": 100, \"linear_color_scheme\": \"schemeRdYlGn\", \"mapbox_style\": \"mapbox://styles/mapbox/light-v9\", \"metric\": {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"scout_score\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 804, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Scout Score\", \"optionName\": \"metric_tc375dbgg8s_tfkd6eo7otp\", \"sqlExpression\": null}, \"multiplier\": 0.2, \"num_buckets\": 10, \"opacity\": 85, \"point_radius_fixed\": {\"type\": \"fix\", \"value\": \"\"}, \"row_limit\": 10000, \"slice_id\": 133, \"stroke_color_picker\": {\"a\": 1, \"b\": 135, \"g\": 122, \"r\": 0}, \"stroked\": true, \"table_filter\": true, \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"toggle_polygons\": true, \"url_params\": {}, \"viewport\": {\"altitude\": 1.5, \"bearing\": 0, \"height\": 448, \"latitude\": 41.77708609593838, \"longitude\": -88.0754439999984, \"maxPitch\": 60, \"maxZoom\": 20, \"minPitch\": 0, \"minZoom\": 0, \"pitch\": 0, \"width\": 942, \"zoom\": 7.755209588949738}, \"viz_type\": \"deck_polygon\", \"remote_id\": 1059, \"datasource_name\": \"vw_locations\", \"schema\": \"prs_store_research\", \"database_name\": \"bq_connection\", \"import_time\": 1643400280}",
+                            "query_context": "{\"datasource\":{\"id\":27,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"filters\":[],\"extras\":{\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[],\"metrics\":[{\"expressionType\":\"SIMPLE\",\"column\":{\"column_name\":\"scout_score\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":804,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"aggregate\":\"MAX\",\"sqlExpression\":null,\"isNew\":false,\"hasCustomLabel\":true,\"label\":\"Scout Score\",\"optionName\":\"metric_tc375dbgg8s_tfkd6eo7otp\"}],\"annotation_layers\":[],\"row_limit\":10000,\"timeseries_limit\":0,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{}}],\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Chicago",
+                            "viz_type": "deck_polygon"
+                        }
+                    },
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "prs_store_research.vw_locations",
+                            "datasource_type": "table",
+                            "id": 1060,
+                            "params": "{\"adhoc_filters\": [{\"clause\": \"WHERE\", \"comparator\": \"0\", \"expressionType\": \"SIMPLE\", \"filterOptionName\": \"filter_y92vmlahof_u20kjty6oy\", \"isExtra\": false, \"isNew\": false, \"operator\": \">\", \"operatorId\": \"GREATER_THAN\", \"sqlExpression\": null, \"subject\": \"scout_score\"}], \"all_columns\": [], \"color_pn\": false, \"column_config\": {\"Blight Count\": {\"horizontalAlign\": \"center\"}, \"Competition Count\": {\"horizontalAlign\": \"center\"}, \"Hazard Count\": {\"horizontalAlign\": \"center\"}, \"Household Density\": {\"horizontalAlign\": \"center\"}, \"Property Crime Rate\": {\"horizontalAlign\": \"center\"}, \"Public Commuter Density\": {\"horizontalAlign\": \"center\"}, \"Scout Score\": {\"horizontalAlign\": \"center\"}, \"Violent Crime Rate\": {\"horizontalAlign\": \"center\"}, \"Violent Protest Count\": {\"horizontalAlign\": \"center\"}, \"zip_code\": {\"horizontalAlign\": \"center\"}}, \"conditional_formatting\": [], \"datasource\": \"27__table\", \"extra_form_data\": {}, \"groupby\": [\"zip_code\"], \"metrics\": [{\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"scout_score\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 804, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Scout Score\", \"optionName\": \"metric_4kzrx6e6tdt_btmkny82c3k\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"supermarket_count\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 796, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Competition Count\", \"optionName\": \"metric_43ve9bwet4l_qnp6e628drc\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"households_per_sq_mile\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 800, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"FLOAT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Household Density\", \"optionName\": \"metric_o7syuf78oh8_c4t8adxn39\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"commuters_by_public_transportation_rate\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 801, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"FLOAT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Public Commuter Density\", \"optionName\": \"metric_ljuc1smah9n_1vzdys68mh9i\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"crime_violent_rate\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 802, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"FLOAT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Violent Crime Rate\", \"optionName\": \"metric_inargeb4rdj_r9umei2iyvk\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"riot_per_year\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 799, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Violent Protest Count\", \"optionName\": \"metric_0qwg1q07df7_6chw0b4i919\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"crime_property_rate\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 803, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"FLOAT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Property Crime Rate\", \"optionName\": \"metric_fyt3lhm0qqg_2h1vrf4w2nf\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"num_of_hazards\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 797, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Hazard Count\", \"optionName\": \"metric_jflc3lt6g38_26dj6s6zs74\", \"sqlExpression\": null}, {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"num_of_abandoned\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 798, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": true, \"isNew\": false, \"label\": \"Blight Count\", \"optionName\": \"metric_lly57ty1oh_e7057d1ofg4\", \"sqlExpression\": null}], \"order_by_cols\": [], \"order_desc\": true, \"page_length\": 0, \"percent_metrics\": [], \"query_mode\": \"aggregate\", \"row_limit\": 10000, \"server_page_length\": 10, \"show_cell_bars\": false, \"slice_id\": 134, \"table_timestamp_format\": \"smart_date\", \"time_grain_sqla\": \"P1D\", \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"timeseries_limit_metric\": {\"aggregate\": \"MAX\", \"column\": {\"column_name\": \"scout_score\", \"description\": null, \"expression\": null, \"filterable\": true, \"groupby\": true, \"id\": 804, \"is_dttm\": false, \"python_date_format\": null, \"type\": \"INT64\", \"type_generic\": 0, \"verbose_name\": null}, \"expressionType\": \"SIMPLE\", \"hasCustomLabel\": false, \"isNew\": false, \"label\": \"MAX(scout_score)\", \"optionName\": \"metric_qt0y9b8675_hksyc2r8w8g\", \"sqlExpression\": null}, \"url_params\": {}, \"viz_type\": \"table\", \"remote_id\": 1060, \"datasource_name\": \"vw_locations\", \"schema\": \"prs_store_research\", \"database_name\": \"bq_connection\", \"import_time\": 1643400280}",
+                            "query_context": "{\"datasource\":{\"id\":27,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"filters\":[{\"col\":\"scout_score\",\"op\":\">\",\"val\":\"0\"}],\"extras\":{\"time_grain_sqla\":\"P1D\",\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[\"zip_code\"],\"metrics\":[{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"scout_score\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":804,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Scout Score\",\"optionName\":\"metric_4kzrx6e6tdt_btmkny82c3k\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"supermarket_count\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":796,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Competition Count\",\"optionName\":\"metric_43ve9bwet4l_qnp6e628drc\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"households_per_sq_mile\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":800,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"FLOAT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Household Density\",\"optionName\":\"metric_o7syuf78oh8_c4t8adxn39\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"commuters_by_public_transportation_rate\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":801,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"FLOAT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Public Commuter Density\",\"optionName\":\"metric_ljuc1smah9n_1vzdys68mh9i\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"crime_violent_rate\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":802,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"FLOAT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Violent Crime Rate\",\"optionName\":\"metric_inargeb4rdj_r9umei2iyvk\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"riot_per_year\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":799,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Violent Protest Count\",\"optionName\":\"metric_0qwg1q07df7_6chw0b4i919\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"crime_property_rate\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":803,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"FLOAT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Property Crime Rate\",\"optionName\":\"metric_fyt3lhm0qqg_2h1vrf4w2nf\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"num_of_hazards\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":797,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Hazard Count\",\"optionName\":\"metric_jflc3lt6g38_26dj6s6zs74\",\"sqlExpression\":null},{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"num_of_abandoned\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":798,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":true,\"isNew\":false,\"label\":\"Blight Count\",\"optionName\":\"metric_lly57ty1oh_e7057d1ofg4\",\"sqlExpression\":null}],\"orderby\":[[{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"scout_score\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":804,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"isNew\":false,\"label\":\"MAX(scout_score)\",\"optionName\":\"metric_qt0y9b8675_hksyc2r8w8g\",\"sqlExpression\":null},false]],\"annotation_layers\":[],\"row_limit\":10000,\"timeseries_limit\":0,\"timeseries_limit_metric\":{\"aggregate\":\"MAX\",\"column\":{\"column_name\":\"scout_score\",\"description\":null,\"expression\":null,\"filterable\":true,\"groupby\":true,\"id\":804,\"is_dttm\":false,\"python_date_format\":null,\"type\":\"INT64\",\"type_generic\":0,\"verbose_name\":null},\"expressionType\":\"SIMPLE\",\"hasCustomLabel\":false,\"isNew\":false,\"label\":\"MAX(scout_score)\",\"optionName\":\"metric_qt0y9b8675_hksyc2r8w8g\",\"sqlExpression\":null},\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"post_processing\":[]}],\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Chicago Table",
+                            "viz_type": "table"
+                        }
+                    },
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "prs_store_research.vw_locations",
+                            "datasource_type": "table",
+                            "id": 1061,
+                            "params": "{\"adhoc_filters\": [], \"datasource\": \"27__table\", \"date_filter\": false, \"extra_form_data\": {}, \"filter_configs\": [{\"asc\": false, \"clearable\": false, \"column\": \"year\", \"defaultValue\": \"2018\", \"key\": \"Lk3VmGNax\", \"multiple\": false, \"searchAllOptions\": false}], \"show_sqla_time_column\": false, \"slice_id\": 135, \"time_grain_sqla\": \"P1D\", \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"url_params\": {}, \"viz_type\": \"filter_box\", \"remote_id\": 1061, \"datasource_name\": \"vw_locations\", \"schema\": \"prs_store_research\", \"database_name\": \"bq_connection\", \"import_time\": 1643400280}",
+                            "query_context": "{\"datasource\":{\"id\":27,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"filters\":[],\"extras\":{\"time_grain_sqla\":\"P1D\",\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[],\"metrics\":[],\"annotation_layers\":[],\"timeseries_limit\":0,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{}}],\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Chicago Filters",
+                            "viz_type": "filter_box"
+                        }
+                    }
+                ],
+                "slug": null
+            }
+        }
+    ],
+    "datasources": [
+        {
+            "__SqlaTable__": {
+                "cache_timeout": null,
+                "columns": [
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "num_of_hazards",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1002,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "644a1dac-4b9b-44cb-8ab0-207fa423e8c1",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "num_of_abandoned",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1003,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "b7ced9ef-1d94-4f0f-bba7-d14841cfb799",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "riot_per_year",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1004,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "704850f8-8b49-4a42-802f-e73d1604679f",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "households_per_sq_mile",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1005,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "FLOAT64",
+                            "uuid": "30d9c40a-beed-4d61-b0d5-b17f83d6e31e",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "commuters_by_public_transportation_rate",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1006,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "FLOAT64",
+                            "uuid": "c2de4e9c-1102-4957-a11c-b039cd3d3a3b",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "crime_violent_rate",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1007,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "FLOAT64",
+                            "uuid": "2649bbf5-dea3-422a-9576-608905abbec4",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "crime_property_rate",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1008,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "FLOAT64",
+                            "uuid": "9bc75688-5cb1-4edc-bacd-4bd5006cd19e",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "scout_score",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1009,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "78d25e09-5596-4ce8-8432-367be2541137",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "sys_job_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1010,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "37137283-ba94-4b64-836b-d05172de0e73",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "geometry",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1011,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "STRING",
+                            "uuid": "a855933f-78d1-496a-944b-03fc5845398d",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "zip_code",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1012,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "STRING",
+                            "uuid": "42f77a39-fb10-4952-a639-9d4c39276f9a",
+                            "verbose_name": "ZIP"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "year",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1013,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "d3a048a3-27a9-4a68-ac7c-d485f2da3121",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "column_name": "supermarket_count",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": null,
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 1014,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 41,
+                            "type": "INT64",
+                            "uuid": "3e6ea072-dcf4-4d9d-a071-4c533d836524",
+                            "verbose_name": null
+                        }
+                    }
+                ],
+                "database_id": 4,
+                "default_endpoint": null,
+                "description": null,
+                "extra": null,
+                "fetch_values_predicate": null,
+                "filter_select_enabled": false,
+                "main_dttm_col": null,
+                "metrics": [
+                    {
+                        "__SqlMetric__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-28T20:04:40"
+                            },
+                            "d3format": null,
+                            "description": null,
+                            "expression": "COUNT(*)",
+                            "extra": "{\"warning_markdown\":\"\"}",
+                            "id": 48,
+                            "metric_name": "count",
+                            "metric_type": "count",
+                            "table_id": 41,
+                            "uuid": "c6231962-ec9b-4652-95ae-3b44ac850f6c",
+                            "verbose_name": "COUNT(*)",
+                            "warning_text": null
+                        }
+                    }
+                ],
+                "offset": 0,
+                "params": "{\"remote_id\": 41, \"database_name\": \"bq_connection\", \"import_time\": 1643400280}",
+                "schema": "prs_store_research",
+                "sql": "",
+                "table_name": "vw_locations",
+                "template_params": null
+            }
+        }
+    ]
+}

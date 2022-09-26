@@ -1,0 +1,6 @@
+composer_environment_name = "<COMPOSER_ENVIRONMENT_NAME>"
+composer_image_version = "<COMPOSER_IMAGE>"
+gcp_project_id = "<YOUR_GCP_PROJECT>"
+composer_location = "us-central1"
+composer_node_zone = "us-central1-c"
+default_datacatalog_taxonomy_location = "us"

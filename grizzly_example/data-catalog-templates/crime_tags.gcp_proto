@@ -1,0 +1,27 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/crime_tags",
+  "displayName": "Crime Tags",
+  "fields": {
+    "crime": {
+      "displayName": "crime",
+      "type": {
+        "primitiveType": 3
+      },
+      "order": 1,
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/crime_tags/fields/crime",
+      "isRequired": false,
+      "description": ""
+    },
+    "violence": {
+      "displayName": "violence",
+      "type": {
+        "primitiveType": 3
+      },
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/crime_tags/fields/violence",
+      "isRequired": false,
+      "description": "",
+      "order": 0
+    }
+  },
+  "isPubliclyReadable": false
+}

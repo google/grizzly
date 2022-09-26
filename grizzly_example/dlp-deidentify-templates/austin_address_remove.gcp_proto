@@ -1,0 +1,19 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/global/deidentifyTemplates/austin_address_remove",
+  "displayName": "austin_address_remove",
+  "description": "austin_address_remove",
+  "createTime": "2021-11-05T16:39:47.283024Z",
+  "updateTime": "2021-11-05T16:39:47.283024Z",
+  "deidentifyConfig": {
+    "infoTypeTransformations": {
+      "transformations": [
+        {
+          "primitiveTransformation": {
+            "redactConfig": {}
+          },
+          "infoTypes": []
+        }
+      ]
+    }
+  }
+}

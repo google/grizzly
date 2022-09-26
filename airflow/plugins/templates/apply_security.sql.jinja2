@@ -1,0 +1,16 @@
+DECLARE service_account STRING DEFAULT (SELECT 'serviceAccount:'||SESSION_USER());
+
+{% for ss in security_scripts %}
+{{ ss }}
+{% if ss.strip()[-1] != ';' %}
+;
+{% endif %}
+{% endfor %}
+
+EXECUTE IMMEDIATE format("""
+    CREATE OR REPLACE ROW ACCESS POLICY all_access ON {{ table_name }}
+    GRANT TO ("%s")
+    FILTER USING (TRUE);
+""", service_account);
+
+

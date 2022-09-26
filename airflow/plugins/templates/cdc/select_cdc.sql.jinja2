@@ -1,0 +1,11 @@
+SELECT source.*,
+  '{{task_config.job_write_mode}}' sys_job_write_mode,
+  current_timestamp() sys_row_timestamp
+ from
+ (
+    {% if data.sql %}
+      {{ data.sql }}
+    {% else %}
+      {{ task_config.stage_loading_query }}
+    {% endif %}
+) as source

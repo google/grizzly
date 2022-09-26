@@ -1,0 +1,25 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/global/inspectTemplates/ssn",
+  "displayName": "ssn",
+  "createTime": "2021-10-08T00:43:20.309781Z",
+  "updateTime": "2021-10-08T00:43:20.309781Z",
+  "inspectConfig": {
+    "infoTypes": [
+      {
+        "name": "US_SOCIAL_SECURITY_NUMBER"
+      }
+    ],
+    "minLikelihood": 3,
+    "limits": {
+      "maxFindingsPerItem": 0,
+      "maxFindingsPerRequest": 0,
+      "maxFindingsPerInfoType": []
+    },
+    "includeQuote": false,
+    "excludeInfoTypes": false,
+    "customInfoTypes": [],
+    "contentOptions": [],
+    "ruleSet": []
+  },
+  "description": ""
+}

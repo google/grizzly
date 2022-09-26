@@ -1,0 +1,9 @@
+jinja2>=3.0.1           # Minimum version 3.0.1
+pyyaml
+google-cloud-dlp
+gitpython
+google-cloud-datacatalog
+google-cloud-core
+google-cloud-bigquery
+google-api-core
+google-cloud-build

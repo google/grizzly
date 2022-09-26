@@ -1,0 +1,23 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/global/deidentifyTemplates/austin_address_masking",
+  "displayName": "austin_address_masking",
+  "createTime": "2021-11-04T19:02:55.344891Z",
+  "updateTime": "2021-11-04T22:01:35.817076Z",
+  "deidentifyConfig": {
+    "infoTypeTransformations": {
+      "transformations": [
+        {
+          "primitiveTransformation": {
+            "replaceConfig": {
+              "newValue": {
+                "stringValue": "Austin Area"
+              }
+            }
+          },
+          "infoTypes": []
+        }
+      ]
+    }
+  },
+  "description": ""
+}

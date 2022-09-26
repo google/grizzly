@@ -1,0 +1,361 @@
+{
+    "dashboards": [
+        {
+            "__Dashboard__": {
+                "css": "",
+                "dashboard_title": "Tables",
+                "description": null,
+                "json_metadata": "{\"show_native_filters\": true, \"color_scheme\": \"\", \"refresh_frequency\": 0, \"expanded_slices\": {}, \"label_colors\": {}, \"timed_refresh_immune_slices\": [], \"default_filters\": \"{}\", \"chart_configuration\": {}, \"remote_id\": 16}",
+                "position_json": "{\"CHART-Z28s_Nny5m\":{\"children\":[],\"id\":\"CHART-Z28s_Nny5m\",\"meta\":{\"chartId\":1038,\"height\":50,\"sliceName\":\"Git Files\",\"sliceNameOverride\":\"Tables\",\"uuid\":\"7d04f67c-0c4d-46ea-8483-5dc30247c0e0\",\"width\":12},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-KpdhDp0GIn\"],\"type\":\"CHART\"},\"DASHBOARD_VERSION_KEY\":\"v2\",\"GRID_ID\":{\"children\":[\"ROW-KpdhDp0GIn\"],\"id\":\"GRID_ID\",\"parents\":[\"ROOT_ID\"],\"type\":\"GRID\"},\"HEADER_ID\":{\"id\":\"HEADER_ID\",\"meta\":{\"text\":\"Tables\"},\"type\":\"HEADER\"},\"ROOT_ID\":{\"children\":[\"GRID_ID\"],\"id\":\"ROOT_ID\",\"type\":\"ROOT\"},\"ROW-KpdhDp0GIn\":{\"children\":[\"CHART-Z28s_Nny5m\"],\"id\":\"ROW-KpdhDp0GIn\",\"meta\":{\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"}}",
+                "slices": [
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "etl_log.vw_job_git_files",
+                            "datasource_type": "table",
+                            "id": 1038,
+                            "params": "{\"adhoc_filters\": [], \"align_pn\": false, \"all_columns\": [\"job_name\", \"file_path\", \"commit_author\", \"commit_datetime\", \"subject_area\", \"git_url\", \"commit_message\"], \"color_pn\": true, \"column_config\": {\"git_url\": {\"columnWidth\": null}, \"datetime\": {\"columnWidth\": 70}}, \"conditional_formatting\": [], \"datasource\": \"28__table\", \"extra_form_data\": {}, \"granularity_sqla\": \"datetime\", \"groupby\": [\"commit_author\", \"job_name\", \"file_path\", \"commit_datetime\", \"commit_message\", \"subject_area\", \"git_url\"], \"include_search\": true, \"order_by_cols\": [\"[\\\"commit_datetime\\\", true]\"], \"order_desc\": true, \"page_length\": 0, \"percent_metrics\": [], \"query_mode\": \"raw\", \"row_limit\": 10000, \"server_page_length\": 10, \"show_cell_bars\": true, \"slice_id\": 1038, \"table_timestamp_format\": \"smart_date\", \"time_grain_sqla\": \"P1D\", \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"url_params\": {}, \"viz_type\": \"table\", \"remote_id\": 1038, \"datasource_name\": \"vw_job_git_files\", \"schema\": \"etl_log\", \"database_name\": \"bq_connection\"}",
+                            "query_context": "{\"datasource\":{\"id\":28,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"granularity\":\"commit_datetime\",\"filters\":[],\"extras\":{\"time_grain_sqla\":\"P1D\",\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[\"job_name\",\"file_path\",\"commit_author\",\"commit_datetime\",\"subject_area\",\"git_url\",\"commit_message\"],\"orderby\":[[\"commit_datetime\",true]],\"annotation_layers\":[],\"row_limit\":10000,\"timeseries_limit\":0,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"post_processing\":[]}],\"form_data\":{\"viz_type\":\"table\",\"datasource\":\"28__table\",\"slice_id\":1038,\"url_params\":{},\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"granularity_sqla\":\"datetime\",\"time_grain_sqla\":\"P1D\",\"time_range\":\"No filter\",\"query_mode\":\"raw\",\"groupby\":[\"commit_author\",\"job_name\",\"file_path\",\"commit_datetime\",\"commit_message\",\"subject_area\",\"git_url\"],\"all_columns\":[\"job_name\",\"file_path\",\"commit_author\",\"commit_datetime\",\"subject_area\",\"git_url\",\"commit_message\"],\"percent_metrics\":[],\"adhoc_filters\":[],\"order_by_cols\":[\"[\\\"commit_datetime\\\", true]\"],\"row_limit\":10000,\"server_page_length\":10,\"include_time\":false,\"order_desc\":true,\"table_timestamp_format\":\"smart_date\",\"page_length\":0,\"include_search\":true,\"show_cell_bars\":true,\"align_pn\":false,\"color_pn\":true,\"column_config\":{\"git_url\":{\"columnWidth\":null},\"datetime\":{\"columnWidth\":70}},\"conditional_formatting\":[],\"extra_form_data\":{},\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Git Files",
+                            "viz_type": "table"
+                        }
+                    }
+                ],
+                "slug": null
+            }
+        }
+    ],
+    "datasources": [
+        {
+            "__SqlaTable__": {
+                "cache_timeout": null,
+                "columns": [
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "column_name": "job_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 817,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "INT64",
+                            "uuid": "130fcbb8-06df-4b81-a498-d5ad2c042ba2",
+                            "verbose_name": "Job id"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "column_name": "file_commit_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 820,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "94985e81-423a-44b1-9573-da247ba39baf",
+                            "verbose_name": "File commit id"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "column_name": "commit_datetime",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 823,
+                            "is_active": true,
+                            "is_dttm": true,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "TIMESTAMP",
+                            "uuid": "fb366355-c76a-42e9-aa7b-6326cb231059",
+                            "verbose_name": "Commit datetime"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T23:01:56"
+                            },
+                            "column_name": "job_name",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 818,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "3aad0369-fcfa-458a-bb9a-15263497d2a4",
+                            "verbose_name": "Table"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T23:01:56"
+                            },
+                            "column_name": "subject_area",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 819,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "99324978-3fbb-4272-9109-ba9b76317d04",
+                            "verbose_name": "Subject Area"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T23:01:56"
+                            },
+                            "column_name": "file_path",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 821,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "34d9b9e4-3ff0-458c-a53c-1b837a21a1c2",
+                            "verbose_name": "File"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T23:01:56"
+                            },
+                            "column_name": "commit_author",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 822,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "18a1bc65-73d1-4110-b779-de813076b108",
+                            "verbose_name": "Commit author"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T23:01:56"
+                            },
+                            "column_name": "commit_message",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 824,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "a8eaab86-76b6-4c33-9e26-9babada80c54",
+                            "verbose_name": "Commit message"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "column_name": "git_branch",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 825,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "1cdfa319-1acb-428e-a1fe-44557b45690a",
+                            "verbose_name": "Git branch"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "column_name": "git_url",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 826,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": "STRING",
+                            "uuid": "0e23f622-aa71-4870-9fb0-27780318ff32",
+                            "verbose_name": "Git url"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T23:01:56"
+                            },
+                            "column_name": "git_commit_url",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "description": null,
+                            "expression": "CONCAT('<a href=\"',git_url,'\" target=\"_blank\">',short_file_commit_id,'</a>')",
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 827,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 28,
+                            "type": null,
+                            "uuid": "abc5fa35-2d0d-409b-addb-6377e1e22d55",
+                            "verbose_name": "Git commit url"
+                        }
+                    }
+                ],
+                "database_id": 3,
+                "default_endpoint": null,
+                "description": null,
+                "extra": null,
+                "fetch_values_predicate": null,
+                "filter_select_enabled": false,
+                "main_dttm_col": "commit_datetime",
+                "metrics": [
+                    {
+                        "__SqlMetric__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-25T19:55:43"
+                            },
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-25T19:36:35"
+                            },
+                            "d3format": null,
+                            "description": null,
+                            "expression": "COUNT(*)",
+                            "extra": "{\"warning_markdown\":\"\"}",
+                            "id": 35,
+                            "metric_name": "count",
+                            "metric_type": "count",
+                            "table_id": 28,
+                            "uuid": "3fa9e5bb-bcca-415d-8756-ef5daffae886",
+                            "verbose_name": "COUNT(*)",
+                            "warning_text": null
+                        }
+                    }
+                ],
+                "offset": 0,
+                "params": "{\"remote_id\": 28, \"database_name\": \"bq_connection\"}",
+                "schema": "etl_log",
+                "sql": "",
+                "table_name": "vw_job_git_files",
+                "template_params": null
+            }
+        }
+    ]
+}

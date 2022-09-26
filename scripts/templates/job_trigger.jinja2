@@ -1,0 +1,35 @@
+{
+  "name": "projects/{{ trigger.project_id }}/locations/global/jobTriggers/{{ trigger.id }}",
+  "display_name": "{{ trigger.display_name }}",
+  "description": "{{ trigger.description }}",
+  "inspect_job": {
+    "storage_config": {
+      "big_query_options": {
+        "table_reference": {
+          "project_id": "{{ trigger.project_id }}",
+          "dataset_id": "{{ trigger.target_dataset }}",
+          "table_id": "{{ trigger.target_table }}"
+        }
+      }
+    },
+    "inspect_template_name": "projects/{{ trigger.project_id }}/locations/global/inspectTemplates/{{ trigger.template }}",
+    "actions": [{
+      "save_findings": {
+        "output_config": {
+          "table": {
+            "project_id": "{{ trigger.project_id }}",
+            "dataset_id": "{{ trigger.output_dataset }}",
+            "table_id": "{{ trigger.output_table }}"
+          },
+          "output_schema": "BASIC_COLUMNS"
+        }
+      }
+    }]
+  },
+  "triggers": [{
+    "schedule": {
+      "recurrence_period_duration": "{{ trigger.recurrence_seconds }}s"
+    }
+  }],
+  "status": "HEALTHY"
+}

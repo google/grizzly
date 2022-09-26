@@ -1,0 +1,231 @@
+{
+    "dashboards": [
+        {
+            "__Dashboard__": {
+                "css": "",
+                "dashboard_title": "Taxonomy",
+                "description": null,
+                "json_metadata": "{\"show_native_filters\": true, \"color_scheme\": \"\", \"refresh_frequency\": 0, \"expanded_slices\": {}, \"label_colors\": {}, \"timed_refresh_immune_slices\": [], \"default_filters\": \"{}\", \"chart_configuration\": {}, \"remote_id\": 18}",
+                "position_json": "{\"CHART-aTq1t8ZueU\":{\"children\":[],\"id\":\"CHART-aTq1t8ZueU\",\"meta\":{\"chartId\":1040,\"height\":50,\"sliceName\":\"Taxonomy\",\"uuid\":\"9b31926b-fa92-49b5-81ce-8ba2b4fa4495\",\"width\":12},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-4JrCUOHlhp\"],\"type\":\"CHART\"},\"DASHBOARD_VERSION_KEY\":\"v2\",\"GRID_ID\":{\"children\":[\"ROW-4JrCUOHlhp\"],\"id\":\"GRID_ID\",\"parents\":[\"ROOT_ID\"],\"type\":\"GRID\"},\"HEADER_ID\":{\"id\":\"HEADER_ID\",\"meta\":{\"text\":\"Taxonomy\"},\"type\":\"HEADER\"},\"ROOT_ID\":{\"children\":[\"GRID_ID\"],\"id\":\"ROOT_ID\",\"type\":\"ROOT\"},\"ROW-4JrCUOHlhp\":{\"children\":[\"CHART-aTq1t8ZueU\"],\"id\":\"ROW-4JrCUOHlhp\",\"meta\":{\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"}}",
+                "slices": [
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "etl_log.project_taxonomy",
+                            "datasource_type": "table",
+                            "id": 1040,
+                            "params": "{\"adhoc_filters\": [], \"all_columns\": [\"dataset_name\", \"table_name\", \"column_name\", \"taxonomy_name\", \"policy_tag_name\"], \"color_pn\": true, \"conditional_formatting\": [], \"datasource\": \"30__table\", \"extra_form_data\": {}, \"groupby\": [], \"include_search\": true, \"order_by_cols\": [], \"order_desc\": true, \"percent_metrics\": [], \"query_mode\": \"raw\", \"row_limit\": 10000, \"server_page_length\": 10, \"show_cell_bars\": true, \"table_timestamp_format\": \"smart_date\", \"time_grain_sqla\": \"P1D\", \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"url_params\": {}, \"viz_type\": \"table\", \"remote_id\": 1040, \"datasource_name\": \"project_taxonomy\", \"schema\": \"etl_log\", \"database_name\": \"bq_connection\"}",
+                            "query_context": "{\"datasource\":{\"id\":30,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"filters\":[],\"extras\":{\"time_grain_sqla\":\"P1D\",\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[\"dataset_name\",\"table_name\",\"column_name\",\"taxonomy_name\",\"policy_tag_name\"],\"orderby\":[],\"annotation_layers\":[],\"row_limit\":10000,\"timeseries_limit\":0,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"post_processing\":[]}],\"form_data\":{\"viz_type\":\"table\",\"datasource\":\"30__table\",\"url_params\":{},\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"time_grain_sqla\":\"P1D\",\"time_range\":\"No filter\",\"query_mode\":\"raw\",\"groupby\":[],\"all_columns\":[\"dataset_name\",\"table_name\",\"column_name\",\"taxonomy_name\",\"policy_tag_name\"],\"percent_metrics\":[],\"adhoc_filters\":[],\"order_by_cols\":[],\"row_limit\":10000,\"server_page_length\":10,\"include_time\":false,\"order_desc\":true,\"table_timestamp_format\":\"smart_date\",\"include_search\":true,\"show_cell_bars\":true,\"color_pn\":true,\"conditional_formatting\":[],\"extra_form_data\":{},\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Taxonomy",
+                            "viz_type": "table"
+                        }
+                    }
+                ],
+                "slug": null
+            }
+        }
+    ],
+    "datasources": [
+        {
+            "__SqlaTable__": {
+                "cache_timeout": null,
+                "columns": [
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "column_name": "project_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 837,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 30,
+                            "type": "STRING",
+                            "uuid": "91551e45-b893-45b2-a3b7-eab2f21edc07",
+                            "verbose_name": "Project id"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "column_name": "dataset_name",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 838,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 30,
+                            "type": "STRING",
+                            "uuid": "b84b85fc-73cd-4afd-8692-35691941b69f",
+                            "verbose_name": "Dataset name"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "column_name": "table_name",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 839,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 30,
+                            "type": "STRING",
+                            "uuid": "3ffcd21f-4abc-4ac9-921a-29fe0a028a73",
+                            "verbose_name": "Table name"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "column_name": "column_name",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 840,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 30,
+                            "type": "STRING",
+                            "uuid": "09dcfbff-1e54-4da5-8e32-839a8580cda5",
+                            "verbose_name": "Column name"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "column_name": "taxonomy_name",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 841,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 30,
+                            "type": "STRING",
+                            "uuid": "866fae6c-24c2-4967-9ff0-5f30d706cf64",
+                            "verbose_name": "Taxonomy name"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "column_name": "policy_tag_name",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 842,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 30,
+                            "type": "STRING",
+                            "uuid": "caad0870-4f3a-4140-b603-b868b7cdd4a2",
+                            "verbose_name": "Policy Tag name"
+                        }
+                    }
+                ],
+                "database_id": 3,
+                "default_endpoint": null,
+                "description": null,
+                "extra": null,
+                "fetch_values_predicate": null,
+                "filter_select_enabled": false,
+                "main_dttm_col": null,
+                "metrics": [
+                    {
+                        "__SqlMetric__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-26T17:20:13"
+                            },
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-26T17:17:06"
+                            },
+                            "d3format": null,
+                            "description": null,
+                            "expression": "COUNT(*)",
+                            "extra": "{\"warning_markdown\":\"\"}",
+                            "id": 37,
+                            "metric_name": "count",
+                            "metric_type": "count",
+                            "table_id": 30,
+                            "uuid": "4c8a338c-d51b-40a5-a18e-cd736608da52",
+                            "verbose_name": "COUNT(*)",
+                            "warning_text": null
+                        }
+                    }
+                ],
+                "offset": 0,
+                "params": "{\"remote_id\": 30, \"database_name\": \"bq_connection\"}",
+                "schema": "etl_log",
+                "sql": "",
+                "table_name": "project_taxonomy",
+                "template_params": null
+            }
+        }
+    ]
+}

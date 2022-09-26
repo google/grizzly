@@ -1,0 +1,47 @@
+from airflow.models import DAG
+from airflow.utils.trigger_rule import TriggerRule
+from airflow.utils.edgemodifier import Label
+from textwrap import dedent
+from datetime import datetime, timedelta
+from operators.grizzly_operator import GrizzlyOperator
+from operators.grizzly_dlp_operator import GrizzlyDLPOperator
+
+# Start Domain Definition
+MASTER_DAG_NAME = "{{ dag_config.domain_name }}"
+# End Domain Definition
+
+default_args = {
+    'depends_on_past': False,
+    'retries': 0,
+    'start_date': datetime(2000, 1, 1)
+}
+
+schedule_interval =
+    {%- if not dag_config.schedule_interval -%}
+        None
+    {%- else -%}
+        "{{ dag_config.schedule_interval }}"
+    {%- endif %}
+
+main_dag = DAG(
+    MASTER_DAG_NAME
+    ,default_args=default_args
+    ,catchup=False
+    ,schedule_interval=schedule_interval
+    ,max_active_runs=1
+    {% if dag_config.tags -%}
+    ,tags={{ dag_config.tags }}
+    {%- endif -%}
+)
+
+{% if dag_config.doc_md -%}
+main_dag.doc_md="""
+{{ dag_config.doc_md.read_text() }}
+"""
+{%- endif %}
+
+# tasks
+{% include 'tasks.jinja2' %}
+
+# dependencies
+{% include 'dependencies.jinja2' %}

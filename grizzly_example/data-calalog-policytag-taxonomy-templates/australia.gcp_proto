@@ -1,0 +1,62 @@
+{
+  "taxonomies": [
+    {
+      "displayName": "{{ GCP_PROJECT_ID }}-column_access_taxonomy",
+      "policyTags": [
+        {
+          "policyTag": "projects/357608273714/locations/australia/taxonomies/4514131431721102477/policyTags/6955441757360646757",
+          "displayName": "Other",
+          "description": "",
+          "childPolicyTags": []
+        },
+        {
+          "policyTag": "projects/357608273714/locations/australia/taxonomies/4514131431721102477/policyTags/7068031840905795812",
+          "displayName": "PII",
+          "childPolicyTags": [
+            {
+              "policyTag": "projects/357608273714/locations/australia/taxonomies/4514131431721102477/policyTags/8857739670711321387",
+              "displayName": "high",
+              "description": "",
+              "childPolicyTags": []
+            },
+            {
+              "policyTag": "projects/357608273714/locations/australia/taxonomies/4514131431721102477/policyTags/9179886118005528368",
+              "displayName": "low",
+              "description": "",
+              "childPolicyTags": []
+            }
+          ],
+          "description": ""
+        }
+      ],
+      "description": "",
+      "activatedPolicyTypes": []
+    },
+    {
+      "displayName": "{{ GCP_PROJECT_ID }}-store_research_prs_access_column",
+      "policyTags": [
+        {
+          "policyTag": "projects/357608273714/locations/australia/taxonomies/898885732468319398/policyTags/8658425597820671870",
+          "displayName": "location",
+          "childPolicyTags": [
+            {
+              "policyTag": "projects/357608273714/locations/australia/taxonomies/898885732468319398/policyTags/2741410419722655844",
+              "displayName": "high",
+              "description": "",
+              "childPolicyTags": []
+            },
+            {
+              "policyTag": "projects/357608273714/locations/australia/taxonomies/898885732468319398/policyTags/882537604177807017",
+              "displayName": "low",
+              "description": "",
+              "childPolicyTags": []
+            }
+          ],
+          "description": ""
+        }
+      ],
+      "description": "",
+      "activatedPolicyTypes": []
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+gcp_project_id = "<YOUR_GCP_PROJECT>"
+composer_environment_name = "<COMPOSER_ENVIRONMENT_NAME>"
+composer_location = "us-central1"

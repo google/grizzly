@@ -1,0 +1,7 @@
+{% for dep in dependencies -%}
+{% if dep['label'] %}
+{{ dep['child_task'] }} << Label("{{ dep['label'].upper() }}") << {{ dep['parent_tasks'] }}
+{% else %}
+{{ dep['child_task'] }} << {{ dep['parent_tasks'] }}
+{% endif %}
+{% endfor %}

@@ -1,0 +1,26 @@
+import base64
+from google.cloud import bigquery
+import json
+
+
+def main(event, context):
+  """Triggered from a message on a Cloud Pub/Sub topic.
+
+    Args:
+         event (dict): Event payload.
+         context (google.cloud.functions.Context): Metadata for the event.
+  """
+  bqclient = bigquery.Client()
+  data = base64.b64decode(event['data']).decode('utf-8')
+
+  event_timestamp = context.timestamp
+  event_id = context.event_id
+
+  record = {
+      'event_id': event_id,
+      'event_timestamp': event_timestamp,
+      'data': data
+  }
+  tab = bqclient.get_table('$${{target_table_name}}')
+
+  bqclient.insert_rows(tab, [record])

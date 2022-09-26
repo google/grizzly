@@ -1,0 +1,283 @@
+{
+    "dashboards": [
+        {
+            "__Dashboard__": {
+                "css": "",
+                "dashboard_title": "Build History",
+                "description": null,
+                "json_metadata": "{\"show_native_filters\": true, \"color_scheme\": \"\", \"refresh_frequency\": 0, \"expanded_slices\": {}, \"label_colors\": {}, \"timed_refresh_immune_slices\": [], \"default_filters\": \"{}\", \"chart_configuration\": {}, \"remote_id\": 20}",
+                "position_json": "{\"CHART-LIJz3SAkbS\":{\"children\":[],\"id\":\"CHART-LIJz3SAkbS\",\"meta\":{\"chartId\":1042,\"height\":50,\"sliceName\":\"Build History \",\"uuid\":\"6b0feb8c-a1d8-460c-9b50-e09006e7b776\",\"width\":12},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-gAPGBuLaf_\"],\"type\":\"CHART\"},\"DASHBOARD_VERSION_KEY\":\"v2\",\"GRID_ID\":{\"children\":[\"ROW-gAPGBuLaf_\"],\"id\":\"GRID_ID\",\"parents\":[\"ROOT_ID\"],\"type\":\"GRID\"},\"HEADER_ID\":{\"id\":\"HEADER_ID\",\"meta\":{\"text\":\"Build History\"},\"type\":\"HEADER\"},\"ROOT_ID\":{\"children\":[\"GRID_ID\"],\"id\":\"ROOT_ID\",\"type\":\"ROOT\"},\"ROW-gAPGBuLaf_\":{\"children\":[\"CHART-LIJz3SAkbS\"],\"id\":\"ROW-gAPGBuLaf_\",\"meta\":{\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"}}",
+                "slices": [
+                    {
+                        "__Slice__": {
+                            "cache_timeout": null,
+                            "datasource_name": "etl_log.vw_subject_area_build_files",
+                            "datasource_type": "table",
+                            "id": 1042,
+                            "params": "{\"adhoc_filters\": [], \"all_columns\": [\"file_path\", \"build_commit_id\", \"build_commit_timestamp\", \"last_author\", \"last_commit_id\", \"last_message\", \"file_cont\"], \"color_pn\": true, \"conditional_formatting\": [], \"datasource\": \"32__table\", \"extra_form_data\": {}, \"granularity_sqla\": \"build_commit_timestamp\", \"groupby\": [], \"include_search\": true, \"order_by_cols\": [], \"order_desc\": true, \"percent_metrics\": [], \"query_mode\": \"raw\", \"row_limit\": 10000, \"server_page_length\": 10, \"show_cell_bars\": true, \"slice_id\": 1042, \"table_timestamp_format\": \"smart_date\", \"time_grain_sqla\": \"P1D\", \"time_range\": \"No filter\", \"time_range_endpoints\": [\"inclusive\", \"exclusive\"], \"url_params\": {}, \"viz_type\": \"table\", \"remote_id\": 1042, \"datasource_name\": \"vw_subject_area_build_files\", \"schema\": \"etl_log\", \"database_name\": \"bq_connection\"}",
+                            "query_context": "{\"datasource\":{\"id\":32,\"type\":\"table\"},\"force\":false,\"queries\":[{\"time_range\":\"No filter\",\"granularity\":\"build_commit_timestamp\",\"filters\":[],\"extras\":{\"time_grain_sqla\":\"P1D\",\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"having\":\"\",\"having_druid\":[],\"where\":\"\"},\"applied_time_extras\":{},\"columns\":[\"file_path\",\"build_commit_id\",\"build_commit_timestamp\",\"last_author\",\"last_commit_id\",\"last_message\",\"file_cont\"],\"orderby\":[],\"annotation_layers\":[],\"row_limit\":10000,\"timeseries_limit\":0,\"order_desc\":true,\"url_params\":{},\"custom_params\":{},\"custom_form_data\":{},\"post_processing\":[]}],\"form_data\":{\"viz_type\":\"table\",\"datasource\":\"32__table\",\"slice_id\":1042,\"url_params\":{},\"time_range_endpoints\":[\"inclusive\",\"exclusive\"],\"granularity_sqla\":\"build_commit_timestamp\",\"time_grain_sqla\":\"P1D\",\"time_range\":\"No filter\",\"query_mode\":\"raw\",\"groupby\":[],\"all_columns\":[\"file_path\",\"build_commit_id\",\"build_commit_timestamp\",\"last_author\",\"last_commit_id\",\"last_message\",\"file_cont\"],\"percent_metrics\":[],\"adhoc_filters\":[],\"order_by_cols\":[],\"row_limit\":10000,\"server_page_length\":10,\"include_time\":false,\"order_desc\":true,\"table_timestamp_format\":\"smart_date\",\"include_search\":true,\"show_cell_bars\":true,\"color_pn\":true,\"conditional_formatting\":[],\"extra_form_data\":{},\"force\":false,\"result_format\":\"json\",\"result_type\":\"full\"},\"result_format\":\"json\",\"result_type\":\"full\"}",
+                            "slice_name": "Build History ",
+                            "viz_type": "table"
+                        }
+                    }
+                ],
+                "slug": null
+            }
+        }
+    ],
+    "datasources": [
+        {
+            "__SqlaTable__": {
+                "cache_timeout": null,
+                "columns": [
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "build_commit_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 854,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "STRING",
+                            "uuid": "5ddd2d40-54ad-456b-b24f-5b1fa558a350",
+                            "verbose_name": "Build Commit Id"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "file_path",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 856,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "STRING",
+                            "uuid": "63540bea-d6c6-4170-bd28-8588a648990b",
+                            "verbose_name": "File"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "build_commit_timestamp",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 855,
+                            "is_active": true,
+                            "is_dttm": true,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "TIMESTAMP",
+                            "uuid": "ba15ae63-d538-40c3-99cc-27c3c27217fd",
+                            "verbose_name": "Date"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "last_commit_id",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 857,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "STRING",
+                            "uuid": "95022a30-1bbf-4e3e-9aca-1366f95b4382",
+                            "verbose_name": "Git Commit Id"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "last_author",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 858,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "STRING",
+                            "uuid": "7597a42a-a57f-4495-8ca0-0b133a48f0da",
+                            "verbose_name": "Author"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "last_message",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 859,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "STRING",
+                            "uuid": "7b722cda-dd46-4c2c-99a9-6fc7eca0d55f",
+                            "verbose_name": "Git Commit Message"
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:18:46"
+                            },
+                            "column_name": "Build Id Link",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:16:52"
+                            },
+                            "description": null,
+                            "expression": "CONCAT('<a href=\"https://console.cloud.google.com/cloud-build/builds;region=global/',build_commit_id,'\" target=\"_blank\">',build_commit_id,'</a>')\n\n\n",
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 862,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": null,
+                            "uuid": "71c32163-ab0f-4075-87fc-ce43095ae0b6",
+                            "verbose_name": null
+                        }
+                    },
+                    {
+                        "__TableColumn__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:24:10"
+                            },
+                            "column_name": "file_cont",
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "description": null,
+                            "expression": null,
+                            "extra": "{}",
+                            "filterable": true,
+                            "groupby": true,
+                            "id": 860,
+                            "is_active": true,
+                            "is_dttm": false,
+                            "python_date_format": null,
+                            "table_id": 32,
+                            "type": "STRING",
+                            "uuid": "98c4c585-a857-4bfc-b4d1-41d97aba94c8",
+                            "verbose_name": "File Content"
+                        }
+                    }
+                ],
+                "database_id": 3,
+                "default_endpoint": null,
+                "description": null,
+                "extra": null,
+                "fetch_values_predicate": null,
+                "filter_select_enabled": false,
+                "main_dttm_col": "build_commit_timestamp",
+                "metrics": [
+                    {
+                        "__SqlMetric__": {
+                            "changed_by_fk": 1,
+                            "changed_on": {
+                                "__datetime__": "2022-01-27T17:15:13"
+                            },
+                            "created_by_fk": 1,
+                            "created_on": {
+                                "__datetime__": "2022-01-27T17:07:52"
+                            },
+                            "d3format": null,
+                            "description": null,
+                            "expression": "COUNT(*)",
+                            "extra": "{\"warning_markdown\":\"\"}",
+                            "id": 39,
+                            "metric_name": "count",
+                            "metric_type": "count",
+                            "table_id": 32,
+                            "uuid": "cd9f127e-6253-4a35-9417-51275484b979",
+                            "verbose_name": "COUNT(*)",
+                            "warning_text": null
+                        }
+                    }
+                ],
+                "offset": 0,
+                "params": "{\"remote_id\": 32, \"database_name\": \"bq_connection\"}",
+                "schema": "etl_log",
+                "sql": "",
+                "table_name": "vw_subject_area_build_files",
+                "template_params": null
+            }
+        }
+    ]
+}

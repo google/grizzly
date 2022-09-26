@@ -1,0 +1,23 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/global/deidentifyTemplates/ssn-masking",
+  "displayName": "ssn-masking",
+  "description": "ssn-masking",
+  "createTime": "2021-10-08T00:46:10.674069Z",
+  "updateTime": "2021-10-08T00:46:10.674069Z",
+  "deidentifyConfig": {
+    "infoTypeTransformations": {
+      "transformations": [
+        {
+          "primitiveTransformation": {
+            "replaceConfig": {
+              "newValue": {
+                "stringValue": "[redacted]"
+              }
+            }
+          },
+          "infoTypes": []
+        }
+      ]
+    }
+  }
+}

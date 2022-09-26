@@ -1,0 +1,17 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/dummy_tag_template",
+  "displayName": "Dummy Tag Template",
+  "fields": {
+    "dummy": {
+      "displayName": "dummy",
+      "type": {
+        "primitiveType": 2
+      },
+      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/dummy_tag_template/fields/dummy",
+      "isRequired": false,
+      "description": "",
+      "order": 0
+    }
+  },
+  "isPubliclyReadable": false
+}

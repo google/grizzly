@@ -1,0 +1,25 @@
+{
+  "name": "projects/gcp-demo-dev2/locations/global/inspectTemplates/address",
+  "displayName": "address",
+  "createTime": "2021-11-04T18:58:44.605290Z",
+  "updateTime": "2021-11-04T18:58:44.605290Z",
+  "inspectConfig": {
+    "infoTypes": [
+      {
+        "name": "STREET_ADDRESS"
+      }
+    ],
+    "minLikelihood": 3,
+    "limits": {
+      "maxFindingsPerItem": 0,
+      "maxFindingsPerRequest": 0,
+      "maxFindingsPerInfoType": []
+    },
+    "includeQuote": false,
+    "excludeInfoTypes": false,
+    "customInfoTypes": [],
+    "contentOptions": [],
+    "ruleSet": []
+  },
+  "description": ""
+}

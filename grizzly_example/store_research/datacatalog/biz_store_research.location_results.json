@@ -1,0 +1,32 @@
+[
+    {
+      "template": "projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+      "column": "crime_violent_rate",
+      "fields":{
+        "crime":{
+            "boolValue":true
+        },
+        "violence":{
+            "boolValue":true
+        }
+      }
+    },
+    {
+        "template": "projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+        "column": "crime_property_rate",
+        "fields":{
+          "crime":{
+              "boolValue":true
+          }
+        }
+    },
+    {
+        "template": "projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+        "column": "riot_per_year",
+        "fields":{
+          "violence":{
+              "boolValue":true
+          }
+        }
+    }
+  ]

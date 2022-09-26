@@ -1,0 +1,51 @@
+{
+  "storage_config": {
+    {% if job.storage_type.value == 'BIGQUERY' -%}
+      "big_query_options": {
+        "table_reference": {
+          "project_id": "{{ job.source_table.project_id }}",
+          "dataset_id": "{{ job.source_table.dataset_id }}",
+          "table_id": "{{ job.source_table.table_id }}"
+        }
+      }
+    {% elif job.storage_type.value == 'CLOUD_STORAGE' -%}
+      "cloud_storage_options": {
+        "file_set": {
+          "url": "{{ job.source_gs }}"
+        }
+      }
+    {%- endif -%}
+    {% if timespan -%},
+      "timespan_config": {
+        {%- if timespan.start_time -%}
+          "start_time": {
+            "seconds": {{ timespan.start_time.seconds }},
+            "nanos": {{ timespan.start_time.nanos }}
+          },
+        {%- endif %}
+        "end_time": {
+          "seconds": {{ timespan.end_time.seconds }},
+          "nanos": {{ timespan.end_time.nanos }}
+        }
+        {% if job.storage_type.value != 'CLOUD_STORAGE' -%}
+          ,"timestamp_field": {
+            "name": "{{ timespan.timestamp_field }}"
+            }
+        {%- endif %}
+        }
+    {%- endif %}
+  },
+  "inspect_template_name": "{{ job.template_name }}",
+  "actions": [{
+    "save_findings": {
+      "output_config": {
+        "table": {
+          "project_id": "{{ job.target_table.project_id }}",
+          "dataset_id": "{{ job.target_table.dataset_id }}",
+          "table_id": "{{ job.target_table.table_id }}"
+        },
+        "output_schema": "BASIC_COLUMNS"
+      }
+    }
+  }]
+}

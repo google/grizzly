@@ -1,0 +1,4 @@
+gcp_project_id = "<YOUR_METADATA_GCP_PROJECT>"
+managed_gcp_project_list = ["<DEV_GCP_PROJECT>", "<UAT_GCP_PROJECT>", "<PROD_GCP_PROJECT>"]
+repository_name = "grizzly"
+

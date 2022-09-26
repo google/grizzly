@@ -1,0 +1,17 @@
+{% for ti in tasks -%}
+{% set task_id = ti.task_id|replace('.', '_') %}
+{{ task_id }} = {{ ti.operator_type }}(
+    dag=main_dag
+    ,task_id='{{ ti.task_id }}'
+    ,config_file_ref='data/ETL/{{ dag_config.domain_name }}/{{ ti.file_id}}'
+    ,execution_timeout=timedelta(seconds={{ dag_config.execution_timeout_per_table }})
+    {% if ti.trigger_rule -%}
+    ,trigger_rule="{{ ti.trigger_rule }}"
+    {%- endif %}
+)
+
+{% if ti.doc_md -%}
+{{ task_id }}.doc_md="""{{ ti.doc_md.read_text() }}"""
+{%- endif -%}
+
+{% endfor %}
