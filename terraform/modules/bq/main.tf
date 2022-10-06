@@ -18,6 +18,7 @@ resource "google_bigquery_dataset" "dataset" {
   project = var.gcp_project_id
   dataset_id = "etl_log"
   description = "ETL Logs for Grizzly (GCP Composer/Airflow)."
+  location = var.gcp_resource_location
 }
 
 resource "google_bigquery_dataset" "etl_staging" {
@@ -25,6 +26,7 @@ resource "google_bigquery_dataset" "etl_staging" {
   dataset_id = "etl_staging_composer"
   default_table_expiration_ms = 259200000
   description = "Staging dataset for GCP Composer."
+  location = var.gcp_resource_location
 }
 
 resource "google_bigquery_table" "etl_log_table" {

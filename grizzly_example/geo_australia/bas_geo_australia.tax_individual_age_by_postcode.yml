@@ -1,0 +1,16 @@
+# Taxation statistics 2018–19 Individuals: Number of individuals, by state/territory1, postcode and age range, 2018–19 income year3
+target_table_name: bas_geo_australia.tax_individual_age_by_postcode
+source_data_url: https://data.gov.au/data/dataset/2805b28d-2c3b-47e2-87c3-50aacc6ea212/resource/dac8cc49-782a-413a-af43-7c8fea790bdf/download/ts19individual07statepostcodetaxableincomerangeagerangeoccupation.xlsx
+job_write_mode: WRITE_TRUNCATE
+source_data_range: "'Table 7B'!A2:I"
+source_type: excel
+source_columns:
+  - {source_name: "State/ Territory1"}
+  - {source_name: "Postcode",       target_name: "postcode",       force_string: Y}
+  - {source_name: "a. Under 25",    target_name: "age_under_25"}
+  - {source_name: "b. 25 - 34",     target_name: "age_25_34"}
+  - {source_name: "c. 35 - 44",     target_name: "age_35_44"}
+  - {source_name: "d. 45 - 54",     target_name: "age_45_54"}
+  - {source_name: "e. 55 - 64",     target_name: "age_55_64"}
+  - {source_name: "f. 65 and over", target_name: "age_65_over"}
+  - {source_name: "Total"}

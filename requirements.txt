@@ -7,3 +7,4 @@ google-cloud-core
 google-cloud-bigquery
 google-api-core
 google-cloud-build
+mo-sql-parsing

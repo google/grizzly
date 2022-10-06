@@ -16,6 +16,7 @@
 
 ENVIRONMENT=${ENVIRONMENT:-NA}
 GCP_PROJECT_METADATA=${GCP_PROJECT_METADATA:-NA}
+GCP_RESOURCE_LOCATION=${GCP_RESOURCE_LOCATION:-us}
 # Get the options
 # assign input parameters to variables
 while [[ $# -gt 0 ]]; do
@@ -54,4 +55,4 @@ terraform init -var-file="../main.auto.tfvars" && terraform apply -var-file="../
 pip3 install -r ~/grizzly/"$ENVIRONMENT"/grizzly_framework/requirements.txt
 # run cb triggers
 cd ~/grizzly/"$ENVIRONMENT"/grizzly_framework/scripts
-python3 ./run_build_triggers.py "$GCP_PROJECT_METADATA" "$ENVIRONMENT"
+python3 ./run_build_triggers.py "$GCP_PROJECT_METADATA" "$ENVIRONMENT" "$GCP_RESOURCE_LOCATION"

@@ -24,7 +24,7 @@ import pathlib
 from typing import Any, Dict, List, Optional, Union
 
 from airflow.exceptions import AirflowSkipException
-from airflow.providers.google.cloud.hooks.bigquery import _split_tablename
+from airflow.providers.google.cloud.hooks.bigquery import split_tablename
 import croniter
 from google.cloud import bigquery
 from grizzly.config import Config
@@ -264,8 +264,10 @@ def run_bq_query_list(execution_context: TGrizzlyOperator,
   if query_list_parameter_name:
     query_list = getattr(execution_context.task_config,
                          query_list_parameter_name, [])
-    query_names = execution_context.task_config._raw_config.get(
-        query_list_parameter_name, [])
+    query_names = execution_context.task_config.get_raw_config_value(
+        parameter_name=query_list_parameter_name,
+        default_value=[]
+    )
 
   if not query_list:
     # if query list is empty or None exit from function
@@ -399,7 +401,7 @@ def parse_table(table_name: str) -> Dict[str, str]:
         "table_id": ""
     }
   """
-  project_id, dataset_id, table_id = _split_tablename(
+  project_id, dataset_id, table_id = split_tablename(
       default_project_id=Config.GCP_PROJECT_ID, table_input=table_name)
   return {
       'project_id': project_id,

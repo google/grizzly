@@ -85,7 +85,18 @@ SUBJECT_AREA_BUILD_TABLE_NAME = 'subject_area_build'
 SUBJECT_AREA_BUILD_TABLE_SCHEMA = [
     bigquery.SchemaField('subject_area', 'STRING', mode='NULLABLE'),
     bigquery.SchemaField('subject_area_build_id', 'STRING', mode='NULLABLE'),
-    bigquery.SchemaField('status', 'STRING', mode='NULLABLE')
+    bigquery.SchemaField('status', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('build_id', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('build_datetime', 'STRING', mode='NULLABLE')
+]
+
+SUBJECT_AREA_DELETE_BUILD_TABLE_NAME = 'subject_area_delete_build'
+SUBJECT_AREA_DELETE_BUILD_TABLE_SCHEMA = [
+    bigquery.SchemaField('subject_area', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('subject_area_build_id', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('status', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('build_id', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('build_datetime', 'STRING', mode='NULLABLE')
 ]
 
 SQL_MERGE_TMP_INTO_GIT_COMMITS = """
@@ -132,6 +143,9 @@ SQL_INSERT_INTO_SUBJECT_AREA = f"""
       and gf.subject_area is not null
     """
 
+SQL_GET_BUILD_FILES = """
+SELECT * FROM {GIT_DATASET}.fn_get_build_files('{subject_area}','{commit_id}')
+"""
 
 SQL_GET_SUBJECT_AREA_BUILD_FILES = """
 SELECT * FROM `{GIT_DATASET}.vw_subject_area_build_files`
@@ -180,28 +194,74 @@ SQL_MERGE_TO_SUBJECT_AREA_BUILD = """
                 source.subject_area,
                 source.commit_sha as subject_area_build_id,
                 source.status,
-                source.start_time
+                source.start_time,
+                source.id as build_id
               FROM  {GIT_DATASET}.cb_trigger_execution source
               WHERE subject_area IS NOT NULL
-              and trigger_name like '%deploy-composer%'
+              --and PARSE_DATETIME('%Y-%m-%dT%H:%M:%S', substr(source.start_time,0,19))  > PARSE_DATETIME('%Y-%m-%d %H:%M:%S', '2022-08-02 15:00:00')
+              and source.status not in ('FAILURE','CANCELLED')
+              and trigger_name like 'deploy-composer%'
               and not exists (
                     select 1
                     from {GIT_DATASET}.subject_area_build target
                     where
-                          source.commit_sha = target.subject_area_build_id
-                    and source.status = target.status
-                    and source.subject_area = target.subject_area
-                  ) ) source where source.max_start_time = source.start_time
+                        source.status = target.status
+                    and source.id = target.build_id
+                  ) 
+            ) source where source.max_start_time = source.start_time
         ) S
     ON
         T.subject_area_build_id = S.subject_area_build_id
     and T.subject_area = S.subject_area
     WHEN NOT MATCHED THEN
-        INSERT(subject_area, subject_area_build_id, status)
-        VALUES(subject_area, subject_area_build_id, status)
+        INSERT(subject_area, subject_area_build_id, status, build_datetime, build_id)
+        VALUES(subject_area, subject_area_build_id, status, start_time, build_id)
     when matched then
        update set
-          status = s.status
+          status = s.status,
+          build_id = s.build_id,
+          build_datetime = s.start_time
+  """
+
+SQL_MERGE_TO_SUBJECT_AREA_DELETE_BUILD = """
+    MERGE
+        {GIT_DATASET}.subject_area_delete_build T
+    USING
+        (
+          select * from (
+            SELECT distinct
+                max(source.start_time) over (partition by source.subject_area, source.commit_sha) as max_start_time,
+                source.subject_area,
+                source.commit_sha as subject_area_build_id,
+                source.status,
+                source.start_time,
+                source.id as build_id
+              FROM  {GIT_DATASET}.cb_trigger_execution source
+              WHERE subject_area IS NOT NULL
+              --and PARSE_DATETIME('%Y-%m-%dT%H:%M:%S', substr(source.start_time,0,19))  > PARSE_DATETIME('%Y-%m-%d %H:%M:%S', '2022-08-02 15:00:00')
+              and source.status not in ('FAILURE','CANCELLED')
+              and trigger_name like 'delete-domain%'
+              and not exists (
+                    select 1
+                    from {GIT_DATASET}.subject_area_delete_build target
+                    where
+                          source.commit_sha = target.subject_area_build_id
+                    and source.status = target.status
+                    and source.subject_area = target.subject_area
+                  ) 
+            ) source where source.max_start_time = source.start_time
+        ) S
+    ON
+        T.subject_area_build_id = S.subject_area_build_id
+    and T.subject_area = S.subject_area
+    WHEN NOT MATCHED THEN
+        INSERT(subject_area, subject_area_build_id, status, build_datetime, build_id)
+        VALUES(subject_area, subject_area_build_id, status, start_time, build_id)
+    when matched then
+       update set
+          status = s.status,
+          build_id = s.build_id,
+          build_datetime = s.start_time
   """
 
 

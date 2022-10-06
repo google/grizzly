@@ -1,5 +1,5 @@
 {
-  "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template",
+  "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/demo_tag_template",
   "displayName": "Demo Tag Template",
   "fields": {
     "valid_from": {
@@ -7,7 +7,7 @@
       "type": {
         "primitiveType": 4
       },
-      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/valid_from",
+      "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/demo_tag_template/fields/valid_from",
       "isRequired": false,
       "description": "",
       "order": 0
@@ -18,7 +18,7 @@
         "primitiveType": 3
       },
       "order": 2,
-      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/has_pii",
+      "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/demo_tag_template/fields/has_pii",
       "isRequired": false,
       "description": ""
     },
@@ -40,7 +40,7 @@
         }
       },
       "order": 1,
-      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/pii_type",
+      "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/demo_tag_template/fields/pii_type",
       "isRequired": false,
       "description": ""
     },
@@ -51,7 +51,7 @@
       },
       "isRequired": true,
       "order": 3,
-      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/demo_tag_template/fields/source",
+      "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/demo_tag_template/fields/source",
       "description": ""
     }
   },

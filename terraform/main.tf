@@ -31,6 +31,7 @@ module "googleapi" {
 module "bq" {
   source = "./modules/bq"
   gcp_project_id = local.gcp_project_id
+  gcp_resource_location = var.gcp_resource_location
 }
 
 module "composer" {
@@ -43,6 +44,7 @@ module "composer" {
   composer_node_zone = var.composer_node_zone
   gcp_project_id = local.gcp_project_id
   default_datacatalog_taxonomy_location = var.default_datacatalog_taxonomy_location
+  gcp_resource_location = var.gcp_resource_location
 }
 
 module "composer_v2" {
@@ -55,6 +57,7 @@ module "composer_v2" {
   composer_node_zone = var.composer_node_zone
   gcp_project_id = local.gcp_project_id
   default_datacatalog_taxonomy_location = var.default_datacatalog_taxonomy_location
+  gcp_resource_location = var.gcp_resource_location
 }
 
 locals {
@@ -66,9 +69,10 @@ locals {
 
 module "security" {
   source = "./modules/security"
+  depends_on = [local.composer_environment_name]
   gcp_project_id = local.gcp_project_id
   gcp_project_number = local.gcp_project_number
-  composer_environment_name = local.composer_environment_name
+  gcp_metadata_project_id = var.gcp_metadata_project_id
 }
 
 output "gcp_project_id" {

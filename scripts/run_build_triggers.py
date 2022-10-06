@@ -17,12 +17,14 @@
    Is invoked by apply_grizzly_terraform.sh
 
    Typical usage example:
-   python3 ./run_build_triggers.py project-id branch-name
+   python3 ./run_build_triggers.py project-id branch-name us
 """
+import pathlib
 import sys
 import threading
 import time
 from typing import Dict, Any, List
+import yaml
 
 from google.cloud.devtools import cloudbuild_v1
 
@@ -180,6 +182,7 @@ def main() -> None:
   # commandline args
   gcp_project = sys.argv[1]
   branch = sys.argv[2]
+  gcp_resource_location = sys.argv[3]
 
   # first trigger pool: BigQuery
   bq_trigger = [Trigger(gcp_project, branch, 'deploy-bigquery', substitutions={
@@ -201,18 +204,17 @@ def main() -> None:
   ]
 
   # names of example domains to deploy
-  domains = [
-      'base/bas_austin_crime',
-      'base/bas_austin_crime_with_date',
-      'base/bas_census_bureau_acs',
-      'base/bas_chicago_crime',
-      'base/bas_gdelt',
-      'base/bas_geo_openstreetmap',
-      'base/bas_geo_us_boundaries',
-      'geo',
-      'store_research',
-      'metadata',
-  ]
+  domains = []
+  # get domain list from file
+  current_path = pathlib.Path(__file__).resolve().parent
+  dag_list_path = pathlib.Path(
+      current_path,
+      'airflow_default_dag_list',
+      f'{gcp_resource_location}.yml'
+  )
+  if dag_list_path.exists():
+    domains = yaml.safe_load(dag_list_path.read_text())
+
   # generate fourth trigger pool: Composer Deploy triggers
   composer_triggers = []
   for domain in domains:

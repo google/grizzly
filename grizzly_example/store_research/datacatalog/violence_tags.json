@@ -1,6 +1,6 @@
 [
   {
-    "template":"projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+    "template":"projects/{{ task_instance.gcp_project_id }}/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/crime_tags",
     "fields":{
       "violence":{
         "boolValue":true

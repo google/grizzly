@@ -24,7 +24,8 @@ variable "gcp_project_number" {
   description = "The numeric identifier of the project."
 }
 
-variable "composer_environment_name" {
+variable "gcp_metadata_project_id" {
   type = string
-  description = "Dummy variable for build dependency to GCP composer module."
+  description = "The ID of the metadata GCP project."
 }
+

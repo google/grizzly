@@ -43,3 +43,4 @@ class Config:
                'remote_base_log_folder'
               ).replace('/logs', '').replace('gs://', '')
   )
+  GCP_RESOURCE_LOCATION = Variable.get('GCP_RESOURCE_LOCATION')

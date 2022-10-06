@@ -80,6 +80,8 @@ class TaskInstance():
     history_table_name (string): History table name. Table name template is
       configured in Airflow variable [HISTORY_TABLE_CONFIG].
     _build (dict): Build information from *_BUILD.yml
+    dag_name (string): Name of Airflow DAG.
+    task_name (string): Name of Airflow task.
   """
   BASE_GS_PATH = pathlib.Path('/home/airflow/gcs')
 
@@ -96,6 +98,10 @@ class TaskInstance():
       '_source_tables': [],
       'target_table_name': None,
       'source_gsheet_id': None,
+      'source_data_url': None,
+      # Range of data to be imported.
+      # Excel example: 'Sheet_name'!A1:Z40 , 'Table 7A'!A6:F
+      'source_data_range': None,
       'parent_tasks': None,
       'job_write_mode': None,
       'stage_loading_query': None,
@@ -141,6 +147,7 @@ class TaskInstance():
     """
     self._context = context
     dag_name = self._context['dag'].safe_dag_id
+    self.dag_name = dag_name
     self._task_config_file = self.BASE_GS_PATH / task_config_path
     self._task_config_folder = self._task_config_file.parent
     # setup config parameters
@@ -169,6 +176,7 @@ class TaskInstance():
     dag_table_list_file = (
         self.BASE_GS_PATH / f'data/ETL/{dag_name}/{dag_name}.yml')
     task_name = self._context['task'].task_id
+    self.task_name = task_name
     self._source_tables = yaml.safe_load(dag_table_list_file.read_text()).get(
         'bq_source_tables', dict()).get(task_name, [])
 

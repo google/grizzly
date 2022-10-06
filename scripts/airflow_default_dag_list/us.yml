@@ -1,0 +1,11 @@
+- base/bas_austin_crime
+- base/bas_austin_crime_with_date
+- base/bas_census_bureau_acs
+- base/bas_chicago_crime
+- base/bas_gdelt
+- base/bas_geo_openstreetmap
+- base/bas_geo_us_boundaries
+- geo
+- store_research
+- geo_australia
+- metadata

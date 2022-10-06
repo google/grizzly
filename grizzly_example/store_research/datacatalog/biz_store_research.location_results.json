@@ -1,6 +1,6 @@
 [
     {
-      "template": "projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+      "template": "projects/{{ task_instance.gcp_project_id }}/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/crime_tags",
       "column": "crime_violent_rate",
       "fields":{
         "crime":{
@@ -12,7 +12,7 @@
       }
     },
     {
-        "template": "projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+        "template": "projects/{{ task_instance.gcp_project_id }}/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/crime_tags",
         "column": "crime_property_rate",
         "fields":{
           "crime":{
@@ -21,7 +21,7 @@
         }
     },
     {
-        "template": "projects/{{ task_instance.gcp_project_id }}/locations/us/tagTemplates/crime_tags",
+        "template": "projects/{{ task_instance.gcp_project_id }}/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/crime_tags",
         "column": "riot_per_year",
         "fields":{
           "violence":{

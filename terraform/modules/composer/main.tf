@@ -30,7 +30,11 @@ resource "google_composer_environment" "grizzly_airflow" {
       image_version = var.composer_image_version
       python_version=3
       airflow_config_overrides = var.airflow_config_overrides
-    }
+      pypi_packages = {
+        geopandas = ""
+        openpyxl = ""
+      }
+    }    
   }
 }
 

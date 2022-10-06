@@ -1,0 +1,3 @@
+target_table_name: biz_geo_australia.tax_elderly_by_postcode
+job_write_mode: WRITE_TRUNCATE
+stage_loading_query: queries/biz_geo_australia.tax_elderly_by_postcode.sql

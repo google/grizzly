@@ -49,6 +49,10 @@ from grizzly_git.config import STAGE_DATASET
 from grizzly_git.config import SUBJECT_AREA_BUILD_TABLE_NAME
 from grizzly_git.config import SUBJECT_AREA_BUILD_TABLE_SCHEMA
 
+from grizzly_git.config import SQL_MERGE_TO_SUBJECT_AREA_DELETE_BUILD
+from grizzly_git.config import SUBJECT_AREA_DELETE_BUILD_TABLE_NAME
+from grizzly_git.config import SUBJECT_AREA_DELETE_BUILD_TABLE_SCHEMA
+
 
 def get_auth_http() -> AuthorizedHttp:
   """Return AuthorizedHttp for gcp cloud access."""
@@ -62,7 +66,7 @@ def get_auth_http() -> AuthorizedHttp:
   return AuthorizedHttp(credentials)
 
 
-def get_cloud_build_rows(base_url: str) -> List[any]:
+def get_cloud_build_rows(base_url: str, env: str) -> List[any]:
   """Convert REST API data from Cloud Build API into BQ rows.
 
   Args:
@@ -95,11 +99,17 @@ def get_cloud_build_rows(base_url: str) -> List[any]:
 
       subject_area, trigger_name, commit_sha, short_sha = [None]*4
       substitutions = bid.get('substitutions', None)
+
       if substitutions:
+
+        trigger_env = substitutions.get('_ENVIRONMENT', None)
+        if not trigger_env or trigger_env.lower() != env:
+          continue    
+
         subject_area = substitutions.get('_DOMAIN', None)
 
         if subject_area:
-          subject_area = subject_area.split('/')[-1].upper()
+          subject_area = subject_area.split('/')[-1].strip().upper()
 
         trigger_name = substitutions.get('TRIGGER_NAME', None)
         commit_sha = substitutions.get('COMMIT_SHA', None)
@@ -134,12 +144,14 @@ def get_cloud_build_rows(base_url: str) -> List[any]:
 
 def cb_triggers_execution_data_proc(
     bq_utils: BQUtils,
-    metadata_project_id: str) -> None:
+    metadata_project_id: str,
+    env: str) -> None:
   """Insert Cloud Build Trigger historical data into BQ table.
 
   Args:
     bq_utils (BQUtils): Instance of BQUtils used for table data uploading.
     metadata_project_id (str): GCP project id with GIT repository.
+    env (str): name of environment
   """
 
   table_name = f'{GIT_DATASET}.{CB_TRIGGER_EXECUTION_TABLE_NAME}'
@@ -155,7 +167,7 @@ def cb_triggers_execution_data_proc(
   url = 'https://cloudbuild.googleapis.com/v1/projects/'
   url += f'{metadata_project_id}/builds'
 
-  cloud_build_rows = get_cloud_build_rows(base_url=url)
+  cloud_build_rows = get_cloud_build_rows(base_url=url, env=env)
 
   tmp_table_name = '{}.{}.{}'.format(
       tmp_table.project,
@@ -186,6 +198,16 @@ def subject_area_build_data_proc(bq_utils: BQUtils) -> None:
   bq_utils.bq_client.query(query=sql_merge).result()
 
 
+def subject_area_delete_build_data_proc(bq_utils: BQUtils) -> None:
+  """Insert data into SUBJECT_AREA_DELETE_BUILD table."""
+
+  table_name = f'{GIT_DATASET}.{SUBJECT_AREA_DELETE_BUILD_TABLE_NAME}'
+  bq_utils.create_table(table_name=table_name,
+                        table_schema=SUBJECT_AREA_DELETE_BUILD_TABLE_SCHEMA)
+
+  sql_merge = SQL_MERGE_TO_SUBJECT_AREA_DELETE_BUILD.format(GIT_DATASET=GIT_DATASET)
+  bq_utils.bq_client.query(query=sql_merge).result()
+
 def main(args: argparse.Namespace) -> None:
   """Implement the command line interface described in the module doc string."""
   env = args.env.lower()
@@ -197,8 +219,12 @@ def main(args: argparse.Namespace) -> None:
   bq_utils = BQUtils(gcp_project_id=config.gcp_environment_target)
 
   cb_triggers_execution_data_proc(bq_utils=bq_utils,
-                                  metadata_project_id=metadata_project_id)
+                                  metadata_project_id=metadata_project_id,
+                                  env=env
+                                  )
   subject_area_build_data_proc(bq_utils=bq_utils)
+
+  subject_area_delete_build_data_proc(bq_utils=bq_utils)
 
 if __name__ == '__main__':
   try:

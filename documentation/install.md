@@ -52,7 +52,7 @@ session to initialize.
     go to the directory for this tutorial.
 
     ```
-    git config --global user.email "email@mail.xyz"
+    git config --global user.email "abc@xyz.com"
     ```
 
     ```
@@ -72,24 +72,25 @@ session to initialize.
     ```
 
     ```
-    gh repo clone google/grizzly
+    gh repo clone google/grizzly ./grizzly
     ```
 
 2.  In Cloud Shell, set the required environment variables.
 
     *   The [stem_name] value should match the Project IDs you created earlier.
-    *   The [composer instance location] value should be from a Region Name from
+    *   The [composer_location] value should be from a Region Name from
         the list of available
         [Cloud Storage locations](https://cloud.google.com/storage/docs/locations#available-locations).
         Please note that the Grizzly platform does not currently support
         Dual-regions or Multi-regions.
-    *   The [composer image] value should be a Version from the list of
+    *   The [gcp_resource_location] value should be "us" or "eu".  Only if the location is outside of the United States or the European Union, the value should match the [composer_location] value.
+    *    The [app_engine_location] value should be from a Region Name from
+        the list of available [App Engine locations](https://cloud.google.com/appengine/docs/standard/locations).
+    *   The [composer_image] value should be a Version from the list of
         [Cloud Composer images](https://cloud.google.com/composer/docs/concepts/versioning/composer-versions#images).
-    *   The [default security user] value is an optional parameter that can be
-        used to define a default user or group that will be configured for
-        Grizzly's two demo examples. If not defined, the current Git session
-        user will be used. Supported formats of the parameter are
-        user:joe@example.com or group:demo@google.com.
+    *   The [security_user] value is a user or group that will be configured for
+        Grizzly's two demo examples.  Supported formats of the parameter are
+        user:abc@xyz.com or group:demo@google.com.
 
         ```
         cd ~/grizzly_repo/grizzly
@@ -98,9 +99,11 @@ session to initialize.
         --GCP_PROJECT_DEV "[stem_name]-dev" \
         --GCP_PROJECT_UAT "[stem_name]-uat" \
         --GCP_PROJECT_PROD "[stem_name]-prod" \
-        --AIRFLOW_LOCATION "[composer instance location]" \
-        --COMPOSER_IMAGE "composer-1.18.0-airflow-2.2.3" \
-        --SECURITY_USER "[default security user]"
+        --GCP_RESOURCE_LOCATION "[gcp_resource_location]" \
+        --AIRFLOW_LOCATION "[composer_location]" \
+        --APP_ENGINE_LOCATION "[app_engine_location]" \
+        --COMPOSER_IMAGE "[composer_image]" \
+        --SECURITY_USER "[security_user]" 
         ```
 
         For example,
@@ -112,8 +115,11 @@ session to initialize.
         --GCP_PROJECT_DEV "grizzly-dev" \
         --GCP_PROJECT_UAT "grizzly-uat" \
         --GCP_PROJECT_PROD "grizzly-prod" \
+        --GCP_RESOURCE_LOCATION "us" \
         --AIRFLOW_LOCATION "us-central1" \
-        --COMPOSER_IMAGE "composer-1.18.0-airflow-2.2.3"
+        --APP_ENGINE_LOCATION "us-central" \
+        --COMPOSER_IMAGE "composer-2.0.28-airflow-2.3.3" \
+        --SECURITY_USER "user:abc@xyz.com" 
         ```
 
         Once the script completes, it will create all required terraform
@@ -139,6 +145,7 @@ session to initialize.
     cd ~/grizzly_repo/grizzly/tools
     ./apply_grizzy_terraform.sh \
     --GCP_PROJECT_METADATA "[stem_name]-metadata" \
+    --GCP_RESOURCE_LOCATION "[gcp_resource_location]" \
     --ENVIRONMENT dev
     ```
 
@@ -146,6 +153,7 @@ session to initialize.
     cd ~/grizzly_repo/grizzly/tools
     ./apply_grizzy_terraform.sh \
     --GCP_PROJECT_METADATA "[stem_name]-metadata" \
+    --GCP_RESOURCE_LOCATION "[gcp_resource_location]" \
     --ENVIRONMENT uat
     ```
 
@@ -153,6 +161,7 @@ session to initialize.
     cd ~/grizzly_repo/grizzly/tools
     ./apply_grizzy_terraform.sh \
     --GCP_PROJECT_METADATA "[stem_name]-metadata" \
+    --GCP_RESOURCE_LOCATION "[gcp_resource_location]" \
     --ENVIRONMENT prod
     ```
 

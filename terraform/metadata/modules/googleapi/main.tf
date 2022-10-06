@@ -16,13 +16,16 @@
 
 locals {
   required_apis = [
+    "sourcerepo.googleapis.com",
     "cloudbuild.googleapis.com",
     "deploymentmanager.googleapis.com",
     "cloudfunctions.googleapis.com",
     "datacatalog.googleapis.com",
     "dlp.googleapis.com",
     "container.googleapis.com",
-    "dataflow.googleapis.com"
+    "dataflow.googleapis.com",
+    "artifactregistry.googleapis.com",
+    "iap.googleapis.com"
   ]
 }
 

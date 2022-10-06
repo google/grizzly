@@ -33,6 +33,7 @@ resource "google_cloudbuild_trigger" "deploy-policytag-taxonomy-trigger" {
         "GRIZZLY_FRAMEWORK_REPO=${var.framework_repository}",
         "GRIZZLY_REPO=${var.repository_name}",
         "GRIZZLY_FRAMEWORK_PROJECT=${var.gcp_project_id}",
+        "GCP_RESOURCE_LOCATION=${var.gcp_resource_location}",
         "ENVIRONMENT_CONFIG_FILE=/workspace/ENVIRONMENT_CONFIGURATIONS.yml",
         "TEMPLATE_FOLDER=/workspace/data-calalog-policytag-taxonomy-templates"
       ]
@@ -49,7 +50,7 @@ resource "google_cloudbuild_trigger" "deploy-policytag-taxonomy-trigger" {
             AIRFLOW_LOCATION=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$BRANCH_NAME']['AIRFLOW_LOCATION'])") &&
             echo "Importing Policy Tags for gcp_project_id=[$$${GCP_ENVIRONMENT}] location=[$$${AIRFLOW_LOCATION}]" &&
             cd /tmp/$$GRIZZLY_FRAMEWORK_REPO/scripts &&
-            python3 ./import_datacatalog_policytag_taxonomy.py -p "$$${GCP_ENVIRONMENT}" -l "$$${AIRFLOW_LOCATION}" -s $$TEMPLATE_FOLDER
+            python3 ./import_datacatalog_policytag_taxonomy.py -p "$$${GCP_ENVIRONMENT}" -l "$$${AIRFLOW_LOCATION}" -r "$$GCP_RESOURCE_LOCATION" -s $$TEMPLATE_FOLDER
         EOT
       ]
     }

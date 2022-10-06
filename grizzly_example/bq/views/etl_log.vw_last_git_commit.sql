@@ -23,7 +23,6 @@ SELECT
     repo_git_url,
     file_path
 FROM (
-
     SELECT
         ROW_NUMBER() OVER(PARTITION BY file_path ORDER BY datetime DESC) AS row_num,
         *

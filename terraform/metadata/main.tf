@@ -41,6 +41,21 @@ module "cloudbuild" {
   depends_on = [module.security]
   gcp_project_id = local.gcp_project_id
   repository_name = var.repository_name
+  gcp_resource_location = var.gcp_resource_location
+}
+
+module "data-lineage" {
+  source = "./modules/data-lineage"
+  depends_on = [
+      module.googleapi,
+      module.security,
+      module.cloudbuild
+    ]
+
+  gcp_project_id = local.gcp_project_id
+  iap_support_email = var.iap_support_email
+  managed_gcp_project_list = var.managed_gcp_project_list
+  location_id = var.location_id
 }
 
 output "gcp_project_id" {

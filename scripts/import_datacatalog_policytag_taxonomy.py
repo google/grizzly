@@ -24,6 +24,7 @@
   python3 ./import_datacatalog_policytag_taxonomy.py
     -p <GCP_PROJECT_ID>
     -l <GCP_COMPOSER_LOCATION>
+    -r <GCP_RESOURCE_LOCATION>
     -s <IMPORT_FOLDER>
 """
 
@@ -44,19 +45,25 @@ def main(args: argparse.Namespace) -> None:
     args (argparse.Namespace): Input arguments
   """
   Auth.auth()
+  gcp_resource_location = args.gcp_resource_location
   # Get a set of locations. As GCP composer and BQ could operates only with
   # DataCatalog taxonomies in a same location. We will get location from
   # GCP Composer environment plus multiregion locations.
   # For example: [us-central1, us]
+  location_mapping = {
+    'us': 'us',
+    'europe': 'eu'
+  }
   locations = {
       args.gcp_location,
       args.gcp_location.split('-')[0]
   }
   # Iterate Data Catalog Taxonomy locations
   for l in locations:
+    adjusted_location = gcp_resource_location or location_mapping.get(l, l)
     taxonomies_on_location = DataCatalogPolicyTagTaxonomy(
         gcp_project_id=args.gcp_project_id,
-        location=l)
+        location=adjusted_location)
     print('Importing taxonomies for: ', taxonomies_on_location.parent_resource)
     taxonomies_on_location.import_taxonomy(template_path=args.source_path)
   return
@@ -74,6 +81,13 @@ if __name__ == '__main__':
         '-l', '--location',
         dest='gcp_location', required=True,
         help='GCP Composer environment location.')
+    ap.add_argument(
+        '-r',
+        '--resource_location',
+        dest='gcp_resource_location',
+        required=False,
+        default=None,
+        help='Default location for jobs / datasets / tables. US by default')        
     ap.add_argument(
         '-s', '--source_path',
         dest='source_path', required=True,

@@ -23,6 +23,10 @@ resource "google_composer_environment" "grizzly_airflow" {
     environment_size = "ENVIRONMENT_SIZE_LARGE"
     software_config {
       image_version = var.composer_image_version
+      pypi_packages = {
+        geopandas = ""
+        openpyxl = ""
+      }      
     }
   }
 }

@@ -48,17 +48,12 @@ resource "google_cloudbuild_trigger" "deploy-composer-trigger" {
                         git pull &&
                         pip3 install -r /workspace/$$GRIZZLY_FRAMEWORK_REPO/requirements.txt &&
                         cd /workspace/$$GRIZZLY_FRAMEWORK_REPO/scripts &&
-
                         GCP_ENVIRONMENT=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['GCP_ENVIRONMENT'])") &&
                         AIRFLOW_ENVIRONMENT=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['AIRFLOW_ENVIRONMENT'])") &&
-                        AIRFLOW_LOCATION=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['AIRFLOW_LOCATION'])")  &&
-
-                        python3 ./import_cloud_build_log.py -e "$_ENVIRONMENT" -m "$$GRIZZLY_FRAMEWORK_PROJECT" -c "$$ENVIRONMENT_CONFIG_FILE" -f "/workspace/$$GRIZZLY_REPO" &&
-
+                        AIRFLOW_LOCATION=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['AIRFLOW_LOCATION'])") &&
                         cd /workspace/$$GRIZZLY_FRAMEWORK_REPO/scripts &&
-                        python3 ./deploy_composer_git.py -p "$$${GCP_ENVIRONMENT}" -l  "$$${AIRFLOW_LOCATION}" -c "$$${AIRFLOW_ENVIRONMENT}" -s /workspace/$_DOMAIN -bid "$BUILD_ID" -x "$COMMIT_SHA" &&
-
-                        python3 ./import_cloud_build_log.py -e "$_ENVIRONMENT" -m "$$GRIZZLY_FRAMEWORK_PROJECT" -c "$$ENVIRONMENT_CONFIG_FILE" -f "/workspace/$$GRIZZLY_REPO"
+                        python3 ./deploy_composer_git.py -p "$$${GCP_ENVIRONMENT}" -l "$$${AIRFLOW_LOCATION}" -c "$$${AIRFLOW_ENVIRONMENT}" -s /workspace/$_DOMAIN -bid "$BUILD_ID" -x "$COMMIT_SHA" &&
+                        python3 ./run_import_cloud_build_log_trigger.py -e "$_ENVIRONMENT" -m "$$GRIZZLY_FRAMEWORK_PROJECT"
                       EOT
       ]
     }

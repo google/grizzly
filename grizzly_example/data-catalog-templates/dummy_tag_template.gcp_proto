@@ -1,5 +1,5 @@
 {
-  "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/dummy_tag_template",
+  "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/dummy_tag_template",
   "displayName": "Dummy Tag Template",
   "fields": {
     "dummy": {
@@ -7,7 +7,7 @@
       "type": {
         "primitiveType": 2
       },
-      "name": "projects/gcp-demo-dev2/locations/us/tagTemplates/dummy_tag_template/fields/dummy",
+      "name": "projects/gcp-demo-dev2/locations/{{{GCP_RESOURCE_LOCATION}}}/tagTemplates/dummy_tag_template/fields/dummy",
       "isRequired": false,
       "description": "",
       "order": 0

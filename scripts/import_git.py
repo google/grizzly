@@ -91,9 +91,7 @@ def get_file_subject_area(file_commits: List[str]) -> List[str]:
 
   for file in file_commits:
     if 'SCOPE.yml' == file.split('/')[-1]:
-
       file_parts = file.split('/')
-
       if not file_parts:
         res['N/A'] = -1
       elif len(file_parts) == 1:
@@ -104,7 +102,7 @@ def get_file_subject_area(file_commits: List[str]) -> List[str]:
         res['/'.join(file_parts[0: -1])] = len(file_parts)-1
 
   res = [(k, v) for k, v in res.items()]
-  res = [x[0] for x in  sorted(res, key=lambda x: x[1], reverse=True)]
+  res = [x[0] for x in sorted(res, key=lambda x: (x[1], len(x[0])), reverse=True)]
 
   return res
 
@@ -130,13 +128,9 @@ def load_files(folder: str) -> Dict[str, str]:
 
 def get_subject_area(filename: str) -> str:
   """Return subject area from file name."""
-  res: str = None
-
   for sa in SUBJECT_AREAS:
-    if filename.find(sa) == 0:
+    if filename.startswith(sa):
       return sa
-
-  return res
 
 
 def git_commits_data_proc(bq_utils: BQUtils,

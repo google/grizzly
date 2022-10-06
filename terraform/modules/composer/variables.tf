@@ -90,6 +90,11 @@ variable "airflow_config_overrides" {
   }
 }
 
+variable "gcp_resource_location" {
+  type = string
+  description = "Default location of GCP resources."
+}
+
 locals {
   airflow_variables = {
     ENVIRONMENT: "N/A",
@@ -99,7 +104,8 @@ locals {
     GCP_PROJECT_ID: var.gcp_project_id,
     HISTORY_TABLE_CONFIG: "{\n  \"dataset_id\": \"{{ target_dataset_id }}_hx\",\n  \"default_history_expiration\": 180,\n  \"table_id\": \"{{ target_table_id }}_hx\"\n}",
     # projects/{Config.GCP_PROJECT_ID}/locations/us/taxonomies
-    DEFAULT_DATACATALOG_TAXONOMY_LOCATION: "projects/${var.gcp_project_id}/locations/${var.default_datacatalog_taxonomy_location}/taxonomies"
+    DEFAULT_DATACATALOG_TAXONOMY_LOCATION: "projects/${var.gcp_project_id}/locations/${var.default_datacatalog_taxonomy_location}/taxonomies",
+    GCP_RESOURCE_LOCATION: var.gcp_resource_location
   }
   pool = {
     name: "default_pool",

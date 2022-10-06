@@ -175,3 +175,36 @@ class ComposerEnvironment():
     cmd_result = self.run_command(composer_cmd)
     print(cmd_result)
     return
+
+  def delete_file(self, file: str) -> None:
+    """Delete ETL configuration files from GCP Composer environment.
+
+    Files published into gs://{Airflow_Bucket}/data/ETL
+
+    Args:
+      file (str): file name for deletion
+    """
+    print(f'Deleting files from {file} to {self.etl_folder}')
+    # Copy files from TEMP to GS_Bucket
+    composer_cmd = [
+        'gcloud', 'composer', 'environments', 'storage', 'dags', 'delete',
+        f'{file}', '--project', self.project_id,
+        '--environment', self.environment_name, '--location', self.location,
+        f'--quiet'
+    ]
+    cmd_result = self.run_command(composer_cmd)
+    print(cmd_result)
+    return
+
+  def delete_domain(self, domain: str) -> None:
+    """Delete ETL configuration files from GCP Composer environment.
+
+    Files published into gs://{Airflow_Bucket}/data/ETL
+
+    Args:
+      domain (str): domain of destination
+    """
+
+    self.delete_file(file=f'{domain}.py')
+    return
+

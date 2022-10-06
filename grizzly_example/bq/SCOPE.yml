@@ -15,11 +15,18 @@
 deployment_scope:
   - datasets/init_example_datasets.sql
   - functions/common_functions_library.LocalDatetime.sql
-  - tables/bas_austin_crime.crime_dlp.sql
-  - tables/etl_log.git_metadata.sql
-  - views/etl_log.vw_etl_sankey.sql
-  - views/etl_log.vw_etl_gantt.sql
-  - views/etl_log.vw_job_git_files.sql
-  - views/etl_log.vw_last_git_commit.sql
+  - tables/etl_log.metadata.sql
+  - views/etl_log.vw_build_data_lineage_queq.sql
   - views/etl_log.vw_subject_area_build_files.sql
+  - views/etl_log.vw_last_git_commit.sql
   - views/etl_log.vw_build_repository_difference.sql
+  - views/etl_log.vw_data_lineage_build.sql
+  - views/etl_log.vw_data_lineage_object.sql
+  - views/etl_log.vw_data_lineage_objects_connection.sql
+  - views/etl_log.vw_etl_gantt.sql  
+  - views/etl_log.vw_etl_sankey.sql
+  - views/etl_log.vw_job_git_files.sql
+  - views/etl_log.vw_subject_area_build_sql_file.sql
+  - views/etl_log.vw_subject_areas_build.sql
+  - functions/data_lineage_functions.sql
+  - tables/bas_austin_crime.crime_dlp.sql

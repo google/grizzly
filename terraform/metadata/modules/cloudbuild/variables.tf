@@ -30,3 +30,8 @@ variable "framework_repository" {
   description = "Grizzly framework repository name."
   default = "grizzly_framework"
 }
+
+variable "gcp_resource_location" {
+  type = string
+  description = "Default location of GCP resources."
+}

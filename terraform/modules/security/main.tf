@@ -82,3 +82,15 @@ resource "google_project_iam_member" "project" {
   role    = each.value.role
   member  = each.value.principal
 }
+
+resource "google_project_iam_member" "project_member_metadata_dataviewer" {
+  project = var.gcp_project_id
+  role    = "roles/bigquery.dataViewer"
+  member  = "serviceAccount:${var.gcp_metadata_project_id}@appspot.gserviceaccount.com"
+}
+
+resource "google_project_iam_member" "project_member_metadata_jobuser" {
+  project = var.gcp_project_id
+  role    = "roles/bigquery.jobUser"
+  member  = "serviceAccount:${var.gcp_metadata_project_id}@appspot.gserviceaccount.com"
+}

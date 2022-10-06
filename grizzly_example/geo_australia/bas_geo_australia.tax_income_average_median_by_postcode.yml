@@ -1,0 +1,5 @@
+target_table_name: bas_geo_australia.tax_income_average_median_by_postcode
+source_data_url: https://data.gov.au/data/dataset/2805b28d-2c3b-47e2-87c3-50aacc6ea212/resource/467aeb6c-a779-4308-8b16-323a2ff66b75/download/ts19individual25countaveragemedianbypostcode.csv
+job_write_mode: WRITE_TRUNCATE
+doc_md: documents/bas_geo_australia.tax_income_average_median_by_postcode.md
+source_type: csv

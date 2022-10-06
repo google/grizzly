@@ -33,6 +33,7 @@ from airflow.exceptions import AirflowSkipException
 from airflow.models.baseoperator import BaseOperator
 from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
 from grizzly.bq_table_security import BQTableSecurity
+from grizzly.config import Config as GrizzlyConfig
 from grizzly.data_catalog_tag import DataCatalogTag
 import grizzly.etl_action
 from grizzly.etl_factory import ETLFactory
@@ -397,9 +398,12 @@ class GrizzlyOperator(BaseOperator):
     self.bq_hook = BigQueryHook(
         bigquery_conn_id=self.bigquery_conn_id,
         use_legacy_sql=False,
+        location=GrizzlyConfig.GCP_RESOURCE_LOCATION,
     )
     self.bq_cursor = self.bq_hook.get_conn().cursor()
-    self.bq_client = self.bq_hook.get_client()
+    self.bq_client = self.bq_hook.get_client(
+        location=GrizzlyConfig.GCP_RESOURCE_LOCATION
+    )
     # prepare etl_log
     self.etl_log = ExecutionLog(self.task_config)
     # set up DataCatalog column policy tags

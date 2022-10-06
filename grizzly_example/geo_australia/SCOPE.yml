@@ -1,0 +1,11 @@
+schedule_interval: 0 1 1 * *
+execution_timeout_per_table: 1200
+tags:
+  - geo
+etl_scope:
+  - bas_geo_australia.post_codes
+  - bas_geo_australia.tax_individual_age_by_postcode
+  - bas_geo_australia.tax_income_average_median_by_postcode
+  - biz_geo_australia.tax_elderly_by_postcode
+  - biz_geo_australia.tax_income_average_median_by_postcode
+  - prs_geo_australia.income_elderly_stat

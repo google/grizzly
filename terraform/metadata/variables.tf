@@ -19,6 +19,11 @@ variable "gcp_project_id" {
   description = "The ID of the METADATA GCP project."
 }
 
+variable "location_id" {
+  type = string
+  description = "location id"
+}
+
 variable "managed_gcp_project_list" {
   type = list(string)
   description = "List of GCP projects (dev, uat, prod, etc.)."
@@ -28,4 +33,14 @@ variable "repository_name" {
   type = string
   description = "Grizzly repository name."
   default = "grizzly"
+}
+
+variable "gcp_resource_location" {
+  type = string
+  description = "Default location of GCP resources."
+}
+
+variable "iap_support_email" {
+  type = string
+  description = "support email for IAP"
 }

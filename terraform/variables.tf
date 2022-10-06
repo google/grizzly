@@ -16,10 +16,15 @@
 
 variable "composer_environment_name" {}
 variable "gcp_project_id" {}
+variable "gcp_metadata_project_id" {}
 variable "composer_image_version" {}
 variable "composer_location" {}
 variable "composer_node_zone" {}
 variable "default_datacatalog_taxonomy_location" {}
+variable "gcp_resource_location" {
+  type = string
+  description = "Default location of GCP resources."
+}
 
 # Check that Composer V2 is used. It requires different configuration.
 locals {

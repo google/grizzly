@@ -37,6 +37,7 @@ resource "google_cloudbuild_trigger" "deploy-bigquery-trigger" {
       env = [
         "GRIZZLY_FRAMEWORK_REPO=${var.framework_repository}",
         "GRIZZLY_FRAMEWORK_PROJECT=${var.gcp_project_id}",
+        "GCP_RESOURCE_LOCATION=${var.gcp_resource_location}",
         "ENVIRONMENT_CONFIG_FILE=/workspace/ENVIRONMENT_CONFIGURATIONS.yml"
       ]
       args = [
@@ -49,7 +50,7 @@ resource "google_cloudbuild_trigger" "deploy-bigquery-trigger" {
                         pip3 install -r /workspace/$$GRIZZLY_FRAMEWORK_REPO/requirements.txt &&
                         GCP_ENVIRONMENT=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['GCP_ENVIRONMENT'])") &&
                         cd /workspace/$$GRIZZLY_FRAMEWORK_REPO/scripts &&
-                        python3 ./deploy_bq.py -p "$$${GCP_ENVIRONMENT}" --scope "$_SCOPE_FILE" -s /workspace/$_DOMAIN
+                        python3 ./deploy_bq.py -p "$$${GCP_ENVIRONMENT}" --scope "$_SCOPE_FILE" -l "$$GCP_RESOURCE_LOCATION" -s /workspace/$_DOMAIN
                       EOT
       ]
     }

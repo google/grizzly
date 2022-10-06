@@ -47,7 +47,8 @@ def main(args: argparse.Namespace) -> None:
   """Implement the command line interface described in the module doc string."""
   source_path = pathlib.Path(args.source_path)
   gcp_project_id = args.gcp_project_id
-  bqclient = bigquery.Client(project=gcp_project_id)
+  gcp_location = args.gcp_location
+  bqclient = bigquery.Client(project=gcp_project_id, location=gcp_location)
   scope_file = source_path / args.scope_file
   if '.yml' not in args.scope_file:
     scope_file = scope_file.with_suffix('.yml')
@@ -91,6 +92,13 @@ if __name__ == '__main__':
         dest='gcp_project_id',
         required=True,
         help='Target GCP project.')
+    ap.add_argument(
+        '-l',
+        '--location',
+        dest='gcp_location',
+        required=False,
+        default=None,
+        help='Default location for jobs / datasets / tables. US by default')
     ap.add_argument(
         '--scope',
         dest='scope_file',

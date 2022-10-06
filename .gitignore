@@ -11,3 +11,5 @@ __pycache__/
 *.tfvars
 *.theia-workspace
 .idea/
+node_modules/
+build/

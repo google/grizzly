@@ -1,0 +1,4 @@
+target_table_name: bas_geo_australia.post_codes
+source_data_url: https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs-edition-3/jul2021-jun2026/access-and-downloads/digital-boundary-files/POA_2021_AUST_GDA2020_SHP.zip
+job_write_mode: WRITE_TRUNCATE
+source_type: shapefile

@@ -41,6 +41,7 @@ from airflow.models import BaseOperator
 from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
 from airflow.providers.google.cloud.hooks.dlp import CloudDLPHook
 from google.protobuf import timestamp_pb2
+from grizzly.config import Config as GrizzlyConfig
 from grizzly.etl_action import check_custom_schedule
 from grizzly.etl_action import parse_table
 from grizzly.execution_log import ExecutionLog
@@ -315,8 +316,11 @@ class GrizzlyDLPOperator(BaseOperator):
     """
     self.task_config = DLPTaskConfig(self._config_file_ref, context)
     self.dlp_hook = CloudDLPHook()
-    self.bq_hook = BigQueryHook(use_legacy_sql=False)
-    self.bq_client = self.bq_hook.get_client()
+    self.bq_hook = BigQueryHook(use_legacy_sql=False,
+                                location=GrizzlyConfig.GCP_RESOURCE_LOCATION)
+    self.bq_client = self.bq_hook.get_client(
+        location=GrizzlyConfig.GCP_RESOURCE_LOCATION
+    )
     self.etl_log = ExecutionLog(self.task_config)
 
     try:

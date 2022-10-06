@@ -202,6 +202,9 @@ class ETLFactory:
         'gsheet': 'grizzly.extractors.gsheet.ExtractorGSheet',
         'spanner': 'grizzly.extractors.spanner.ExtractorSpanner',
         'mysql': 'grizzly.extractors.mysql.ExtractorMySQL',
+        'shapefile': 'grizzly.extractors.shapefile.ExtractorShapefile',
+        'csv': 'grizzly.extractors.csv_url.ExtractorCSV',
+        'excel': 'grizzly.extractors.excel_url.ExtractorExcel',
         'custom': task_config.source_extractor
     }
 

@@ -33,6 +33,7 @@ import os
 from typing import Any, Dict, List
 
 import google.auth.transport.requests
+from google.cloud.devtools import cloudbuild_v1
 from google.cloud import bigquery
 from google.cloud.bigquery import Table
 import proto
@@ -263,6 +264,28 @@ class BQUtils:
                                              exists_ok=exists_ok)
     return ret
 
+  def create_tables(self,
+                    table_name: str,
+                    tmp_table_name: str,
+                    table_schema,
+                    tmp_table_schema = None,
+                    exists_ok: bool = True):
+    """Create tables tmp & traditional."""
+
+    table = self.create_table(table_name=table_name,
+                              table_schema=table_schema,
+                              exists_ok=exists_ok)
+
+    if tmp_table_schema:
+      tmp_table = self.create_temp_table(table_name=tmp_table_name,
+                                        table_schema=tmp_table_schema)
+    else:
+      tmp_table = self.create_temp_table(table_name=tmp_table_name,
+                                        table_schema=table_schema)
+
+    return table, tmp_table             
+            
+
 
 class ImportToolConfig:
   """Import tool configuration class.
@@ -314,3 +337,63 @@ class ImportToolConfig:
     """
     env_config = Utils.parse_yml_file(f'{env_configs_file}')
     return env_config[environment][env_tag_name]
+
+
+class Trigger:
+  """Represents Cloud Build trigger configuration.
+
+  Configures, runs, and monitors CB trigger run.
+
+  Attributes:
+    gcp_project (str): GCP project id.
+    branch (str): branch name to run trigger on.
+    trigger_name (str): name of the trigger to run.
+    substitutions (Dict[str, Any], default - None): dictionary of substitutions
+      for trigger. Keys are the names of substituted variables,
+      and variables are substitutions.
+
+    _request (RunBuildTriggerRequest): request that will be passed to a client
+    _failed (bool): whether the run has failed.
+    _cancelled (bool): whether the run was cancelled.
+    _operation (cloudbuild_v1.operation.Operation): operation object returned
+      by CB client. Contains the status and, eventually, the result.
+  """
+
+  def __init__(self, 
+               client,
+               gcp_project: str,
+               branch: str, trigger_name: str,
+               substitutions: Dict[str, Any] = None) -> None:
+    """Initialize trigger."""
+    self.client = client
+    self.gcp_project = gcp_project
+    self.branch = branch
+    self.trigger_name = trigger_name
+    self.substitutions = substitutions
+
+    self._operation = None
+
+    # construct request
+    full_trigger_name = 'projects/{}/locations/global/triggers/{}'.format(
+        self.gcp_project, self.trigger_name)
+
+    self._request = cloudbuild_v1.RunBuildTriggerRequest({
+        'name': full_trigger_name,
+        'project_id': self.gcp_project,
+        'source': {
+            'project_id': self.gcp_project,
+            'branch_name': self.branch,
+            'substitutions': self.substitutions,
+        }
+    })
+
+  def run_trigger(self):
+    """Runs and monitors the status of CB trigger."""
+    self._operation = self.client.run_build_trigger(request=self._request)
+
+    return self._operation
+
+  def __str__(self):
+    """Formatting for printing."""
+    return 'Trigger {} on branch {} with substitutions {}'.format(
+        self.trigger_name, self.branch, self.substitutions)
