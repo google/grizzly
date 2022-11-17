@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from typing import Optional, List
 
 import google.auth.transport.requests
@@ -30,34 +44,31 @@ class BackendBQClient:
     ORDER BY dlo.target_table_name ASC
     """
 
-  PHYSICAL_DLO_QUERY = """
-    SELECT dlo.subject_area, dlo.object_id, dlo.parent_object_id, dlo.object_type, dlo.target_table_name, dlo.object_data	
+  DLO_QUERY = """
+    SELECT 
+      dlo.subject_area, 
+      dlo.object_id, 
+      dlo.parent_object_id, 
+      dlo.object_type, 
+      dlo.target_table_name, 
+      dlo.object_data	
     FROM `etl_log.vw_data_lineage_object` AS dlo
-    WHERE dlo.data_lineage_build_id = '{build_id}'
-    AND dlo.data_lineage_type = 'PHYSICAL'
+    WHERE dlo.data_lineage_build_id LIKE '{build_id}'
+    AND dlo.subject_area LIKE '{domain}'
+    AND dlo.target_table_name LIKE '{job_build_id}'
+    AND dlo.data_lineage_type = '{dl_type}'
     """
-  PHYSICAL_DLC_QUERY = """
-    SELECT dlc.subject_area, dlc.source_object_id, dlc.target_object_id, dlc.connection_data
+  DLC_QUERY = """
+    SELECT 
+      dlc.subject_area, 
+      dlc.source_object_id, 
+      dlc.target_object_id, 
+      dlc.connection_data
     FROM `etl_log.vw_data_lineage_objects_connection` AS dlc
-    WHERE dlc.data_lineage_build_id = '{build_id}'
-    AND dlc.data_lineage_type = 'PHYSICAL'
-    """
-
-  QUERY_LEVEL_DLO_QUERY = """
-    SELECT dlo.subject_area, dlo.object_id, dlo.parent_object_id, dlo.object_type, dlo.target_table_name, dlo.object_data	
-    FROM `etl_log.vw_data_lineage_object` AS dlo
-    WHERE dlo.data_lineage_build_id = '{build_id}'
-    AND dlo.subject_area = '{domain}'
-    AND dlo.target_table_name = '{job_build_id}'
-    AND dlo.data_lineage_type = 'QUERY_LEVEL'
-    """
-  QUERY_LEVEL_DLC_QUERY = """
-    SELECT dlc.subject_area, dlc.source_object_id, dlc.target_object_id, dlc.connection_data
-    FROM `etl_log.vw_data_lineage_objects_connection` AS dlc
-    WHERE dlc.data_lineage_build_id = '{build_id}'
-    AND dlc.subject_area = '{domain}'
-    AND dlc.target_table_name = '{job_build_id}'
-    AND dlc.data_lineage_type = 'QUERY_LEVEL'
+    WHERE dlc.data_lineage_build_id LIKE '{build_id}'
+    AND dlc.subject_area LIKE '{domain}'
+    AND dlc.target_table_name LIKE '{job_build_id}'
+    AND dlc.data_lineage_type = '{dl_type}'
     """
 
   AUTH_SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
@@ -97,32 +108,64 @@ class BackendBQClient:
     result = self.client.query(query).result()
     return [r[0] for r in result]
 
-  def get_physical_objects(self, datetime: str) -> List:
+  def get_project_level_objects(self, datetime: str) -> List:
     build_id = self.get_build_id_by_datetime(datetime)
-    query = self.PHYSICAL_DLO_QUERY.format(build_id=build_id)
+    query = self.DLO_QUERY.format(
+      build_id=build_id,
+      domain="%",
+      job_build_id="%",
+      dl_type="PROJECT_LEVEL",
+    )
     return list(self.client.query(query).result())
 
-  def get_physical_connections(self, datetime: str) -> List:
+  def get_project_level_connections(self, datetime: str) -> List:
     build_id = self.get_build_id_by_datetime(datetime)
-    query = self.PHYSICAL_DLC_QUERY.format(build_id=build_id)
+    query = self.DLC_QUERY.format(
+      build_id=build_id,
+      domain="%",
+      job_build_id="%",
+      dl_type="PROJECT_LEVEL",
+    )
+    return list(self.client.query(query).result())
+
+  def get_domain_level_objects(self, datetime: str, domain: str) -> List:
+    build_id = self.get_build_id_by_datetime(datetime)
+    query = self.DLO_QUERY.format(
+      build_id=build_id,
+      domain=domain,
+      job_build_id="%",
+      dl_type="DOMAIN_LEVEL",
+    )
+    return list(self.client.query(query).result())
+
+  def get_domain_level_connections(self, datetime: str, domain: str) -> List:
+    build_id = self.get_build_id_by_datetime(datetime)
+    query = self.DLC_QUERY.format(
+      build_id=build_id,
+      domain=domain,
+      job_build_id="%",
+      dl_type="DOMAIN_LEVEL",
+    )
     return list(self.client.query(query).result())
 
   def get_query_level_objects(self, datetime: str, domain: str,
                               job_build_id: str) -> List:
     build_id = self.get_build_id_by_datetime(datetime)
-    query = self.QUERY_LEVEL_DLO_QUERY.format(
+    query = self.DLO_QUERY.format(
       build_id=build_id,
       domain=domain,
-      job_build_id=job_build_id
+      job_build_id=job_build_id,
+      dl_type="QUERY_LEVEL",
     )
     return list(self.client.query(query).result())
 
   def get_query_level_connections(self, datetime: str, domain: str,
                                   job_build_id: str) -> List:
     build_id = self.get_build_id_by_datetime(datetime)
-    query = self.QUERY_LEVEL_DLC_QUERY.format(
+    query = self.DLC_QUERY.format(
       build_id=build_id,
       domain=domain,
-      job_build_id=job_build_id
+      job_build_id=job_build_id,
+      dl_type="QUERY_LEVEL",
     )
     return list(self.client.query(query).result())

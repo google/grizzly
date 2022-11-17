@@ -36,12 +36,12 @@ class BuildDeploy:
     gcp_location (string): Compute Engine region in which composer
         environment was created.
     gcp_composer_env_name(string): GCP Composer environment name.
-    release (string): Coomit SHA of the current build (latest commit).
+    release (string): Commit SHA of the current build (latest commit).
     domain (string): Name of domain.
     commit_id (string): Unique name of release
     build_id (string): Unique name of build.
     gcp_composer_environment:
-       (grizzly.composer_environment.ComposerEnvironment)  Interract
+       (grizzly.composer_environment.ComposerEnvironment)  Interact
        with GCP composer and retrieve Environment details.
 
   """
@@ -61,7 +61,7 @@ class BuildDeploy:
       location (string): Compute Engine region in which composer environment was
           created.
       environment_name(string): GCP Composer environment name.
-      commit_id (string): Coomit SHA of the current build (latest commit).
+      commit_id (string): Commit SHA of the current build (latest commit).
       domain (string): Name of domain.
       release (string): Unique name of release
       build_id (string): Unique name of build.

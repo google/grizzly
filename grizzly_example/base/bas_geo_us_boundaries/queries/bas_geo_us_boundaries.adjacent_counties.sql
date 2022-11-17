@@ -12,5 +12,11 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.county,
+  t.state,
+  t.county_fips_code,
+  t.neighbors,
+  t.neighbors_state,
+  t.neighbors_fips_code
 FROM `bigquery-public-data.geo_us_boundaries.adjacent_counties` AS t

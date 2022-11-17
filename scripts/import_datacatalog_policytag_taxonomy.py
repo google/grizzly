@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ def main(args: argparse.Namespace) -> None:
   gcp_resource_location = args.gcp_resource_location
   # Get a set of locations. As GCP composer and BQ could operates only with
   # DataCatalog taxonomies in a same location. We will get location from
-  # GCP Composer environment plus multiregion locations.
+  # GCP Composer environment plus multi-region locations.
   # For example: [us-central1, us]
   location_mapping = {
     'us': 'us',

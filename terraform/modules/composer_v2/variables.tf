@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ variable "composer_machine_type" {
 
 variable "default_datacatalog_taxonomy_location" {
   type    = string
-  description = "Default loaction for search of DataCatalog Taxonomies. (us, europe, us-central1, etc.)"
+  description = "Default location for search of DataCatalog Taxonomies. (us, europe, us-central1, etc.)"
 }
 
 variable "composer_oauth_scopes" {

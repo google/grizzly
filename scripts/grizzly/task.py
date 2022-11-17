@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Definintion of Task class.
+"""Definition of Task class.
 
 Task class represent task YML configuration file.
 Instance of Task also contains information about all files referenced in task
@@ -36,14 +36,14 @@ class Task(ComposerItem):
   Each item in SCOPE.yml is parsed into a separate task.
 
   Attributes:
-    task_id (string): Task name. It is equal to file name without extention.
+    task_id (string): Task name. It is equal to file name without extension.
     file_id (pathlib.Path): Reference to file YML file.
-    files (list(pathlib.Path)): List of files to be deployed for coreect work of
+    files (list(pathlib.Path)): List of files to be deployed for correct work of
       task. This list contains files defined in next task YML attributes
       [doc_md, stage_loading_query, job_data_quality_query, pre_etl_scripts,
       post_etl_scripts, data_catalog_tags, access_scripts] plus task YML file
-      itself. If file reference was define without file extention then
-      correspondent file extention will be used.
+      itself. If file reference was define without file extension then
+      correspondent file extension will be used.
     raw_config (dict): Content of task YML file loaded as dictionary.
     target_table_name (string): Target table name defined in [target_table_name]
       attribute of task YML file.
@@ -58,7 +58,7 @@ class Task(ComposerItem):
       default calculation of parent tasks on a base of table used in BQ query
       defined in [stage_loading_query]
     doc_md (pathlib.Path): Reference to MD file with task documentation. More
-      details about Airflow task documeentation available here:
+      details about Airflow task documentation available here:
       https://airflow.apache.org/docs/apache-airflow/stable/concepts/dags.html?highlight=trigger_rule#dag-task-documentation
     source_tables (list(string)): List of source tables used in query defined in
       [stage_loading_query] attribute of task YML file.
@@ -68,7 +68,7 @@ class Task(ComposerItem):
                source_path: pathlib.Path) -> None:
     super().__init__(source_path, file_path)
     self.task_id = file_path.stem
-    # task_id is equal to filename without extention
+    # task_id is equal to filename without extension
     self.file_id = file_path.relative_to(source_path)
     self.files = {file_path}
     # read YML file
@@ -136,7 +136,7 @@ class Task(ComposerItem):
 
     Args:
       parameter_name (str): Name of parameter from task YML file to be analysed.
-      file_extention (str): File extention to be used in case if it was not
+      file_extention (str): File extension to be used in case if it was not
         defined in parameter file reference.
 
     Returns:

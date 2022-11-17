@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -56,7 +56,7 @@ class DataCatalogTag:
       [data_catalog_tags] attribute of task YML file. Content is rendered as
       JINJA2 template and loaded as list of dictionaries with definition of
       table and column tags to be applied.
-    authed_http (google.auth.transport.urllib3.AuthorizedHttp): Autorized http
+    authed_http (google.auth.transport.urllib3.AuthorizedHttp): Authorized http
       connection for work with Data Catalog Rest API.
     base_api_url (string): Base URL for work with DataCatalog Rest API.
     dc_hook (CloudDataCatalogHook):
@@ -218,15 +218,15 @@ class DataCatalogTag:
     representation of this tag in format similar to 'taxonomy|tag_hierarchy'
 
     Args:
-      taxonomy_name (string): Human readable taxonoy name from
+      taxonomy_name (string): Human readable taxonomy name from
         [column_policy_tags] attribute defined in task YML raw_data.
       raw_data: Raw json response from DataCatalog Rest API.
       tag (dict): Rest API definition of policy tag. More details about format
-        of dictionary yoou can find here:
+        of dictionary you can find here:
         https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.taxonomies.policyTags#PolicyTag
       tag_display_name (string): Tag name in human readable format
         'parent_tag_1|parent_tag_1.1|tag'
-      tag_id (string): Tag id in formnat supported by Data Catalog Rest API.
+      tag_id (string): Tag id in format supported by Data Catalog Rest API.
         projects/{project}/locations/{location}/taxonomies/{taxonomies}/policyTags/{policytag}
 
     Returns:
@@ -304,7 +304,7 @@ class DataCatalogTag:
           dataset_id=target_table['dataset_id'],
           table_id=target_table['table_id'])['fields']
       tagged_column_list = [*self.column_policy_tags
-                           ]  # get list of tagged columns from dictionaryy
+                           ]  # get list of tagged columns from dictionary
       # filter only columns that tagged
       # iterate schema and set policy tags
       for i in range(len(table_schema_definition)):
@@ -331,7 +331,7 @@ class DataCatalogTag:
         be assigned.
 
     Raises:
-      Exception: Exception raised in case if Rest API does not rreturn Data
+      Exception: Exception raised in case if Rest API does not return Data
         Catalog EntityId for requested table.
       AirflowException: Also exception raised in case if application is not
         able to delete or create tags due some security restriction or other

@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import abc
 
 from deployment_utils import BQUtils
@@ -35,9 +49,17 @@ class AbstractLoadDataLineage(abc.ABC):
       tmp_table_schema=tmp_table_schema
     )
 
-  @abc.abstractmethod
   def _create_tables(self):
-    pass
+    self.objects_table, self.objects_temp_table = self._create_table_set(
+      table_name=DATA_LINEAGE_OBJECT_TABLE_NAME,
+      table_schema=DATA_LINEAGE_OBJECT_TABLE_SCHEMA,
+      tmp_table_schema=DATA_LINEAGE_OBJECT_TABLE_SCHEMA
+    )
+    self.conns_table, self.conns_temp_table = self._create_table_set(
+      table_name=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_NAME,
+      table_schema=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_SCHEMA,
+      tmp_table_schema=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_SCHEMA
+    )
 
   def __init__(self,
                bq_utils: BQUtils,
@@ -146,36 +168,19 @@ class LoadQueryLevelDataLineage(AbstractLoadDataLineage):
       data_lineage_type='QUERY_LEVEL'
     )
 
-  def _create_tables(self):
-    self.objects_table, self.objects_temp_table = self._create_table_set(
-      table_name=DATA_LINEAGE_OBJECT_TABLE_NAME,
-      table_schema=DATA_LINEAGE_OBJECT_TABLE_SCHEMA,
-      tmp_table_schema=DATA_LINEAGE_OBJECT_TABLE_SCHEMA
-    )
-    self.conns_table, self.conns_temp_table = self._create_table_set(
-      table_name=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_NAME,
-      table_schema=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_SCHEMA,
-      tmp_table_schema=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_SCHEMA
-    )
-
-  def _load_parse_serialize_graph(self, subject_area, job_build_id):
-
+  def _load_parse_serialize_graph(self, domain, job_build_id):
     graph = Graph(self.loader.filter_queries_by_job_build_id(
-      subject_area, job_build_id
+      domain, job_build_id
     ))
-
     serializer = BQSerializer(graph, physical=False)
-
-    res = serializer.serialize()
-
-    return res
+    return serializer.serialize()
 
   def _aggregate_result_rows(self):
     object_rows, connection_rows = [], []
     for domain in self.loader.get_domains():
       for job_build_id in self.loader.get_job_build_ids(domain):
         serialization_result = self._load_parse_serialize_graph(
-          subject_area=domain,
+          domain=domain,
           job_build_id=job_build_id
         )
         object_rows.extend(self._format_object_rows(serialization_result))
@@ -184,7 +189,7 @@ class LoadQueryLevelDataLineage(AbstractLoadDataLineage):
     return object_rows, connection_rows
 
 
-class LoadPhysicalDataLineage(AbstractLoadDataLineage):
+class LoadDomainLevelDataLineage(AbstractLoadDataLineage):
 
   def __init__(self,
                bq_utils: BQUtils,
@@ -196,19 +201,36 @@ class LoadPhysicalDataLineage(AbstractLoadDataLineage):
       loader=loader,
       build_id=build_id,
       build_datetime=build_datetime,
-      data_lineage_type='PHYSICAL'
+      data_lineage_type='DOMAIN_LEVEL'
     )
 
-  def _create_tables(self):
-    self.objects_temp_table, self.objects_table = self._create_table_set(
-      table_name=DATA_LINEAGE_OBJECT_TABLE_NAME,
-      table_schema=DATA_LINEAGE_OBJECT_TABLE_SCHEMA,
-      tmp_table_schema=DATA_LINEAGE_OBJECT_TABLE_SCHEMA
-    )
-    self.conns_temp_table, self.conns_table = self._create_table_set(
-      table_name=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_NAME,
-      table_schema=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_SCHEMA,
-      tmp_table_schema=DATA_LINEAGE_OBJECTS_CONNECTION_TABLE_SCHEMA
+  def _load_parse_serialize_graph(self, domain):
+    graph = Graph(self.loader.filter_queries_by_domain_list([domain]))
+    serializer = BQSerializer(graph, physical=True)
+    return serializer.serialize()
+
+  def _aggregate_result_rows(self):
+    object_rows, connection_rows = [], []
+    for domain in self.loader.get_domains():
+      serialization_result = self._load_parse_serialize_graph(domain=domain)
+      object_rows.extend(self._format_object_rows(serialization_result))
+      connection_rows.extend(self._format_connection_rows(serialization_result))
+    return object_rows, connection_rows
+
+
+class LoadProjectLevelDataLineage(AbstractLoadDataLineage):
+
+  def __init__(self,
+               bq_utils: BQUtils,
+               loader: GrizzlyLoader,
+               build_id: str,
+               build_datetime):
+    super().__init__(
+      bq_utils=bq_utils,
+      loader=loader,
+      build_id=build_id,
+      build_datetime=build_datetime,
+      data_lineage_type='PROJECT_LEVEL'
     )
 
   def _load_parse_serialize_graph(self):
@@ -235,32 +257,27 @@ class LoadDataLineageBuild:
     self.table = None
 
   @classmethod
-  def create_table(cls, bq_utils):
-    """Create physical_data_lineage table."""
+  def create_dl_build_log_table(cls, bq_utils):
+    """Create primary Data Lineage Build table.
 
-    print("Create physical_data_lineage table")
+    This method is used to create the table if it doesn't exist, so the
+    build query check doesn't fail.
+    """
     table_name = f"{METADATA_DATASET}.{DATA_LINEAGE_BUILD_TABLE_NAME}"
-
     bq_utils.create_table(
       table_name=table_name,
       table_schema=DATA_LINEAGE_BUILD_TABLE_SCHEMA
     )
 
   def _create_tables(self):
-    """Create physical_data_lineage table."""
-
-    print("Create physical_data_lineage table")
+    """Create Data Lineage Build tables"""
     table_name = f"{METADATA_DATASET}.{DATA_LINEAGE_BUILD_TABLE_NAME}"
     table_tmp_name = f"{STAGE_DATASET}.{DATA_LINEAGE_BUILD_TABLE_NAME}"
-
-    ret_table, ret_tmp_table = self.bq_utils.create_tables(
+    self.table, self.temp_table = self.bq_utils.create_tables(
       table_name=table_name,
       tmp_table_name=table_tmp_name,
       table_schema=DATA_LINEAGE_BUILD_TABLE_SCHEMA
     )
-
-    self.table = ret_table
-    self.temp_table = ret_tmp_table
 
   def load_data(self):
     self._create_tables()

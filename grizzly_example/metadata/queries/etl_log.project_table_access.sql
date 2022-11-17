@@ -18,7 +18,7 @@ DECLARE sql_prefix string;
 
 set sql = ( SELECT
  STRING_AGG(
-   'SELECT * FROM `region-us.INFORMATION_SCHEMA.OBJECT_PRIVILEGES` WHERE object_name = "'|| schema_name ||'"'
+   'SELECT * FROM `region-{{ grizzly_config.GCP_RESOURCE_LOCATION }}.INFORMATION_SCHEMA.OBJECT_PRIVILEGES` WHERE object_name = "'|| schema_name ||'"'
    ,  " union all "
   ) as str_agg
 FROM INFORMATION_SCHEMA.SCHEMATA );
@@ -30,9 +30,9 @@ EXECUTE IMMEDIATE '''
 
 set sql = (SELECT
 string_agg(
-'SELECT * FROM `region-us.INFORMATION_SCHEMA.OBJECT_PRIVILEGES` WHERE object_schema = "'|| table_schema || '" AND object_name = "'|| table_name ||'"'
+'SELECT * FROM `region-{{ grizzly_config.GCP_RESOURCE_LOCATION }}.INFORMATION_SCHEMA.OBJECT_PRIVILEGES` WHERE object_schema = "'|| table_schema || '" AND object_name = "'|| table_name ||'"'
 , " union distinct " ) as s
-FROM `region-us.INFORMATION_SCHEMA.TABLES` where table_schema not in ('etl_staging_composer','etl_log') );
+FROM `region-{{ grizzly_config.GCP_RESOURCE_LOCATION }}.INFORMATION_SCHEMA.TABLES` where table_schema not in ('etl_staging_composer','etl_log') );
 
 EXECUTE IMMEDIATE '''
   CREATE TEMP TABLE tmp_table_OBJECT_PRIVILEGES

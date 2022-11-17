@@ -29,7 +29,9 @@ WITH hazard_per_year AS (
         1,2
 )
 SELECT
-    hazard_per_year.*,
+    hazard_per_year.zip_code,
+    hazard_per_year.year,
+    hazard_per_year.num_of_hazards,
     zc.zip_code_geom
 FROM
     hazard_per_year

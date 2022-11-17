@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Definintion of Scope class.
+"""Definition of Scope class.
 
 Scope class represent SCOPE YML configuration file with information about tasks
 included into domain's DAG.
 This information is used for generation of DAG's py and DAG's yml files with
-DAG configuration for further deploiment on GCP Composer
+DAG configuration for further deployment on GCP Composer
 
 Typical usage example:
 deployment_scope = Scope(source_path)
@@ -26,6 +26,7 @@ import pathlib
 import shutil
 import tempfile
 
+from grizzly.app import Datalineage
 from grizzly.composer_item import ComposerItem
 from grizzly.task import Task
 from grizzly.task_dlp import DLPTask
@@ -36,7 +37,7 @@ import yaml
 class ScopeConfig():
   """SCOPE.yml file raw and parsed content.
 
-  Atrributes:
+  Attributes:
     scope_file (Dictionary): Dictionary with content of SCOPE.yml file.
     etl_scope (List[string]): List of ETL tasks to be executed by Airflow during
       DAG execution.
@@ -106,9 +107,9 @@ class Scope(ComposerItem):
       or notes to your DAGs objects that are visible in the web interface
     tags: (optional) Add tags to DAGs and use it for filtering in the UI.
 
-  Atrributes:
+  Attributes:
     scope_file (pathlib.Path): Reference to SCOPE.yml file. This file should be
-      placed inside [source_path] dirrectory.
+      placed inside [source_path] directory.
     config (ScopeConfig): Instance of ScopeConfig with raw and parsed content of
       SCOPE.yml file.
     temp_path (pathlib.Path): Reference to temp folder. During deployment
@@ -130,16 +131,19 @@ class Scope(ComposerItem):
       {"task_id": task_instance}
       Ordinary task_id match with target table name.
     scope_tables (Dict[List[string]]): Dependencies in DAG files.
-      Dictionary contains refference from target table name to task_id where
+      Dictionary contains reference from target table name to task_id where
       this table defined as source.
       It has next structure:
         {'table_name': [task_id_1, task_id_2]}
   """
 
-  def __init__(self, source_path: pathlib.Path) -> None:
+  def __init__(self, 
+    source_path: pathlib.Path, 
+    project_gcp: str, 
+    metadata_project_gcp: str) -> None:
     """Init instance of Scope with data from SCOPE.yml file.
 
-    File references will be extended with file extention.
+    File references will be extended with file extension.
 
     Args:
         source_path (pathlib.Path): Reference to domain folder. This path is
@@ -157,6 +161,18 @@ class Scope(ComposerItem):
     if self.config.doc_md is not None:
       self.config.doc_md = self._normalize_file_name(self.config.doc_md, '.md')
       self.files.add(self.config.doc_md)
+    else:
+      default_scope_md = self._normalize_file_name("default_scope", '.md')
+      Datalineage.create_default_md(
+        metadata_project_gcp=metadata_project_gcp,
+        project_gcp=project_gcp,
+        domain=self.config.domain_name,
+        file_path=default_scope_md)
+
+      self.config.doc_md = default_scope_md
+      
+
+          
     # Load task .yml files
     self.tasks = dict()
     # we use self.scope_tables dict for build dependencies in DAG files
@@ -189,7 +205,7 @@ class Scope(ComposerItem):
     return
 
   def generate_stagging_files(self) -> None:
-    """Copy deploment files into [/tmp] folder.
+    """Copy deployment files into [/tmp] folder.
 
     All files references in domain scope (yml, sql, md, json, etc.) will be
     preloaded first into [/tmp] folder. Also method generates {domain_name}.yml

@@ -1,0 +1,37 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+target_table_name: common_parameters_comments.calendar
+job_write_mode: WRITE_TRUNCATE
+target_hx_loading_indicator: N
+job_data_quality_query: queries/general_check.sql
+source_type: gsheet
+source_gsheet_id: 1FBE2INpygBP5J38SnO7EJP19MHcYaVLLTxKZoOXeat4/'vn_calendar_hierarchy'
+source_columns:
+  - {source_name: "DATE_ID", force_string: Y}
+  - {source_name: "FULL_DATE"}
+  - {source_name: "DAY_OF_WEEK_ABBR", target_name: "day_of_week_abbr"}
+  - {source_name: "DAY_OF_WEEK_NAME", target_name: "day_of_week"}
+  - {source_name: "CAL_DAY_OF_QUARTER", target_name: "cal_day_of_quarter"}
+  - {source_name: "CAL_DAY_OF_YEAR", target_name: "cal_day_of_year"}
+  - {source_name: "CAL_MONTH_NAME_ABBR", target_name: "cal_month_name_abbr"}
+  - {source_name: "CAL_MONTH_NAME", target_name: "cal_month"}
+  - {source_name: "CAL_QUARTER_NUM", target_name: "cal_quarter_num"}
+  - {source_name: "CAL_YEAR_NUM", target_name: "cal_year_num"}
+  - {source_name: "CAL_FIRST_DAY_OF_WEEK", target_name: "cal_first_day_of_week"}
+  - {source_name: "CAL_LAST_DAY_OF_WEEK", target_name: "cal_last_day_of_week"}
+  - {source_name: "CAL_FIRST_DAY_OF_MONTH", target_name: "cal_first_day_of_month"}
+  - {source_name: "CAL_LAST_DAY_OF_MONTH", target_name: "cal_last_day_of_month"}
+  - {source_name: "IS_HOLIDAY_INDC", target_name: "is_holiday", force_string: Y}
+  - {source_name: "HOLIDAY_NAME", target_name: "holiday_name", force_string: Y}

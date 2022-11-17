@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from flask import request
 from datetime import datetime as DateTime
 
@@ -42,15 +56,30 @@ def format_physical(physical):
     return physical.lower() == "true"
 
 
-def validate_parse_grizzly_domain_args():
+def validate_parse_grizzly_project_args():
   gcp_project = get_check_not_empty("project")
   datetime = format_datetime(get_check_not_empty("datetime"))
   return {
     "gcp_project": gcp_project,
-    "object_query_function": "get_physical_objects",
-    "connection_query_function": "get_physical_connections",
+    "object_query_function": "get_project_level_objects",
+    "connection_query_function": "get_project_level_connections",
     "query_args": {
       "datetime": datetime,
+    },
+  }
+
+
+def validate_parse_grizzly_domain_args():
+  gcp_project = get_check_not_empty("project")
+  datetime = format_datetime(get_check_not_empty("datetime"))
+  domain = get_check_not_empty("domain")
+  return {
+    "gcp_project": gcp_project,
+    "object_query_function": "get_domain_level_objects",
+    "connection_query_function": "get_domain_level_connections",
+    "query_args": {
+      "datetime": datetime,
+      "domain": domain
     },
   }
 
@@ -74,12 +103,21 @@ def validate_parse_grizzly_query_args():
 
 def validate_parse_grizzly_on_demand_args():
   gcp_project = get_check_not_empty("project")
-  datetime = DateTime.now()
+  datetime = DateTime.utcnow()
   domains = format_domain_list(request.args.get("domain"))
   physical = format_physical(get_check_not_empty("physical"))
   return {
     "gcp_project": gcp_project,
     "datetime": datetime,
     "domains": domains,
+    "physical": physical
+  }
+
+
+def validate_parse_grizzly_test_args():
+  test_name = get_check_not_empty("test_name")
+  physical = format_physical(get_check_not_empty("physical"))
+  return {
+    "test_name": test_name,
     "physical": physical
   }

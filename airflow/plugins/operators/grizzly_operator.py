@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ from airflow.exceptions import AirflowException
 from airflow.exceptions import AirflowSkipException
 from airflow.models.baseoperator import BaseOperator
 from airflow.providers.google.cloud.hooks.bigquery import BigQueryHook
+from grizzly.bq_objects import Descriptions
 from grizzly.bq_table_security import BQTableSecurity
 from grizzly.config import Config as GrizzlyConfig
 from grizzly.data_catalog_tag import DataCatalogTag
@@ -59,7 +60,7 @@ class GrizzlyOperator(BaseOperator):
       BigQuery.
     config_file_ref (string): Reference to task YML file with configuration.
     task_config (grizzly.task_instance.TaskInstance): Task configuration
-      contains parsed and pre-proccessed information from task YML file.
+      contains parsed and pre-processed information from task YML file.
     bq_hook (airflow.providers.google.cloud.hooks.bigquery.BigQueryHook):
       Interact with BigQuery. This hook uses the Google Cloud Platform
       connection.
@@ -365,6 +366,39 @@ class GrizzlyOperator(BaseOperator):
         job_step_name='post_etl_script',
         message='ETL: Run post ETL scripts')
 
+  def run_descriptions(self, task_config: TGrizzlyTaskConfig) -> None:
+    """Execute description update of bq objects.
+
+    List of descriptions are in  task definition YML file.
+
+    Args:
+      task_config (grizzly.task_instance.TaskInstance): Task configuration.
+      etl_log (grizzly.execution_log.ExecutionLog): ExecutionLog object
+        used by etl_step decorator inside run_bq_query_list method.
+    """
+
+    if task_config.job_write_mode:
+      if task_config.job_write_mode in Descriptions.supported_write_mode:
+        Descriptions.update_description(execution_context=self, 
+                                        task_config=task_config)    
+
+  def run_metadata_collector(self,
+                   task_config: TGrizzlyTaskConfig,
+                   etl_log: TExecutionLog) -> None:
+    """Execute Metadata Collector scripts.
+
+    Args:
+      task_config (grizzly.task_instance.TaskInstance): Task configuration.
+      etl_log (grizzly.execution_log.ExecutionLog): ExecutionLog object
+        used by etl_step decorator inside run_bq_query_list method.
+    """
+    grizzly.etl_action.run_bq_metadata_collector(
+        execution_context=self,
+        query_list_parameter_name='post_etl_scripts',
+        etl_log=etl_log,
+        job_step_name='post_metadata_collector',
+        message='ETL: Run post ETL scripts')
+
   def run_access_scripts(self, target_table: str) -> None:
     """Run access scripts for ROW LEVEL and TABLE LEVEL security.
 
@@ -454,7 +488,7 @@ class GrizzlyOperator(BaseOperator):
               self.task_config.history_table_name
           )  # setup column policy tags on history table
         if self.task_config.job_write_mode in self.INSERT_MODE_LIST:
-          # if job_data_quality_query was not defined then load dirrectly into
+          # if job_data_quality_query was not defined then load directly into
           # target table.
           # Upload upstream data into target table
           if not self.task_config.job_data_quality_query:
@@ -513,6 +547,8 @@ class GrizzlyOperator(BaseOperator):
         pass
       # ETL. Run post ETL queries
       self.run_post_etl(self.task_config, self.etl_log)
+      self.run_descriptions(self.task_config)
+      self.run_metadata_collector(self.task_config, self.etl_log)
     except AirflowSkipException as ae:
       self.etl_log.log_flush(execution_context=self, status='SKIPPED')
       raise ae

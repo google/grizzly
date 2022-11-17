@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-resource "google_pubsub_topic" "gizzly_data_outbound_feed" {
-  name = "gizzly_data_outbound_feed"
+resource "google_pubsub_topic" "grizzly_data_outbound_feed" {
+  name = "grizzly_data_outbound_feed"
   project = var.gcp_project_id
 }

@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import yaml
 class DeploymentToolConfig:
   """Grizzly environment configuration.
 
-  Atrributes:
+  Attributes:
     gcp_project_id (str): GCP Project Id.
     airflow_location (str): Compute Engine region in which composer environment
       was created.

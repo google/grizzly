@@ -1,3 +1,17 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 //Color Palette:
 //rgba(218, 232, 252, 1) - blue
 //rgba(213, 232, 212, 1) - green
@@ -21,6 +35,7 @@ export const config = Object.freeze({
         
         DefaultNodeColor: "rgba(245, 245, 245, 1)",
         HighlightedNodeColor: "rgba(213, 232, 212, 1)",
+        AltHighlightedNodeColor: "rgba(248, 50, 50, 1)",
         DefaultEdgeColor: "rgba(69, 69, 69, 0.5)",
         HighlightedEdgeColor: "rgba(255, 0, 0, 1)",
     },
@@ -33,7 +48,11 @@ export const config = Object.freeze({
 function getNodeColor(node) {
     if (node.data.highlightStatus === HighlightStatuses.Highlighted) {
         return config.colors.HighlightedNodeColor;
-    } else {
+    }
+    else if (node.data.highlightStatus === HighlightStatuses.AltHighlighted) {
+        return config.colors.AltHighlightedNodeColor;
+    } 
+    else {
         switch (node.data.pythonType) {
             case "TableColumn":
             case "StarColumn":
@@ -108,11 +127,10 @@ export function applyEdgeStyle(edge) {
 export function setDefaultNodeProperties(node) {
     node.data.highlightStatus = HighlightStatuses.HighlightNotActive;
     node.connectable = false;
+    node.dragHandle = '.custom-drag-handle';
     node.draggable = getNodeDraggableStatus(node);
+    node.data.draggable = getNodeDraggableStatus(node) !== false;
     node.selectable = getNodeSelectableStatus(node);
-    node.style = {
-        ...node.style,
-    }
     return node;
 }
 

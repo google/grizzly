@@ -8,3 +8,4 @@ google-cloud-bigquery
 google-api-core
 google-cloud-build
 mo-sql-parsing
+sql-formatter

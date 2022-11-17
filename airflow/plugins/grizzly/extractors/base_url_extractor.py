@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,13 +42,13 @@ class BaseURLExtractor(BaseExtractor):
 
   Attributes:
     task_config (TGrizzlyTaskConfig): Task configuration with parsed and
-      pre-proccessed information from task YML file.
+      pre-processed information from task YML file.
     target_table (string): Name of a table where query execution results should
       be stored.
     execution_context (TGrizzlyOperator): Instance of GrizzlyOperator executed.
     write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY,
-      WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table it
-      will be WRITE_TRUNCATE.
+      WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
+      it will be WRITE_TRUNCATE.
       If it executed for table defined in [target_table_name] attribute of task
       YML file this class attribute will be  equal to [job_write_mode] attribute
       of task YML file.
@@ -77,10 +77,10 @@ class BaseURLExtractor(BaseExtractor):
       execution_context (TGrizzlyOperator): Instance of GrizzlyOperator
         executed.
       task_config (TGrizzlyTaskConfig): Task configuration with
-        parsed and pre-proccessed information from task YML file.
+        parsed and pre-processed information from task YML file.
       target_table (string): Name of a table where GSheet data should be stored.
       write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY
-        WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table
+        WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
         it will be WRITE_TRUNCATE. If it executed for table defined in
         [target_table_name] attribute of task YML file this class attribute will
         be  equal to [job_write_mode] attribute of task YML file.
@@ -145,7 +145,7 @@ class BaseURLExtractor(BaseExtractor):
           tmp.write(chunk)
       tmp.flush()
       # when data loading completed copy to target file. This will help to
-      # prevent situation when data accidentaly removed.
+      # prevent situation when data accidentally removed.
       shutil.copy2(tmp.name, str(self.data_path/file_name))
     content_type = web_response.headers.get('Content-Type', None)
     yield {
@@ -175,7 +175,7 @@ class BaseURLExtractor(BaseExtractor):
     """Load data into BQ table.
 
     Args:
-      data: Recieve default empty object from transform method.
+      data: Receive default empty object from transform method.
         This parameter here only for method interface compatibility purpose and
         does not affect any calculations.
 

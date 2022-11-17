@@ -12,7 +12,17 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT h.*,
+SELECT 
+  h.id,
+  h.version,
+  h.username,
+  h.changeset,
+  h.visible,
+  h.osm_timestamp,
+  h.geometry,
+  h.all_tags,
+  h.latitude,
+  h.longitude,
   zc.zip_code,
   zc.zip_code_geom
 FROM `bas_geo_openstreetmap.history_nodes` AS h

@@ -21,4 +21,4 @@ dlp_inspect_config:
   template_name: projects/{{ task_instance.gcp_project_id }}/locations/global/inspectTemplates/address
   timestamp_field: random_date
 
-schedule_interval: 0 2 */5 * *
+schedule_interval: 0 0 1 1 *

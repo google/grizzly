@@ -12,7 +12,23 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT * FROM `bas_geo_us_boundaries.zip_codes`
+SELECT 
+  zip_code,
+  city,
+  county,
+  state_fips_code,
+  state_code,
+  state_name,
+  fips_class_code,
+  mtfcc_feature_class_code,
+  functional_status,
+  area_land_meters,
+  area_water_meters,
+  internal_point_lat,
+  internal_point_lon,
+  internal_point_geom,
+  zip_code_geom
+FROM `bas_geo_us_boundaries.zip_codes`
 WHERE zip_code in (
   '60290', '60601', '60602', '60603', '60604', '60605', '60606', '60607',
   '60608', '60610', '60611', '60614', '60615', '60618', '60619', '60622',

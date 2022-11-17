@@ -17,3 +17,16 @@ job_write_mode: WRITE_TRUNCATE
 target_hx_loading_indicator: N
 stage_loading_query: queries/bas_geo_openstreetmap.history_ways.sql
 job_data_quality_query: queries/general_check.sql
+
+
+descriptions:
+  columns:
+    id: Object unique ID.
+    version: Version number for this object.
+    username: Name of user who created this version of the object.
+    changeset: Changeset number for this object.
+    visible: Is this version of the object visible?
+    osm_timestamp: Last-modified timestamp for this object.
+    geometry: GEOGRAPHY-encoded bounding box
+    nodes: Nodes that are part of this way
+    all_tags: Unstructured key=value attributes for this object.

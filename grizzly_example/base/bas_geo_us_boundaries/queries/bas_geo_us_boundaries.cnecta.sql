@@ -12,5 +12,16 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.cnecta_fips_code,
+  t.name,
+  t.name_lsad,
+  t.lsad,
+  t.mtfcc_feature_class_code,
+  t.area_land_meters,
+  t.area_water_meters,
+  t.int_point_lat,
+  t.int_point_lon,
+  t.cnecta_geom
 FROM `bigquery-public-data.geo_us_boundaries.cnecta` AS t

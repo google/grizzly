@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,13 @@ locals {
       role: "roles/cloudbuild.serviceAgent"
       members: [
         "serviceAccount:service-${var.gcp_project_number}@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+      ]
+    },
+    # App Engine Admin
+    {
+      role: "roles/appengine.appAdmin"
+      members: [
+        "serviceAccount:${var.gcp_project_number}@cloudbuild.gserviceaccount.com"
       ]
     },
     # Source Repository Writer
@@ -109,6 +116,13 @@ locals {
     # Composer Administrator
     {
       role: "roles/composer.admin"
+      members: [
+        "serviceAccount:${var.gcp_project_number}@cloudbuild.gserviceaccount.com"
+      ]
+    },
+    # App Engine Admin
+    {
+      role: "roles/appengine.appAdmin"
       members: [
         "serviceAccount:${var.gcp_project_number}@cloudbuild.gserviceaccount.com"
       ]

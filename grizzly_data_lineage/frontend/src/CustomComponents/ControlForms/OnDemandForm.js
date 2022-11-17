@@ -1,3 +1,17 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import ControlForm, { makeInputState, DynamicDropDown } from "./ControlForm";
 
 class OnDemandForm extends ControlForm {
@@ -18,12 +32,6 @@ class OnDemandForm extends ControlForm {
         switch (inputName) {
             case "project":
                 return this.buildURLwithArgs("/get_projects", []);
-            case "datetime":
-                return this.buildURLwithArgs("/get_build_datetimes", ["project"]);
-            case "domain":
-                return this.buildURLwithArgs("/get_domains", ["project", "datetime"]);
-            case "job_build_id":
-                return this.buildURLwithArgs("/get_job_build_ids", ["project", "datetime", "domain"]);
             default:
                 return null;
         }
@@ -38,7 +46,7 @@ class OnDemandForm extends ControlForm {
                 /><br />
                 <label>
                     {this.state.domain.displayName}:
-                    <input
+                    <input style={{width: "142px", position:"absolute", right: "10px"}}
                         name={this.state.domain.name}
                         type="text"
                         value={this.state.domain.value}

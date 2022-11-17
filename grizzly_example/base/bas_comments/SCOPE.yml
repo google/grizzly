@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# examples of Spanner usage
-schedule_interval: 0 1 1 * *
+# examples of Spanner and gSheet usage
+schedule_interval: 0 0 1 1 *
 execution_timeout_per_table: 1200
 etl_scope:
   - bas_comments.vw_comments
   - bas_comments.vw_stories
+  - common_parameters_comments.calendar

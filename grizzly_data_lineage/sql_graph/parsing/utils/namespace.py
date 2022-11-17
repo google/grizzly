@@ -1,6 +1,22 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Module containing namespace classes for table and graph."""
 import abc
+from collections import deque
 from typing import Dict
+from typing import Iterable
 from typing import List
 from typing import Optional
 
@@ -81,9 +97,33 @@ class Namespace(abc.ABC):
         table_list.extend(table.namespace.get_tables(recursive=True))
     return table_list
 
+  def remove_table(self, table_name: str) -> None:
+    """Removes table both from namespace and from memory.
+
+    In addition, clears the namespace of the table in question, then
+     cycles through table and children references and drops them.
+
+    Args:
+      table_name (str): name of the table to remove.
+    """
+    table = self._tables[table_name]
+    del self._tables[table_name]
+    table.namespace.clear()
+    removal_queue = deque()
+    removal_queue.append(table)
+    while removal_queue:
+      obj = removal_queue.popleft()
+      for reference in obj.get_references():
+        reference.remove_source(obj)
+      if isinstance(obj, Iterable):
+        for child in obj:
+          removal_queue.append(child)
+      del obj
+
   def clear(self) -> None:
     """Clears the namespace."""
-    self._tables.clear()
+    for table_name in list(self._tables.keys()):
+      self.remove_table(table_name)
 
 
 class TableNamespace(Namespace):

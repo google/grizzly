@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,13 +36,13 @@ class ExtractorExcel(BaseURLExtractor):
 
   Attributes:
     task_config (TGrizzlyTaskConfig): Task configuration with parsed and
-      pre-proccessed information from task YML file.
+      pre-processed information from task YML file.
     target_table (string): Name of a table where query execution results should
       be stored.
     execution_context (TGrizzlyOperator): Instance of GrizzlyOperator executed.
     write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY,
-      WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table it
-      will be WRITE_TRUNCATE.
+      WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
+      it will be WRITE_TRUNCATE.
       If it executed for table defined in [target_table_name] attribute of task
       YML file this class attribute will be  equal to [job_write_mode] attribute
       of task YML file.
@@ -71,10 +71,10 @@ class ExtractorExcel(BaseURLExtractor):
       execution_context (TGrizzlyOperator): Instance of GrizzlyOperator
         executed.
       task_config (TGrizzlyTaskConfig): Task configuration with
-        parsed and pre-proccessed information from task YML file.
+        parsed and pre-processed information from task YML file.
       target_table (string): Name of a table where GSheet data should be stored.
       write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY
-        WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table
+        WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
         it will be WRITE_TRUNCATE. If it executed for table defined in
         [target_table_name] attribute of task YML file this class attribute will
         be  equal to [job_write_mode] attribute of task YML file.
@@ -94,7 +94,7 @@ class ExtractorExcel(BaseURLExtractor):
     self.header_row: int = 0
     # Number of rows to parse. Default All
     self.rows_to_load: Optional[int] = None
-    # Columns to be parsed. Defaul All
+    # Columns to be parsed. Default All
     self.usecols: Union[str, List[str], None] = None
 
     if range_name and ':' in range_name:  # If data range was defined
@@ -175,7 +175,7 @@ class ExtractorExcel(BaseURLExtractor):
         col: re.sub(r'\W', '_', col)
         for col in df.columns
     }
-    # substitute column names with walues from task config
+    # substitute column names with values from task config
     column_name_dict.update(
         {
             col['source_name']: col['target_name']

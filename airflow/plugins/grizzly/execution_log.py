@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import pendulum
 def etl_step(func: Callable[..., Any]) -> Callable[..., Any]:
   """Decorator for logging of etl steps.
 
-  Decoreator reads BQ job execution statistic and prepared ETL job step details.
+  Decorator reads BQ job execution statistic and prepared ETL job step details.
   This decorator requires next parameters to be passed to ETL step function or
   method:
   etl_log (): Instance of ExecutionLog.
@@ -91,7 +91,7 @@ class ExecutionLog():
       FAILED or SUCCESS.
     job_write_mode (string): Grizzly write mode. [job_write_mode] parameter from
       task YML file.
-    job_schedule_interval (string): DAG/Domain schedulte interval. Contains
+    job_schedule_interval (string): DAG/Domain schedule interval. Contains
       information from [schedule_interval] parameter from SCOPE.yml or from
       task YML file.
     job_parameter_file (string): Information from task YML file. If yml file

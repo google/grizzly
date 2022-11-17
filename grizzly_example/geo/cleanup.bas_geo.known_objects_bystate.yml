@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Clean up table from all non-usa states information)
+# Clean up table from all non-usa states information
 target_table_name: bas_geo.known_objects_bystate
 job_write_mode: DELETE
 stage_loading_query: queries/cleanup.bas_geo.known_objects_bystate.sql

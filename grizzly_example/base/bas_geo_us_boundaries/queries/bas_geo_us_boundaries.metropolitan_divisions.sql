@@ -12,5 +12,19 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.csa_code,
+  t.cbsa_code,
+  t.metdiv_code,
+  t.name,
+  t.lsad_name,
+  t.lsad_code,
+  t.mtfcc_feature_class_code,
+  t.area_land_meters,
+  t.area_water_meters,
+  t.internal_point_latitude,
+  t.internal_point_longitude,
+  t.internal_point_geom,
+  t.metdiv_geom
 FROM `bigquery-public-data.geo_us_boundaries.metropolitan_divisions` AS t

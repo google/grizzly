@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,6 +33,7 @@ if TYPE_CHECKING:
   from operators.grizzly_operator import GrizzlyOperator
   from grizzly.task_instance import TaskInstance
   from grizzly.execution_log import ExecutionLog
+  from grizzly.bq_objects import Descriptions
   from operators.grizzly_dlp_operator import GrizzlyDLPOperator
 
 TGrizzlyOperator = TypeVar('TGrizzlyOperator', bound='GrizzlyOperator')

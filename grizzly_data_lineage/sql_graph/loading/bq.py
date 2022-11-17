@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Grizzly BQ client.
 
 Example usage:
@@ -55,6 +69,7 @@ class GrizzlyBQClient:
   FROM etl_log.fn_get_subject_area_build_sql_files(
     datetime ('{datetime}')) AS b
   """
+
   AUTH_SCOPES = ["https://www.googleapis.com/auth/cloud-platform"]
 
   def _auth(self) -> None:

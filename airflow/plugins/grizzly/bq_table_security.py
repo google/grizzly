@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ class BQTableSecurity():
       raw_access_scripts (list[string]): List of access scripts to be executed.
 
     Raises:
-        Exception: Exception raisen in case if BQ REstApi authorization failed.
+        Exception: Exception risen in case if BQ REstApi authorization failed.
     """
     self.execution_context = execution_context
     self.raw_access_scripts = raw_access_scripts
@@ -172,7 +172,7 @@ class BQTableSecurity():
         for item in row_policy_after
     }
     # If after apply of security scripts we have only 1 [all_access] row access
-    # rule for serviceaccount. It means that no rowaccess scripts were defined.
+    # rule for service account. It means that no rowaccess scripts were defined.
     # Clean up rowaccess rule for service account if it's only 1 one assigned.
     if (len(after_row_policy_dict) == 1 and
         'all_access' in after_row_policy_dict):

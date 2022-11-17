@@ -14,7 +14,7 @@
 
 DECLARE v_distance FLOAT64 DEFAULT 3218.69;
 
--- add 2 miles around county for correct proccessing of known and unknown structures
+-- add 2 miles around county for correct processing of known and unknown structures
 CREATE TEMP TABLE TMP_counties_borders AS
 SELECT
     s.state,

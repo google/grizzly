@@ -12,5 +12,9 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.us_outline_geom,
+  t.aff_geo_id,
+  t.geo_id,
+  t.name
 FROM `bigquery-public-data.geo_us_boundaries.national_outline` AS t

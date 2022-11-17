@@ -12,5 +12,19 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.csa_geo_id,
+  t.cbsa_fips_code,
+  t.name,
+  t.lsad_name,
+  t.lsad_code,
+  t.msa_indicator,
+  t.mtfcc_feature_class_code,
+  t.area_land_meters,
+  t.area_water_meters,
+  t.internal_point_latitude,
+  t.internal_point_longitude,
+  t.internal_point_geom,
+  t.cbsa_geom
 FROM `bigquery-public-data.geo_us_boundaries.cbsa` AS t

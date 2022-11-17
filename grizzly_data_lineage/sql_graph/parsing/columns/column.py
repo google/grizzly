@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Abstract column class."""
 import abc
 from typing import List
@@ -52,6 +66,9 @@ class Column(GridItem, abc.ABC):
       source_name (str): name of the source column.
     """
     from sql_graph.parsing.tables import lookup_source
+
+    if not self.table.get_sources():
+      return  # do not attempt lookup if parent table has no sources
     table_name, column_name = lookup_source(self.table, source_name)
     source_table = self.table.namespace.get_table_by_name(table_name)
     source_column = source_table.columns[column_name]
@@ -73,6 +90,38 @@ class Column(GridItem, abc.ABC):
       raise UnknownScenario("Virtual table created from column SELECT statement"
                             f" in {self} cannot have more that one column.")
 
+  def _parse_tag_json(self, tag_key: str, tag_json: TokenizedJson) -> None:
+    """Parses tags related to sql functions with specific logic.
+
+    Args:
+      tag_key (str): name of the tag (function).
+      tag_json (TokenizedJson): value of the tag.
+    """
+    if tag_key in self.IGNORED_TAGS:
+      return
+    elif isinstance(tag_json, list):
+      # if tag is recognized, parse only specific arguments
+      if tag_key == "regexp_extract":
+        self._parse_value_json(tag_json[0])
+      elif tag_key == "extract":
+        self._parse_value_json(tag_json[1])
+      elif tag_key == "timestamp_trunc" and isinstance(tag_json, list):
+        self._parse_value_json(tag_json[0])
+      elif tag_key == "date_diff" and isinstance(tag_json, list):
+        self._parse_value_json(tag_json[0])
+      elif tag_key == "datetime_diff" and isinstance(tag_json, list):
+        self._parse_value_json(tag_json[0])
+      elif tag_key == "timestamp_diff" and isinstance(tag_json, list):
+        self._parse_value_json(tag_json[0])
+      elif tag_key == "interval" and isinstance(tag_json, list):
+        self._parse_value_json(tag_json[0])
+      else:
+        # if tag was not recognized, parse all arguments
+        self._parse_value_json(tag_json)
+    else:
+      # if tag was not recognized, parse all arguments
+      self._parse_value_json(tag_json)
+
   def _parse_value_json(self, value_json: TokenizedJson) -> None:
     """Parses a tokenized JSON and adds all sources it can locate.
 
@@ -84,10 +133,8 @@ class Column(GridItem, abc.ABC):
       if any([t in self.VIRTUAL_TABLE_TAGS for t in value_json]):
         self._add_virtual_table(value_json)
       else:
-        for key in value_json:
-          # recursively parse all other keys if they are not ignored
-          if key not in self.IGNORED_TAGS:
-            self._parse_value_json(value_json[key])
+        for tag_key in value_json:
+          self._parse_tag_json(tag_key, value_json[tag_key])
     elif isinstance(value_json, list):
       # recursively parse all elements
       for item in value_json:
@@ -98,8 +145,8 @@ class Column(GridItem, abc.ABC):
       try:
         self._add_source_by_name(value_json)
       except ParsingLookupError:
-        print(f"Could not lookup source from `{value_json}` "
-              f"in value of {self}")
+          print(f"Could not lookup source from `{value_json}` "
+                f"in value of {self}")
     elif value_json is None or isinstance(value_json, (int, float)):
       pass
     else:
@@ -159,7 +206,7 @@ class Column(GridItem, abc.ABC):
         physical_sources.append(source)
       else:
         physical_sources.extend(source.get_sources())
-    self._sources = physical_sources
+    self.replace_sources(physical_sources)
 
   def _get_label(self) -> str:
     """Override of _get_label. Returns column name."""

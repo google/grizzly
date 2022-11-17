@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # examples of PostgreSQL and MySQL usage
-schedule_interval: 0 1 1 * *
+schedule_interval: 0 0 1 1 *
 execution_timeout_per_table: 1200
 etl_scope:
   - bas_taxi.vw_taxi_mysql

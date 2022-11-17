@@ -12,5 +12,14 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.id,
+  t.version,
+  t.username,
+  t.changeset,
+  t.visible,
+  t.osm_timestamp,
+  t.geometry,
+  t.nodes,
+  t.all_tags
 FROM `bigquery-public-data.geo_openstreetmap.history_ways` AS t

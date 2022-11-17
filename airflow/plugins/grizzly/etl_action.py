@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -49,7 +49,7 @@ def prepare_value_for_sql(value: Any) -> str:
     value (Any): value to be inserted in SELECT query
 
   Returns:
-    (str): processsed data
+    (str): processed data
   """
   if value is None:
     value = 'NULL'
@@ -140,7 +140,7 @@ def create_view(execution_context: TGrizzlyOperator,
   Args:
     execution_context (TGrizzlyOperator):  Instance of GrizzlyOperator executed.
     task_config (TGrizzlyTaskConfig): Task configuration contains parsed and
-     pre-proccessed information from task YML file.
+     pre-processed information from task YML file.
 
   Returns:
     (TQueryJob): BQ QueryJob with job statistic details.
@@ -170,7 +170,7 @@ def check_custom_schedule(execution_context: Union[TGrizzlyOperator,
     execution_context (TGrizzlyOperator, TGrizzlyDLPOperator): Instance of
       GrizzlyOperator executed.
     task_config (TGrizzlyTaskConfig): Task configuration
-      contains parsed and pre-proccessed information from task YML file.
+      contains parsed and pre-processed information from task YML file.
 
   Raises:
     (AirflowSkipException): Raise Airflow skip exception if it's no planned task
@@ -231,6 +231,109 @@ def copy_table(execution_context: TGrizzlyOperator,
   job_stat = execution_context.bq_client.get_job(job_id)
   return job_stat
 
+@etl_step
+def run_bq_metadata_collector(execution_context: TGrizzlyOperator,
+                      query_list_parameter_name: Optional[str] = None,
+                      query_list: Union[List[str], str, None] = None,
+                      query_names: Union[List[str], str, None] = None,
+                      etl_log: Optional[TExecutionLog] = None,
+                      job_step_name: str = 'run_query',
+                      message: str = 'ETL: Run query') -> None:
+  """Execute queries from a list.
+
+  Query list could be defined in parameter of task YML file
+  [query_list_parameter_name] or provided as a list in [query_list].
+
+  Args:
+    execution_context(TGrizzlyOperator): Instance of GrizzlyOperator executed.
+    query_list_parameter_name (string, optional): Name of task YML file
+      parameter with a list of references to query files to be executed.
+    query_list (list[string], str, optional): List of queries to be executed.
+    query_names (list[string], str, optional): List of query names. Names from
+      this list will be stored in etl_log table for each query executed.
+      Will be transformed to list of empty strings if not provided.
+      If provided as string will be transformed to a list with one string item.
+    etl_log (TExecutionLog): ExecutionLog object
+      used by etl_step decorator. ExecutionLog instance used for logging of
+      each query run.
+    job_step_name (str): Value to be stored in job_step.job_step_name
+      attribute of etl log table. Used by etl_log decorator.
+    message (string, optional): Debug message to be printed to Airflow task
+      execution log. Defaults to None.
+  """
+
+  sql_template = """
+    insert into etl_log.grizzly_information_schema_column_field_paths
+        (table_catalog, 
+        table_schema, 
+        table_name, 
+        column_name, 
+        field_path, 
+        data_type, 
+        description, 
+        collation_name, 
+        metadata_datetime,
+        job_id,
+        job_name)
+    select 
+        table_catalog,  
+        table_schema, 
+        table_name, 
+        column_name, 
+        field_path, 
+        data_type, 
+        description, 
+        collation_name,
+        current_datetime() as metadata_datetime, 
+        {job_id} as job_id,
+        '{job_name}' as job_name
+    from {schema_name}.INFORMATION_SCHEMA.COLUMN_FIELD_PATHS
+    where table_name = '{table_name}';
+
+    insert into `etl_log.grizzly_information_schema_table_options`
+    (
+        table_catalog, 
+        table_schema, 
+        table_name, 
+        option_name, 
+        option_type, 
+        option_value, 
+        metadata_datetime, 
+        job_id, 
+        job_name
+    )
+    select 
+        table_catalog, 
+        table_schema, 
+        table_name, 
+        option_name, 
+        option_type, 
+        trim(option_value,'"') as option_value, 
+        current_datetime() as metadata_datetime, 
+        {job_id} as job_id,
+        '{job_name}' as job_name
+        from {schema_name}.INFORMATION_SCHEMA.TABLE_OPTIONS
+        where table_name = '{table_name}';
+  """
+
+  res = None
+  if execution_context.task_config.target_table_name:
+    job_id = execution_context.task_config.get_context_value('dag_run').id
+    job_name = execution_context.task_config.get_context_value('task').task_id
+    target_table_name = execution_context.task_config.target_table_name
+    schema_name = str(target_table_name).split(".")[0]
+    table_name = str(target_table_name).split(".")[1]
+
+    sql = sql_template.format(
+      job_id = job_id,
+      job_name = job_name,
+      schema_name = schema_name,
+      table_name = table_name
+    )
+
+    res = run_bq_query(execution_context=execution_context, sql=sql)
+
+  return res
 
 def run_bq_query_list(execution_context: TGrizzlyOperator,
                       query_list_parameter_name: Optional[str] = None,
@@ -277,7 +380,7 @@ def run_bq_query_list(execution_context: TGrizzlyOperator,
     # transform to list with 1 item
     query_names = [query_names]
   elif query_names is None:
-    # transform to list of emptyy strings
+    # transform to list of empty strings
     query_names = [''] * len(query_list)
 
   # define wrapper for query execution.
@@ -286,7 +389,7 @@ def run_bq_query_list(execution_context: TGrizzlyOperator,
   def run_query_wrapper(execution_context, sql, etl_log, job_step_name):
     return run_bq_query(execution_context=execution_context, sql=sql)
 
-  # if etl_log was defined run decoratted function
+  # if etl_log was defined run decorated function
   if etl_log is not None:
     run_func = etl_step(run_query_wrapper)
   else:

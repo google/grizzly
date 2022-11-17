@@ -1,20 +1,41 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import { Component } from 'react';
 import axios from "axios";
 
-export function makeInputState({ name, displayName = "", value = "", possibleValues = [""], dependentInputs = [] }) {
+export function makeInputState({ name, displayName = "", value = "", possibleValues = [], dependentInputs = [] }) {
     return {
         name: name,
         displayName: displayName,
         value: value,
         possibleValues: possibleValues,
         dependentInputs: dependentInputs,
+        loaded: false,
     }
 }
 
 
 export class DynamicDropDown extends Component {
     formatInputOptions = () => {
-        return this.props.state.possibleValues.map((v) => {
+        let values = [...this.props.state.possibleValues];
+        values.sort();
+        if (this.props.state.name === "datetime") {
+            values.reverse();
+        }
+        values = ["", ...values]
+        return values.map((v) => {
             return <option value={v} key={v}>{v}</option>
         });
     }
@@ -23,7 +44,7 @@ export class DynamicDropDown extends Component {
         return (
             <label>
                 {this.props.state.displayName}:
-                <select
+                <select style={{width: "150px", position:"absolute", right: "10px"}}
                     name={this.props.state.name}
                     value={this.props.state.value}
                     onChange={this.props.onChange}>
@@ -35,6 +56,13 @@ export class DynamicDropDown extends Component {
 }
 
 class ControlForm extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            autosubmitPending: true
+        };
+    }
+
     parseURLQuery = () => {
         let newState = {};
         for (let k of this.props.searchParams?.keys()) {
@@ -49,27 +77,33 @@ class ControlForm extends Component {
 
     checkAutoSubmit = (newState) => {
         for (let inputName of this.state.requestInputs) {
-            if (!(inputName in newState)) {
+            if (newState[inputName] === "") {
                 return false;
             }
         }
         return true;
     }
 
-    componentDidMount() {
-        this.state.immediateUpdateInputs.forEach((i) => {
-            this.updateInput(i);
-        });
-        
+    checkSubmitReadiness = () => {
+        for (let inputName of this.state.requestInputs) {
+            if (!this.state[inputName].loaded) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    componentDidMount() {    
         if (this.props.searchParams.get("type") === this.state.formLabel) {
             const newState = this.parseURLQuery();
+            newState.autosubmitPending = this.checkAutoSubmit(newState);
             this.setState(newState, () => {
-                if (this.checkAutoSubmit(newState)) {
-                    this.handleSubmit(null);
-                }
+                this.updateAllInputs();
             });
+        } else {
+            this.updateAllInputs()
         }
-    }
+    } 
 
     getInputUpdateURL = (inputName) => { }
     getFormContents = () => { }
@@ -104,7 +138,7 @@ class ControlForm extends Component {
     }
 
     clearInput = (inputName) => {
-        this.setState({ [inputName]: { ...this.state[inputName], value: "", possibleValues: [""] } }, () => {
+        this.setState({ [inputName]: { ...this.state[inputName], value: "", possibleValues: [] } }, () => {
             this.state[inputName].dependentInputs.forEach((n) => { this.clearInput(n) });
         });
     }
@@ -115,13 +149,29 @@ class ControlForm extends Component {
         const updateURL = this.getInputUpdateURL(inputName);
         if (updateURL !== null) {
             this.makeRequest(updateURL, (data) => {
-                this.setState({ [inputName]: { ...this.state[inputName], possibleValues: ["", ...data] } }, () => {
+                let inputValue = this.state[inputName].value;
+                // special case with datetime to support the selection of latest datetime
+                if (inputName === "datetime" && inputValue === "latest") {
+                    inputValue = data[0];
+                }
+                this.setState({ [inputName]: { ...this.state[inputName], possibleValues: [...data], value: inputValue, loaded: true } }, () => {
                     if (this.state[inputName].value) {
                         this.state[inputName].dependentInputs.forEach((n) => { this.updateInput(n) })
+                    }
+                    if (this.state.autosubmitPending) {
+                        if (this.checkSubmitReadiness()) {
+                            this.setState({ autosubmitPending: false }, () => { this.handleSubmit(null) });
+                        }
                     }
                 });
             })
         }
+    }
+
+    updateAllInputs = () => {
+        this.state.immediateUpdateInputs.forEach((i) => {
+            this.updateInput(i);
+        });
     }
 
     handleInputChange = (event) => {
@@ -139,8 +189,8 @@ class ControlForm extends Component {
 
     getCurrentlyLoadedMessage = () => {
         return (
-            <ul>
-                <li>Type: {this.state.formLabel}</li>
+            <ul style={{marginTop: "-0.5px", marginBottom: "-0.5px"}}>
+                <li key="Type">Type: {this.state.formLabel}</li>
                 {this.state.requestInputs.map((i) => {
                     return (<li key={this.state[i].displayName}>{this.state[i].displayName}: {this.state[i].value}</li>)
                 })}
@@ -160,7 +210,6 @@ class ControlForm extends Component {
         event?.preventDefault();
         this.props.setMessage("errorMessage", "");
         this.props.clearFlow(this.state.formLabel);
-        this.props.setSearchParams(this.getFormParams());
         this.makeRequest(this.getSubmitURL(), (data) => {
             this.props.loadFlow(data.objects, data.connections, this.getFormParams());
             this.props.setMessage("currentlyLoadedMessage", this.getCurrentlyLoadedMessage());
@@ -169,9 +218,9 @@ class ControlForm extends Component {
 
     render = () => {
         return (
-            <form onSubmit={this.handleSubmit} >
+            <form onSubmit={this.handleSubmit}>
                 <fieldset disabled={this.props.formLock}>
-                    <label><b>{this.state.formLabel}:</b></label><br />
+                    <label><b>{this.state.formLabel}:</b></label><br/>
                     {this.getFormContents()}
                 </fieldset>
             </form>

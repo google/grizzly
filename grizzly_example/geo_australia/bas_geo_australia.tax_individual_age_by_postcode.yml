@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # Taxation statistics 2018–19 Individuals: Number of individuals, by state/territory1, postcode and age range, 2018–19 income year3
 target_table_name: bas_geo_australia.tax_individual_age_by_postcode
 source_data_url: https://data.gov.au/data/dataset/2805b28d-2c3b-47e2-87c3-50aacc6ea212/resource/dac8cc49-782a-413a-af43-7c8fea790bdf/download/ts19individual07statepostcodetaxableincomerangeagerangeoccupation.xlsx

@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-schedule_interval: 0 12 1 * *
+schedule_interval: 0 0 1 1 *
 execution_timeout_per_table: 1200
 doc_md: documents/geo.md
 tags:
-  - GIS work example
+  - American GIS example
 etl_scope:
   - bas_gis.building_footprint_usa
   - bas_geo.view_all_us_footprints

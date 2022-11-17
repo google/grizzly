@@ -11,7 +11,7 @@ The Grizzly DataOps platform is a deployable blueprint to create and operate an 
 - [Dataflow](https://cloud.google.com/dataflow) to provide inbound streaming data.
 
 
-Check out our [Documentation](./documentation/) to get started.
+See the [Documentation](./documentation/) to get started.
 
 ![](./documentation/images/grizzly_architecture.png)
 

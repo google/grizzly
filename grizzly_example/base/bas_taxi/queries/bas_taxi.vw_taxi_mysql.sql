@@ -12,8 +12,31 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT *
+SELECT 
+  unique_key,
+  company,
+  dropoff_census_tract,
+  dropoff_community_area,
+  dropoff_latitude,
+  dropoff_location,
+  dropoff_longitude,
+  extras,
+  fare,
+  payment_type,
+  pickup_census_tract,
+  pickup_community_area,
+  pickup_latitude,
+  pickup_location,
+  pickup_longitude,
+  taxi_id,
+  tips,
+  tolls,
+  trip_end_timestamp,
+  trip_miles,
+  trip_seconds,
+  trip_start_timestamp,
+  trip_total
 FROM EXTERNAL_QUERY(
     "grizzly-test-data.us.grizzly-test-data-grizzlymysql",
-    "select * from taxi;"
+    "select unique_key, company, dropoff_census_tract, dropoff_community_area, dropoff_latitude, dropoff_location, dropoff_longitude, extras, fare, payment_type, pickup_census_tract, pickup_community_area, pickup_latitude, pickup_location, pickup_longitude, taxi_id, tips, tolls, trip_end_timestamp, trip_miles, trip_seconds, trip_start_timestamp, trip_total from taxi;"
 )

@@ -12,5 +12,19 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.state_fips_code,
+  t.district_fips_code,
+  t.lsad_name,
+  t.lsad_code,
+  t.congress_session,
+  t.mtfcc_feature_class_code,
+  t.functional_status,
+  t.area_land_meters,
+  t.area_water_meters,
+  t.int_point_lat,
+  t.int_point_lon,
+  t.int_point_geom,
+  t.district_geom
 FROM `bigquery-public-data.geo_us_boundaries.congress_district_116` AS t

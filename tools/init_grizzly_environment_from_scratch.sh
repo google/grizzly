@@ -29,7 +29,7 @@ Help()
     # Display Help
     echo "Init grizzly GCP projects."
     echo
-    echo "Define folder structure for further deploymnet by terraform."
+    echo "Define folder structure for further deployment by terraform."
     echo "Create all required repositories."
     echo
     echo "Syntax: init_grizzly_environment_from_scratch.sh [-m|d|u|p|l|c|i|h]"
@@ -41,7 +41,7 @@ Help()
     echo "  -l     GCP Composer Airflow instance location."
     echo "  -a     GCP App Engine Location."
     echo "  -c     GCP Composer image."
-    echo "  -s     Defauls security user or group. In format:"
+    echo "  -s     Defaults security user or group. In format:"
     echo "          user:joe@example.com"
     echo "          group:v2-demo@google.com"
     echo "  -h     Print this Help."

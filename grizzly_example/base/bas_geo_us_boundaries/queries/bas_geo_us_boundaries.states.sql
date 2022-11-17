@@ -12,5 +12,21 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.region_code,
+  t.division_code,
+  t.state_fips_code,
+  t.state_gnis_code,
+  t.state,
+  t.state_name,
+  t.lsad_code,
+  t.mtfcc_feature_class_code,
+  t.functional_status,
+  t.area_land_meters,
+  t.area_water_meters,
+  t.int_point_lat,
+  t.int_point_lon,
+  t.int_point_geom,
+  t.state_geom
 FROM `bigquery-public-data.geo_us_boundaries.states` AS t

@@ -12,5 +12,11 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.id,
+  t.osm_timestamp_min,
+  t.osm_timestamp_max,
+  t.relations,
+  t.ways,
+  t.nodes
 FROM `bigquery-public-data.geo_openstreetmap.history_changesets` AS t

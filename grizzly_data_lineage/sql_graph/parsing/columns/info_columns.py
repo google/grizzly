@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Info columns that have column-like source tracking functional."""
 from sql_graph.parsing.columns import Column
 from sql_graph.typing import TTable
@@ -63,6 +77,19 @@ class JoinInfo(InfoColumn):
     for join_info in self._join_infos:
       self._parse_value_json(join_info)
 
+  def relink_to_physical_ancestors(self):
+    """Override of relink_to_physical_ancestors to preserve JOIN info.
+
+    Method adds sources from the JOIN infos of own sources.
+    """
+    source_join_infos = [s.table.join_info for s in self.get_sources()
+                         if not s.table.physical]
+    super(JoinInfo, self).relink_to_physical_ancestors()
+    for join_info in source_join_infos:
+      for source in join_info.get_sources():
+        self.add_source(source)
+        self._needs_serializing = True
+
 
 class WhereInfo(InfoColumn):
   """Subclass of InfoColumn for representing WHERE."""
@@ -78,3 +105,16 @@ class WhereInfo(InfoColumn):
     """
     self._parse_value_json(where_info)
     self._needs_serializing = True
+
+  def relink_to_physical_ancestors(self):
+    """Override of relink_to_physical_ancestors to preserve WHERE info.
+
+    Method adds sources from the WHERE infos of own sources.
+    """
+    source_where_infos = [s.table.where_info for s in self.get_sources()
+                          if not s.table.physical]
+    super(WhereInfo, self).relink_to_physical_ancestors()
+    for where_info in source_where_infos:
+      for source in where_info.get_sources():
+        self.add_source(source)
+        self._needs_serializing = True

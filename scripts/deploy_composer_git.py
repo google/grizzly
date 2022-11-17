@@ -149,7 +149,10 @@ def main(args: argparse.Namespace):
       environment_name=args.gcp_composer_env_name)
 
   source_path = pathlib.Path(args.source_path)
-  deployment_scope: Scope = Scope(source_path)
+  deployment_scope: Scope = Scope(source_path,
+    project_gcp=args.gcp_project_id,
+    metadata_project_gcp=args.gcp_project_metadata_id
+  )
   deployment_scope.generate_stagging_files()
   deployment_scope.generate_DAG_file(TEMPLATE_PATH / "dag.py.jinja2")
 
@@ -209,6 +212,12 @@ if __name__ == "__main__":
         required=True,
         help="Target GCP project")
     ap.add_argument(
+        "-mp",
+        "--metadata_project",
+        dest="gcp_project_metadata_id",
+        required=True,
+        help="Metadata GCP project")
+    ap.add_argument(
         "-l",
         "--location",
         dest="gcp_location",
@@ -224,7 +233,7 @@ if __name__ == "__main__":
         "-s",
         "--source_path",
         required=True,
-        help="Directory wiith pipeline to be deployed")
+        help="Directory with pipeline to be deployed")
     ap.add_argument(
         "-bid",
         "--build_id",

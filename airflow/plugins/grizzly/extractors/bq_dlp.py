@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ class ExtractorBQDlp(BaseExtractor):
 
   Attributes:
     task_config (TGrizzlyTaskConfig): Task configuration with
-        parsed and pre-proccessed information from task YML file.
+        parsed and pre-processed information from task YML file.
     target_table (string): Name of a table where query execution and DLP
       transformation results should be stored.
     execution_context (TGrizzlyOperator): Instance of GrizzlyOperator executed.
@@ -104,10 +104,10 @@ class ExtractorBQDlp(BaseExtractor):
       inited as False else as True.  After upload of first chunk of data it
       changed to False.
     target_table_parsed (dict): Dictionary with parsed target table. Target
-      table name is splitted on project_id, dataset and table name parts.
+      table name is split into project_id, dataset and table name parts.
     dlp_client (google.cloud.dlp_v2.DlpServiceClient): DlpServiceClient instance
       for work with DLP API.
-    dlp_config (dict): DLP configuration from [dlp_config] attrributee of task
+    dlp_config (dict): DLP configuration from [dlp_config] attribute of task
       YML file.
     inspect_template_name (string): Reference to DLP inspect template to be used
       Example:
@@ -119,7 +119,7 @@ class ExtractorBQDlp(BaseExtractor):
     headers (list(dict)): List of table headers. This list is used by DLP
     query_schema (dict): BigQuery table schema for query resultset.
     total_bytes_billed (int): Bytes billed.
-    total_bytes_processed (int): Bytes proccessed.
+    total_bytes_processed (int): Bytes processed.
   """
 
   def __init__(self,
@@ -136,16 +136,16 @@ class ExtractorBQDlp(BaseExtractor):
     Args:
       execution_context (GrizzlyOperator): Instance of GrizzlyOperator executed.
       task_config (TGrizzlyTaskConfig): Task configuration with parsed and
-        pre-proccessed information from task YML file.
+        pre-processed information from task YML file.
       target_table (string): Name of a table where query execution and DLP
         transformation results should be stored.
       write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY
-        WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table
+        WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
         it will be WRITE_TRUNCATE. If it executed for table defined in
         [target_table_name] attribute of task YML file this class attribute will
         be  equal to [job_write_mode] attribute of task YML file.
-      *args (list, optional): Optional aditional parameters.
-      **kwargs (dict, optional): Optional aditional parameters.
+      *args (list, optional): Optional additional parameters.
+      **kwargs (dict, optional): Optional additional parameters.
     """
     super().__init__(execution_context, task_config, target_table,
                      write_disposition, *args, **kwargs)

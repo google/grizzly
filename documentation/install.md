@@ -52,7 +52,7 @@ session to initialize.
     go to the directory for this tutorial.
 
     ```
-    git config --global user.email "abc@xyz.com"
+    git config --global user.email "abc@example.com"
     ```
 
     ```
@@ -88,7 +88,7 @@ session to initialize.
         the list of available [App Engine locations](https://cloud.google.com/appengine/docs/standard/locations).
     *   The [security_user] value is a user or Google group that will be configured for
         Grizzly's demo examples.  Supported formats of the parameter are
-        user:abc@xyz.com or group:abc_group@xyz.com.
+        user:abc@example.com or group:abc_group@example.com.
 
         ```
         cd ~/grizzly_repo/grizzly
@@ -117,7 +117,7 @@ session to initialize.
         --AIRFLOW_LOCATION "us-central1" \
         --APP_ENGINE_LOCATION "us-central" \
         --COMPOSER_IMAGE "composer-1.19.11-airflow-2.2.5" \
-        --SECURITY_USER "user:abc@xyz.com" 
+        --SECURITY_USER "user:abc@example.com" 
         ```
 
         Once the script completes, it will create all required terraform
@@ -221,9 +221,28 @@ session to initialize.
         ![](./images/import_git_rep_trigger1.png)
         ![](./images/import_git_rep_trigger2.png)
 
+1.  In the [stem_name]-metadata project, enable the column-level data flow visualization. 
+
+    *   Configure the Identity-Aware Proxy.  Add the audience of users (individual people or Google Groups) that should be able to see the visualization.
+        ![](./images/data_lineage_installation1.png)
+        ![](./images/data_lineage_installation2.png)
+        
+    *   Configure OAuth.  
+        ![](./images/data_lineage_installation3.png)
+        ![](./images/data_lineage_installation4.png)
+        ![](./images/data_lineage_installation5.png)
+        ![](./images/data_lineage_installation6.png)
+        ![](./images/data_lineage_installation7.png)
+        ![](./images/data_lineage_installation8.png)
+        ![](./images/data_lineage_installation9.png)
+        
+    *   On your desktop, open the column-level data flow visualization in a browser window by entering https://data-lineage-dot-[stem-name]-metadata.uc.r.appspot.com/.  For example, [https://data-lineage-dot-grizzly-metadata.uc.r.appspot.com/](https://data-lineage-dot-grizzly-metadata.uc.r.appspot.com/).
+    
+        ![](./images/data_lineage_installation10.png)
+    
 1.  Install and configure the
     [Superset application](https://superset.apache.org/) to see the demo
-    dashboards.
+    dashboards.  This step is optional and can be performed later.
 
     *   On your Mac, Windows, or Linux desktop,
         [install](https://docs.docker.com/get-docker/) and then open the Docker
@@ -232,35 +251,53 @@ session to initialize.
         configure the Superset application.
 
         ```
-        sudo git clone https://github.com/apache/superset.git
+        # pull stable version 1.5.2
+        docker pull apache/superset:1.5.2
         ```
 
         ```
-        cd ~/superset
+        # tag stable version 1.5.2 to grizzly_superset_152
+        docker tag apache/superset:1.5.2 grizzly_superset_152
         ```
 
         ```
-        sudo touch ./docker/requirements-local.txt
+        # execute grizzly_superset_152 as grizzly_superset_152 container
+        docker run -d -p 8080:8088 --name grizzly_superset_152 grizzly_superset_152
         ```
 
         ```
-        sudo chmod 777 ./docker/requirements-local.txt
+        # init admin user
+        docker exec -it grizzly_superset_152 superset fab create-admin \
+        --username admin \
+        --firstname superset \
+        --lastname admin \
+        --email superset@example.com \
+        --password admin
         ```
 
         ```
-        sudo echo "pybigquery" >> ./docker/requirements-local.txt
+        # init db upgrade
+        docker exec -it grizzly_superset_152 superset db upgrade
         ```
 
         ```
-        sudo chmod 770 ./docker/requirements-local.txt
+        # load examples
+        docker exec -it grizzly_superset_152 superset load_examples
         ```
 
         ```
-        docker-compose build --force-rm
+        # load pybigquery lib
+        docker exec -it grizzly_superset_152 pip3 install pybigquery
         ```
-
+        
         ```
-        docker-compose -f docker-compose-non-dev.yml up
+        # init superset
+        docker exec -it grizzly_superset_152 superset init
+        ```
+        
+        ```
+        # restart grizzly_superset_152 to pickup bigquery
+        docker restart grizzly_superset_152
         ```
 
     *   On your desktop, open Superset in a browser window by entering
@@ -286,7 +323,7 @@ session to initialize.
         BigQuery".
 
     *   Using your browser,
-        [download](https://console.cloud.google.com/storage/browser/grizzly-demo-dashboards;tab=objects?forceOnBucketsSortingFiltering=false&project=grizzly-test-data&prefix=&forceOnObjectsSortingFiltering=false)
+        [download](https://github.com/google/grizzly-dev/blob/main/grizzly_example/dashboard_examples.zip)
         the eight example dashboard json files to your desktop.  Using Superset, import
         each dashboard (Settings -> Import Dashboards).
         ![](./images/superset.png)

@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ Typical usage example:
       location='us-central1',
       environment_name='dev')
   deployment_scope = Scope('my_grizzly_project_path')
-  deployment_scope.generate_stagging_files()
+  deployment_scope.generate_staging_files()
   deployment_scope.generate_DAG_file(TEMPLATE_PATH / 'dag.py.jinja2')
   gcp_composer_environment.publish_scope(deployment_scope)
 """
@@ -37,7 +37,7 @@ import yaml
 
 
 class ComposerEnvironment():
-  """Interract with GCP composer and retrieve Environment details.
+  """Interact with GCP composer and retrieve Environment details.
 
   Attributes:
     project_id (string): GCP project Id.
@@ -125,7 +125,7 @@ class ComposerEnvironment():
         GCP Composer environment.
     """
     print(f'Copying files from {scope.temp_path} to {self.etl_folder}')
-    # Clean-up target GS location from previous instalations
+    # Clean-up target GS location from previous installations
     composer_cmd = [
         'gcloud', 'composer', 'environments', 'storage', 'data', 'delete',
         f'ETL/{scope.config.domain_name}', '--project', self.project_id,

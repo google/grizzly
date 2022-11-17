@@ -1,8 +1,21 @@
-import React, { useState, useRef } from 'react';
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import { useSearchParams } from 'react-router-dom';
+import { useRef } from 'react';
 
 import ReactFlow, {
-    MiniMap,
     Controls,
     Background,
     useNodesState,
@@ -10,20 +23,16 @@ import ReactFlow, {
     useReactFlow,
 } from 'react-flow-renderer';
 
-import DomainLevelForm from './CustomComponents/ControlForms/DomainLevelForm';
-import QueryLevelForm from './CustomComponents/ControlForms/QueryLevelForm';
-// import OnDemandForm from './CustomComponents/ControlForms/OnDemandForm';
-// import TestButtonForm from './CustomComponents/ControlForms/TestButtonForm';
 import CustomNode from './CustomComponents/CustomNode';
 import {
     HighlightStatuses,
-    getAllIncomers,
-    getAllOutgoers,
-    getNodePathHighlightStatus,
-    getEdgePathHighlightStatus,
-    getAllDomainElements,
-    getNodeDomainHighlightStatus,
-    getEdgeDomainHighlightStatus
+    isColumn,
+    isTable,
+    isDomainTextInfo,
+    getRelatedNodeIDs,
+    getNodeIDsRelatedToTable,
+    getDomainNodeIDs,
+    checkHighlight
 } from "./Utils/HighlightUtils";
 import {
     applyNodeStyle,
@@ -31,51 +40,17 @@ import {
     setDefaultNodeProperties,
     setDefaultEdgeProperties
 } from "./Utils/StyleUtils"
-import {getColorHelpText} from "./Utils/HelpMenu"
+import FlowControls from './CustomComponents/FlowControls';
+
 
 const nodeTypes = { default: CustomNode };
 
-const Flow = () => {
+const Flow = ({debug}) => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [nodes, setNodes, onNodesChange] = useNodesState();
     const [edges, setEdges, onEdgesChange] = useEdgesState();
     const reactFlowInstance = useReactFlow();
-
-    const [controlFormLock, setControlFormLock] = useState();
-    const updateControlFormLock = (lock) => { setControlFormLock(lock); }
-
-    const [controlsHidden, setControlsHidden] = useState(false);
-
-    const [errorMessage, setErrorMessage] = useState();
-    const [currentlyLoadedMessage, setCurrentlyLoadedMessage] = useState();
-
-    const [searchParams, setSearchParams] = useSearchParams();
-    const updateSearchParams = (newParams) => { setSearchParams(newParams); }
-
-    const [formParams, setFormParams] = useState(null);
-
-    const setMessage = (name, msg) => {
-        switch (name) {
-            case "errorMessage":
-                setErrorMessage(msg);
-                break;
-            case "currentlyLoadedMessage":
-                setCurrentlyLoadedMessage(msg);
-                break;
-            default:
-                return;
-        }
-    }
-    const getMessage = (name) => {
-        switch (name) {
-            case "errorMessage":
-                return errorMessage ? `Error: ${errorMessage}` : ""
-            case "currentlyLoadedMessage":
-                return currentlyLoadedMessage ? currentlyLoadedMessage : "No Graph is currently loaded";
-            default:
-                return;
-        }
-
-    }
+    const tableSearchForm = useRef();
 
     const applyFunctionToNodes = (fnc) => {
         setNodes((prevNodes) => {
@@ -93,50 +68,88 @@ const Flow = () => {
         });
     }
 
-    const highlightNodePath = (referenceNode) => {
-        const incomerIds = getAllIncomers(referenceNode, nodes, edges);
-        const outgoerIds = getAllOutgoers(referenceNode, nodes, edges);
+    const highlightColumnPath = (columnNode) => {
+        const nodesToHighlight = getRelatedNodeIDs(columnNode, reactFlowInstance);
 
         applyFunctionToNodes((node) => {
-            node.data.highlightStatus = getNodePathHighlightStatus(node, referenceNode, incomerIds, outgoerIds);
+            if (node.id === columnNode.id) {
+                node.data.highlightStatus = HighlightStatuses.AltHighlighted;
+            } else {
+                const highlight = checkHighlight(node, nodesToHighlight);
+                node.data.highlightStatus = highlight ? HighlightStatuses.Highlighted : HighlightStatuses.NotHighlighted;
+            }
             node = applyNodeStyle(node);
             return node;
         });
         applyFunctionToEdges((edge) => {
-            edge.data.highlightStatus = getEdgePathHighlightStatus(edge, referenceNode, incomerIds, outgoerIds);
+            const highlight = checkHighlight(edge, nodesToHighlight);
+            edge.data.highlightStatus = highlight ? HighlightStatuses.Highlighted : HighlightStatuses.NotHighlighted;
             edge = applyEdgeStyle(edge);
             return edge;
         });
     }
 
-    const highlightDomain = (referenceNode) => {
-        const domainElements = getAllDomainElements(referenceNode.data.domain, nodes, edges);
+    const highlightRelatedTables = (tableNode) => {
+        const nodesToHighlight = getNodeIDsRelatedToTable(tableNode, reactFlowInstance);
+
         applyFunctionToNodes((node) => {
-            node.data.highlightStatus = getNodeDomainHighlightStatus(node, domainElements);
+            if (node.id === tableNode.id) {
+                node.data.highlightStatus = HighlightStatuses.Highlighted;
+            } else {
+                const highlight = checkHighlight(node, nodesToHighlight);
+                node.data.highlightStatus = highlight ? HighlightStatuses.Default : HighlightStatuses.NotHighlighted;
+            }
             node = applyNodeStyle(node);
             return node;
         });
         applyFunctionToEdges((edge) => {
-            edge.data.highlightStatus = getEdgeDomainHighlightStatus(edge, domainElements);
+            const highlight = checkHighlight(edge, nodesToHighlight);
+            edge.data.highlightStatus = highlight ? HighlightStatuses.Default : HighlightStatuses.NotHighlighted;
             edge = applyEdgeStyle(edge);
             return edge;
         });
     }
 
-    const resetHighlightStatuses = () => {
+    const highlightDomain = (domainNode) => {
+        const nodesToHighlight = getDomainNodeIDs(domainNode, reactFlowInstance);
+        const domain = domainNode.data.domain;
+
         applyFunctionToNodes((node) => {
-            node.data.highlightStatus = HighlightStatuses.HighlightNotActive;
+            if (isDomainTextInfo(node) && node.data.domain === domain) {
+                node.data.highlightStatus = HighlightStatuses.Highlighted;
+            } else {
+                const highlight = checkHighlight(node, nodesToHighlight);
+                node.data.highlightStatus = highlight ? HighlightStatuses.Default : HighlightStatuses.NotHighlighted;
+            }
             node = applyNodeStyle(node);
             return node;
         });
         applyFunctionToEdges((edge) => {
-            edge.data.highlightStatus = HighlightStatuses.HighlightNotActive;
+            const highlight = checkHighlight(edge, nodesToHighlight);
+            edge.data.highlightStatus = highlight ? HighlightStatuses.Default : HighlightStatuses.NotHighlighted;
+            edge = applyEdgeStyle(edge);
+            return edge;
+        });
+    }
+
+    const resetHighlightStatuses = (resetTableSearchValue=true) => {
+        if (resetTableSearchValue){
+            tableSearchForm.current.resetTable();
+        }
+        applyFunctionToNodes((node) => {
+            node.data.highlightStatus = HighlightStatuses.Default;
+            node = applyNodeStyle(node);
+            return node;
+        });
+        applyFunctionToEdges((edge) => {
+            edge.data.highlightStatus = HighlightStatuses.Default;
             edge = applyEdgeStyle(edge);
             return edge;
         });
     }
 
     const loadFlow = (nodesJson, edgesJson, fp) => {
+        setSearchParams(fp);
         setNodes(nodesJson.map((node) => {
             return setDefaultNodeProperties(node);
         }));
@@ -145,61 +158,55 @@ const Flow = () => {
         }));
         applyFunctionToNodes(applyNodeStyle);
         applyFunctionToEdges(applyEdgeStyle);
-        setFormParams(fp);
+
+        let tableList = [];
+        nodesJson.forEach((node) => {
+            if (isTable(node)) {
+                tableList.push(node.id);
+            }
+        })
+        tableSearchForm.current.updateTableList(tableList);
     }
 
-    const clearFlow = (formType) => {
-        setMessage("currentlyLoadedMessage", "");
-        setMessage("errorMessage", "");
+    const clearFlow = () => {
+        tableSearchForm.current.updateTableList([]);
         setSearchParams([]);
-        setFormParams(null);
         setNodes([]);
         setEdges([]);
-        forms.forEach((form) => {if (form.current.state.formLabel !== formType) {
-            form.current.clearInputs();
-        }})
     }
 
-    const handleNodeOnClick = (node) => {
-        resetHighlightStatuses();
-        switch (node.data.pythonType) {
-            case "TableColumn":
-            case "StarColumn":
-            case "JoinInfo":
-            case "WhereInfo":
-                highlightNodePath(node);
-                break;
-            case "TextInfoPanel":
-                switch (node.data.panelName) {
-                    case "domain_info":
-                        highlightDomain(node);
-                        break;
-                    default:
-                        return;
-                }
-                break;
-            default:
-                return;
+    const focusOnTable = (tableName) => {
+        const table = reactFlowInstance.getNode(tableName);
+        if (table && isTable(table)) {
+            const bounds = {x: table.position.x, y: table.position.y, width: table.style.width, height: table.style.height};
+            reactFlowInstance.fitBounds(bounds);
+            handleNodeOnClick(table, false);
         }
+    }
+
+    const handleNodeOnClick = (node, resetTableSearchValue=true) => {
+        resetHighlightStatuses(resetTableSearchValue);
+        if (isColumn(node)) {
+            highlightColumnPath(node);
+        } else if (isTable(node)) {
+            highlightRelatedTables(node);
+        } else if (isDomainTextInfo(node)) {
+            highlightDomain(node);
+        }    
     }
 
     const handleEdgeClick = (edge) => {
-        if (formParams?.type === "DOMAIN LEVEL") {
+        const type = searchParams.get("type");
+        if (type === "PROJECT LEVEL" || type === "DOMAIN LEVEL") {
             const targetNode = reactFlowInstance.getNode(edge.target);
             const jobBuildID = targetNode.data.target_table;
             const domain = targetNode.data.domain;
-            const project = formParams.project;
-            const datetime = formParams.datetime;
+            const project = searchParams.get("project");
+            const datetime = searchParams.get("datetime");
             const url = `/?type=QUERY LEVEL&project=${project}&datetime=${datetime}&domain=${domain}&job_build_id=${jobBuildID}`;
             window.open(url, "_blank");
         }
-
-
     }
-
-    const domainFormRef = useRef();
-    const queryFormRef = useRef();
-    const forms = [domainFormRef, queryFormRef];
 
     return (
         <ReactFlow
@@ -212,59 +219,17 @@ const Flow = () => {
             onNodeClick={(_event, node) => { handleNodeOnClick(node) }}
             onEdgeClick={(_event, edge) => { handleEdgeClick(edge) }}
             onPaneClick={() => { resetHighlightStatuses() }}
+            minZoom={0.01}
         >
-            <div className="controls-node" style={{ position: 'fixed', left: 10, top: 10, zIndex: 4, backgroundColor: "#ffffff", textAlign: "left" }}>
-                <button onClick={() => { setControlsHidden(!controlsHidden) }}>Show/Hide Forms</button>
-                <div hidden={controlsHidden}>
-                    <fieldset disabled={controlFormLock}>
-                        <b>CURRENT GRAPH INFO:</b><br />
-                        {getMessage("currentlyLoadedMessage")}<br />
-                        <button onClick={clearFlow}>Clear Graph</button>
-                    </fieldset>
-                    <DomainLevelForm
-                        formLock={controlFormLock}
-                        setFormLock={updateControlFormLock}
-                        setMessage={setMessage}
-                        searchParams={searchParams}
-                        setSearchParams={updateSearchParams}
-                        clearFlow={clearFlow}
-                        loadFlow={loadFlow}
-                        ref={domainFormRef}
-                    />
-                    <QueryLevelForm
-                        formLock={controlFormLock}
-                        setFormLock={updateControlFormLock}
-                        setMessage={setMessage}
-                        searchParams={searchParams}
-                        setSearchParams={updateSearchParams}
-                        clearFlow={clearFlow}
-                        loadFlow={loadFlow}
-                        ref={queryFormRef}
-                    />
-                    { /*<OnDemandForm
-                        formLock={controlFormLock}
-                        setFormLock={updateControlFormLock}
-                        setMessage={setMessage}
-                        searchParams={searchParams}
-                        setSearchParams={updateSearchParams}
-                        clearFlow={clearFlow}
-                        loadFlow={loadFlow}
-                    />
-                    <TestButtonForm
-                        formLock={controlFormLock}
-                        setFormLock={updateControlFormLock}
-                        setMessage={setMessage}
-                        searchParams={searchParams}
-                        setSearchParams={updateSearchParams}
-                        clearFlow={clearFlow}
-                        loadFlow={loadFlow}
-                    /> */}
-                    {getColorHelpText()}
-                    <div style={{ maxWidth: "300px", color: "red" }}>{getMessage("errorMessage")}</div>
-                </div>
-            </div>
+            <FlowControls 
+                debug={debug}
+                searchParams={searchParams}
+                loadFlow={loadFlow}
+                clearFlow={clearFlow}
+                focusOnTable={focusOnTable}
+                TSRef={tableSearchForm}
+            />
             <Controls style={{position: "fixed"}}/>
-            <MiniMap style={{position: "fixed"}}/>
             <Background variant="lines" gap={20} size={1} />
         </ReactFlow>
     );

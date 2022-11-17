@@ -12,5 +12,11 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.osm_id,
+  t.osm_version,
+  t.osm_way_id,
+  t.osm_timestamp,
+  t.geometry,
+  t.all_tags
 FROM `bigquery-public-data.geo_openstreetmap.planet_features_multipolygons` AS t

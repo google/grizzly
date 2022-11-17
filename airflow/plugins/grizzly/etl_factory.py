@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ class ETLMerge:
       executed.
     bq_client (Any): BigQuery client.
     task_config (TGrizzlyTaskConfig): Task configuration
-      contains parsed and pre-proccessed information from task YML file.
+      contains parsed and pre-processed information from task YML file.
     write_disposition (string): Write disposition WRITE_APPEND, WRITE_EMPTY
       etc.
     stage_table (str): Placeholder. Name of the staging table
@@ -133,7 +133,7 @@ class ETLMerge:
       table_name (string): Table name.
 
     Returns:
-      (dict): Dictinary of the table schema.
+      (dict): Dictionary of the table schema.
     """
 
     table = self.bq_client.get_table(table_name)
@@ -152,7 +152,7 @@ class ETLMerge:
       table_name (string): Table name.
 
     Returns:
-      Dictinary of the table schema
+      Dictionary of the table schema
     """
 
     table = self.bq_client.get_table(table_name)
@@ -171,7 +171,7 @@ class ETLFactory:
     """Perform ETL operation. Load data from data source into target BQ table.
 
     Class method implements Class Factory pattern.
-    Method suports different data sources. Or user can create own custom Python
+    Method supports different data sources. Or user can create own custom Python
     implementation of data extractor.
     Each extractor implementation should be inherited from BaseExtractor and
     could contain implementation of 'extract', 'transform', 'load' methods
@@ -180,7 +180,7 @@ class ETLFactory:
       execution_context (TGrizzlyOperator): Instance of GrizzlyOperator
         executed.
       task_config (TGrizzlyTaskConfig): Task configuration
-        contains parsed and pre-proccessed information from task YML file.
+        contains parsed and pre-processed information from task YML file.
       target_table (string, optional): Target table name.
       write_disposition (string): Write disposition WRITE_APPEND, WRITE_EMPTY
         etc.
@@ -225,7 +225,7 @@ class ETLFactory:
     class_name = str(type(extractor))
     execution_context.log.info(f'ETL: Extracting data with [{class_name}]')
 
-    # execute ETL proccess
+    # execute ETL process
     for e in extractor.extract():
       # stop further processing in case of empty resultset
       # e['metadata'] is None in case if extract step was skipped.
@@ -250,9 +250,9 @@ class ETLFactory:
       execution_context (TGrizzlyOperator): Instance of GrizzlyOperator
         executed.
       task_config (TGrizzlyTaskConfig): Task configuration
-        contains parsed and pre-proccessed information from task YML file.
+        contains parsed and pre-processed information from task YML file.
       write_disposition (string): Write disposition WRITE_APPEND, WRITE_EMPTY
-        etc. This parameter is used for compatibility. Proccessing of this
+        etc. This parameter is used for compatibility. Processing of this
         parameter should be implemented inside exporter class in case of
         importance.
     """
@@ -265,15 +265,15 @@ class ETLFactory:
                   execution_context: TGrizzlyOperator,
                   task_config: TGrizzlyTaskConfig,
                   write_disposition: str) -> Optional[TQueryJob]:
-    """Exports data to external starage (GS for example).
+    """Exports data to external storage (GS for example).
 
     Args:
       execution_context (TGrizzlyOperator): Instance of GrizzlyOperator
         executed.
       task_config (TGrizzlyTaskConfig): Task configuration
-        contains parsed and pre-proccessed information from task YML file.
+        contains parsed and pre-processed information from task YML file.
       write_disposition (string): Write disposition WRITE_APPEND, WRITE_EMPTY
-        etc. This parameter is used for compatibility. Proccessing of this
+        etc. This parameter is used for compatibility. Processing of this
         parameter should be implemented inside exporter class in case of
         importance.
 
@@ -300,7 +300,7 @@ class ETLFactory:
     class_name = str(type(exporter))
     execution_context.log.info(f'ETL: Extracting data with [{class_name}]')
 
-    # execute ETL proccess
+    # execute ETL process
     for e in exporter.extract():
 
       # stop further processing in case of empty resultset

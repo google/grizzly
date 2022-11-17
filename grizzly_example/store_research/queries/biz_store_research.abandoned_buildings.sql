@@ -29,7 +29,9 @@ WITH abandoned_per_year AS (
         1,2
 )
 SELECT
-    abandoned_per_year.*,
+    abandoned_per_year.zip_code,
+    abandoned_per_year.year,
+    abandoned_per_year.num_of_abandoned,
     zc.zip_code_geom
 FROM
     abandoned_per_year

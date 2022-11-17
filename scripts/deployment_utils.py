@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ Typical usage example:
       obj=template,
       class_message=TagTemplate,
       file_name=f'{name}.gcp_proto',
-      path=dest_folder)
+      path=destination_folder)
 """
 
 import datetime
@@ -179,7 +179,7 @@ class Utils:
 
   @classmethod
   def parse_yml_file(cls, yml_file):
-    """Parse yaml fiiles."""
+    """Parse yaml files."""
 
     with open(yml_file) as f:
       yml_values = yaml.safe_load(f.read())
@@ -224,7 +224,7 @@ class BQUtils:
   def create_temp_table(self,
                         table_name: str,
                         table_schema: Any) -> Table:
-    """Create temorary table.
+    """Create temporary table.
 
     Created temporary table for requested target table.
 

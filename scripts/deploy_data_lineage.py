@@ -23,8 +23,9 @@ import sys
 import datetime
 
 from deployment_utils import BQUtils
+from load_data_lineage import LoadDomainLevelDataLineage
 
-from load_data_lineage import LoadPhysicalDataLineage
+from load_data_lineage import LoadProjectLevelDataLineage
 from load_data_lineage import LoadQueryLevelDataLineage
 from load_data_lineage import LoadDataLineageBuild
 from sql_graph import GrizzlyLoader
@@ -34,31 +35,20 @@ def main(args: argparse.Namespace):
   """Implement the command line interface described in the module doc string."""
 
   bq_utils = BQUtils(gcp_project_id=args.gcp_project_id)
-
-  LoadDataLineageBuild.create_table(bq_utils=bq_utils)
-
+  LoadDataLineageBuild.create_dl_build_log_table(bq_utils)
   results = bq_utils.bq_client.query(
     query="select * from etl_log.vw_build_data_lineage_queq").result()
 
   for row in results:
-    print(
-      "Build_id={}: build_datetime={} ".format(
-        row.build_id, row.build_datetime))
-
-    print(f"grizzly_loader.start")
-    now = datetime.datetime.now()
-    print(now)
-
+    print(f"Build_id={row.build_id}: build_datetime={row.build_datetime}")
+    print(f"Started data loading at {datetime.datetime.now()}")
     loader = GrizzlyLoader(
       gcp_project=args.gcp_project_id,
       datetime=row.dt_build_datetime,
     )
+    print(f"Finished data loading at {datetime.datetime.now()}")
 
-    print(f"grizzly_loader.done")
-    now = datetime.datetime.now()
-    print(now)
-
-    print("LoadQueryLevelDataLineage")
+    print("Calculating Query-Level Data Lineage")
     LoadQueryLevelDataLineage(
         bq_utils=bq_utils,
         loader=loader,
@@ -66,19 +56,29 @@ def main(args: argparse.Namespace):
         build_datetime=row.dt_build_datetime,
     ).load_data()
 
-    print("LoadPhysicalDataLineage")
-    LoadPhysicalDataLineage(
+    print("Calculating Domain-Level Data Lineage")
+    LoadDomainLevelDataLineage(
         bq_utils=bq_utils,
         loader=loader,
         build_id=row.build_id,
         build_datetime=row.dt_build_datetime,
     ).load_data()
 
-    print("LoadDataLineageBuild")
+    print("Calculating Project-Level Data Lineage")
+    LoadProjectLevelDataLineage(
+        bq_utils=bq_utils,
+        loader=loader,
+        build_id=row.build_id,
+        build_datetime=row.dt_build_datetime,
+    ).load_data()
+
+    print("Writing Data Lineage build info to BQ")
     LoadDataLineageBuild(
         bq_utils=bq_utils,
         build_id=row.build_id
     ).load_data()
+
+    print("=" * 20 + "\n")
 
 
 if __name__ == "__main__":

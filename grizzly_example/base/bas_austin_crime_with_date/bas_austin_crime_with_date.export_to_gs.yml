@@ -14,4 +14,4 @@
 
 job_write_mode: EXPORT_DATA
 stage_loading_query: queries/bas_austin_crime_with_date.export_to_gs.sql
-notification_pubsub: gizzly_data_outbound_feed
+notification_pubsub: grizzly_data_outbound_feed

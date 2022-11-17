@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ resource "google_cloudbuild_trigger" "deploy-policytag-taxonomy-trigger" {
         "GRIZZLY_FRAMEWORK_PROJECT=${var.gcp_project_id}",
         "GCP_RESOURCE_LOCATION=${var.gcp_resource_location}",
         "ENVIRONMENT_CONFIG_FILE=/workspace/ENVIRONMENT_CONFIGURATIONS.yml",
-        "TEMPLATE_FOLDER=/workspace/data-calalog-policytag-taxonomy-templates"
+        "TEMPLATE_FOLDER=/workspace/data-catalog-policytag-taxonomy-templates"
       ]
       args = [
         "bash",

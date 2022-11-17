@@ -44,7 +44,8 @@ GIT_FILES_TABLE_SCHEMA = [
 GIT_FILES_VERSION_TABLE_NAME = 'git_files_version'
 GIT_FILES_VERSION_TABLE_SCHEMA = [
     bigquery.SchemaField('commit_id', 'STRING', mode='NULLABLE'),
-    bigquery.SchemaField('file_path', 'STRING', mode='NULLABLE')
+    bigquery.SchemaField('file_path', 'STRING', mode='NULLABLE'),
+    bigquery.SchemaField('cont', 'STRING', mode='NULLABLE')
 ]
 
 JOB_BUILD_TABLE_NAME = 'job_build'
@@ -119,8 +120,8 @@ SQL_MERGE_TMP_INTO_GIT_FILES_VERSION = """
        T.commit_id = S.commit_id and
        t.file_path = s.file_path
     WHEN NOT MATCHED THEN
-        INSERT(commit_id, file_path)
-        VALUES(commit_id, file_path)
+        INSERT(commit_id, file_path, cont)
+        VALUES(commit_id, file_path, cont)
     """
 
 SQL_MERGE_TMP_INTO_GIT_FILES = """
@@ -130,8 +131,8 @@ SQL_MERGE_TMP_INTO_GIT_FILES = """
         {tmp_table} S
     ON T.file_path = S.file_path
     WHEN NOT MATCHED THEN
-        INSERT(file_name, file_path, branch, subject_area, cont)
-        VALUES(file_name, file_path, branch, subject_area, cont)
+        INSERT(file_name, file_path, branch, subject_area)
+        VALUES(file_name, file_path, branch, subject_area)
     """
 
 SQL_INSERT_INTO_SUBJECT_AREA = f"""

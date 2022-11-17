@@ -12,5 +12,15 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.layer_code,
+  t.layer_class,
+  t.layer_name,
+  t.gdal_type,
+  t.osm_id,
+  t.osm_way_id,
+  t.osm_timestamp,
+  t.osm_version,
+  t.all_tags,
+  t.geometry
 FROM `bigquery-public-data.geo_openstreetmap.planet_layers` AS t

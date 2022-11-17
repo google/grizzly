@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -63,7 +63,7 @@ class BaseExporter:
     yield {'metadata': None, 'rows': []}
 
   def transform(self, data: Dict[str, Any]) -> Any:
-    """Transform data recieved from extract method.
+    """Transform data received from extract method.
 
     Args:
       data: Dictionary yielded by extract method
@@ -74,7 +74,7 @@ class BaseExporter:
     return data
 
   def load(self, data: Any) -> None:
-    """Load data recieved from transform method.
+    """Load data received from transform method.
 
     Args:
       data: Transformed data.

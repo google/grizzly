@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,12 +39,12 @@ class BaseExtractor:
 
   Attributes:
     task_config (TGrizzlyTaskConfig): Task configuration with
-      parsed and pre-proccessed information from task YML file.
+      parsed and pre-processed information from task YML file.
     target_table (string): Name of a ETL target table.
     execution_context (TGrizzlyOperator): Instance of GrizzlyOperator executed.
     write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY,
-      WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table it
-      will be WRITE_TRUNCATE. If it executed for table defined in
+      WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
+      it will be WRITE_TRUNCATE. If it executed for table defined in
       [target_table_name] attribute of task YML file this class attribute will
       be  equal to [job_write_mode] attribute of task YML file. Also in case if
       data loaded by chunk not as one piece this attribute could be used for
@@ -75,7 +75,7 @@ class BaseExtractor:
     case could be implemented only one load method that will put result of
     query to target table directly.
     Implementation of extract method should yield chunks of data for further
-    proccessing in transform and load method.
+    processing in transform and load method.
 
     Yields:
       (Dict[str, Any]): return input data for transform and load steps.
@@ -99,7 +99,7 @@ class BaseExtractor:
   def transform(self, data: Dict[str, Any]) -> Any:
     """Basic implementation of data transformation.
 
-    Basic implementation just bypass data recieved from extract method.
+    Basic implementation just bypass data received from extract method.
 
     Args:
       data (Dict[str, Any]): Dictionary yielded by extract method

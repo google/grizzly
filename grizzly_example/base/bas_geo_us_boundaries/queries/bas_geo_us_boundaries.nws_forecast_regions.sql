@@ -12,5 +12,16 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.state,
+  t.cwa,
+  t.time_zone,
+  t.fe_area,
+  t.zone,
+  t.name,
+  t.state_zone,
+  t.lon,
+  t.lat,
+  t.shortname,
+  t.shape_geometry
 FROM `bigquery-public-data.geo_us_boundaries.nws_forecast_regions` AS t

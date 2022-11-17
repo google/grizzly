@@ -19,6 +19,23 @@ source_extractor: grizzly.extractors.bq_dlp.ExtractorBQDlp
 target_table_name: bas_austin_crime.crime_dlp
 
 
+descriptions:
+  table: Austin Crime table
+  columns:
+    unique_key: Unique identifier for the record.
+    address: Full address where the incident occurred.
+    council_district_code: Indicates the council district code where the incident occurred.
+    description: The subcategory of the primary description.
+    district: Indicates the police district where the incident occurred.
+    location_description: Description of the location where the incident occurred.
+    primary_type: The primary description of the NIBRS/UCR code.
+    timestamp: Time when the incident occurred. This is sometimes a best estimate.
+    x_coordinate: The x coordinate of the location where the incident occurred
+    y_coordinate: The y coordinate of the location where the incident occurred
+    year: Indicates the year in which the incident occurred.
+    zipcode: Indicates the zipcode where the incident occurred.
+
+
 dlp_config:
   batch_size: 1000
   inspect_template_name: projects/{{ task_instance.gcp_project_id }}/locations/global/inspectTemplates/address

@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ Typical usage example:
   t = DataCatalogPolicyTagTaxonomy(
         gcp_project_id='MY_GCP_PROJECT_ID,
         location='us-central1')
-  t.export_taxonomy(template_path='/tmp/data-calalog-policytag-taxonomy-templates')
-  t.import_taxonomy(template_path='/tmp/data-calalog-policytag-taxonomy-templates')
+  t.export_taxonomy(template_path='/tmp/data-catalog-policytag-taxonomy-templates')
+  t.import_taxonomy(template_path='/tmp/data-catalog-policytag-taxonomy-templates')
 """
 
 import pathlib
@@ -38,12 +38,12 @@ from google.cloud.datacatalog_v1.types import InlineSource
 class DataCatalogPolicyTagTaxonomy:
   """DataCatalog taxonomies in a project in a particular location.
 
-  Atrributes:
-    _taxonomy_manager_client (PolicyTagManagerClient): Used for recieve a list
+  Attributes:
+    _taxonomy_manager_client (PolicyTagManagerClient): Used for receive a list
       of taxonomies on gcp project location.
     _serialization_client (PolicyTagManagerSerializationClient): Used for
-      recieve of Policy Tag taxonomy definitions.
-    FILE_EXTENSION (str): File name extention for protofiles.
+      receive of Policy Tag taxonomy definitions.
+    FILE_EXTENSION (str): File name extension for proto files.
     gcp_project_id (str): GCP project Id.
     location (str): GCP Composer environment location.
     parent_resource (str): Resource name of the project.

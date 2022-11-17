@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
   Typical usage example:
 
-  sql_exec = ETLAudit.get_sql_statment(
+  sql_exec = ETLAudit.get_sql_statement(
       execution_context= self.execution_context,
       task_config=self.task_config)
 """
@@ -54,7 +54,7 @@ class ETLAudit:
                         execution_context: TGrizzlyOperator,
                         task_config: TGrizzlyTaskConfig,
                         sql: Optional[str] = None) -> str:
-    """Return SQL stetment with audit values.
+    """Return SQL statement with audit values.
 
     This method used to inject additional columns
     into user's sql to execute in BQ.
@@ -65,7 +65,7 @@ class ETLAudit:
       sql (str, optional): sql text for execution
 
     Returns:
-      SQL statment with injected audit columns.
+      SQL statement with injected audit columns.
     """
 
     template_folder = pathlib.Path("/home/airflow/gcs/plugins/templates")
@@ -84,7 +84,7 @@ class ETLAudit:
   def get_column_statement(cls,
                            execution_context: TGrizzlyOperator,
                            task_config: TGrizzlyTaskConfig) -> str:
-    """Return SQL stetment - DDL statement for adding new columns.
+    """Return SQL statement - DDL statement for adding new columns.
 
     This method returns safe DDL script to add new audit columns into table
     alter table table_1 add if not exists sys_job_id integer.

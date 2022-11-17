@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ resource "google_cloudbuild_trigger" "deploy-composer-trigger" {
                         AIRFLOW_ENVIRONMENT=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['AIRFLOW_ENVIRONMENT'])") &&
                         AIRFLOW_LOCATION=$(python3 -c "import yaml;print(yaml.safe_load(open('$$ENVIRONMENT_CONFIG_FILE'))['$_ENVIRONMENT']['AIRFLOW_LOCATION'])") &&
                         cd /workspace/$$GRIZZLY_FRAMEWORK_REPO/scripts &&
-                        python3 ./deploy_composer_git.py -p "$$${GCP_ENVIRONMENT}" -l "$$${AIRFLOW_LOCATION}" -c "$$${AIRFLOW_ENVIRONMENT}" -s /workspace/$_DOMAIN -bid "$BUILD_ID" -x "$COMMIT_SHA" &&
+                        python3 ./deploy_composer_git.py -p "$$${GCP_ENVIRONMENT}" -mp "$$GRIZZLY_FRAMEWORK_PROJECT" -l "$$${AIRFLOW_LOCATION}" -c "$$${AIRFLOW_ENVIRONMENT}" -s /workspace/$_DOMAIN -bid "$BUILD_ID" -x "$COMMIT_SHA" &&
                         python3 ./run_import_cloud_build_log_trigger.py -e "$_ENVIRONMENT" -m "$$GRIZZLY_FRAMEWORK_PROJECT"
                       EOT
       ]

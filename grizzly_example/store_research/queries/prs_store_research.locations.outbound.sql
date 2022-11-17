@@ -12,5 +12,17 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT *
+SELECT 
+  zip_code,
+  year,
+  supermarket_count,
+  num_of_hazards,
+  num_of_abandoned,
+  riot_per_year,
+  zip_code_geom,
+  households_per_sq_mile,
+  commuters_by_public_transportation_rate,
+  crime_violent_rate,
+  crime_property_rate,
+  scout_score
 FROM `prs_store_research.locations`

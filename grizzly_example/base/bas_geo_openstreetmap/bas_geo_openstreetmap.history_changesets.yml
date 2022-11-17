@@ -17,3 +17,13 @@ job_write_mode: WRITE_TRUNCATE
 target_hx_loading_indicator: N
 stage_loading_query: queries/bas_geo_openstreetmap.history_changesets.sql
 job_data_quality_query: queries/general_check.sql
+
+
+descriptions:
+  columns:
+    id: Changeset ID.
+    osm_timestamp_min: Minimum timestamp of objects contained in this changeset.
+    osm_timestamp_max: Maximum timestamp of objects contained in this changeset.
+    relations: Relations that are part of this way
+    ways: Ways that are part of this way
+    nodes: Nodes that are part of this way

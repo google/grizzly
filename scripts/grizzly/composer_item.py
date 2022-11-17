@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -67,9 +67,9 @@ class ComposerItem():
 
     Args:
       file_name (string): File name to be verified and adjusted.
-      file_extention (string): File extension. File extention depends from YML
-        parameteter. Some parameters require SQL, other YML extension. If user
-        did not defined file reference with extention then default extension
+      file_extention (string): File extension. File extension depends from YML
+        parameter. Some parameters require SQL, other YML extension. If user
+        did not defined file reference with extension then default extension
         will be applied.
 
     Returns:

@@ -14,9 +14,8 @@
 
 {% for x in range(2013, 2019) %}
     CREATE OR REPLACE TABLE `bas_census_bureau_acs.zip_codes_{{ x }}` AS
-    SELECT *
-        FROM  `bigquery-public-data.census_bureau_acs.zip_codes_{{ x }}_5yr`
-    ;
+      SELECT *
+      FROM  `bigquery-public-data.census_bureau_acs.zip_codes_{{ x }}_5yr`;
 {% endfor %}
 
 

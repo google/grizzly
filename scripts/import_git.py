@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -192,7 +192,7 @@ def get_git_files_tables_rows(
     file_commits = FILE_COMMITS[filename]
 
     rows_to_insert_add = [
-        {'commit_id': commit, 'file_path': filename}
+        {'commit_id': commit, 'file_path': filename, 'cont': cont}
         for commit in file_commits]
 
     git_files_version_rows += rows_to_insert_add
@@ -207,8 +207,7 @@ def get_git_files_tables_rows(
     row = {'file_name': file_name_wo_path,
            'file_path': filename,
            'branch': config.env,
-           'subject_area': subject_area,
-           'cont': cont,}
+           'subject_area': subject_area}
 
     git_files_rows.append(row)
 
@@ -255,6 +254,8 @@ def git_files_version_data_proc(
       GIT_DATASET=GIT_DATASET,
       tmp_table=git_files_version_tmp_table_name)
 
+  print(sql_merge)
+
   bq_utils.bq_client.query(sql_merge).result()
 
   # git_files processing
@@ -289,9 +290,9 @@ def git_files_version_data_proc(
 
 
 def subjec_area_data_proc(bq_utils: BQUtils) -> None:
-  """Loding data into subject_area table by merge."""
+  """Loading data into subject_area table by merge."""
 
-  print('Loding data into subject_area table by insert')
+  print('Loading data into subject_area table by insert')
 
   table_name = f'{GIT_DATASET}.{SUBJECT_AREA_TABLE_NAME}'
   bq_utils.create_table(table_name=table_name,

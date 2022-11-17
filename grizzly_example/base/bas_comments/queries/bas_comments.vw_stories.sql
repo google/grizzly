@@ -12,8 +12,20 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT *
+SELECT 
+  id,
+  author,
+  `by`,
+  dead,
+  deleted,
+  descendants,
+  score,
+  text,
+  time,
+  time_ts,
+  title,
+  url
 FROM EXTERNAL_QUERY(
     "grizzly-test-data.us.grizzly-test-data-demodb",
-    "select * from stories;"
+    "select id, author, `by`, dead, deleted, descendants, score, text, time, time_ts, title, url from stories;"
 )

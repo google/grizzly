@@ -77,7 +77,8 @@ CREATE TABLE IF NOT EXISTS `etl_log.git_file`
 CREATE TABLE IF NOT EXISTS `etl_log.git_files_version`
 (
   commit_id STRING,
-  file_path STRING
+  file_path STRING,
+  cont STRING
 );
 
 CREATE TABLE IF NOT EXISTS `etl_log.job_build`
@@ -136,4 +137,30 @@ CREATE TABLE IF NOT EXISTS `etl_log.subject_area_delete_build`
   build_datetime	    STRING	
 );
 
+CREATE TABLE IF NOT EXISTS `etl_log.grizzly_information_schema_column_field_paths`
+(
+  table_catalog STRING,
+  table_schema STRING,
+  table_name STRING,
+  column_name STRING,
+  field_path STRING,
+  data_type STRING,
+  description STRING,
+  collation_name STRING,
+  metadata_datetime DATETIME,
+  job_id INT64,
+  job_name STRING
+);
 
+CREATE TABLE IF NOT EXISTS `etl_log.grizzly_information_schema_table_options`
+(
+  table_catalog STRING,
+  table_schema STRING,
+  table_name STRING,
+  option_name STRING,
+  option_type STRING,
+  option_value STRING,
+  metadata_datetime DATETIME,
+  job_id INT64,
+  job_name STRING
+);

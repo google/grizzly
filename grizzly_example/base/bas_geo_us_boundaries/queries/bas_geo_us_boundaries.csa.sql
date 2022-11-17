@@ -12,5 +12,17 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.csa_code,
+  t.name,
+  t.lsad_name,
+  t.msa_lsad_code,
+  t.mtfcc_feature_class_code,
+  t.area_land_meters,
+  t.area_water_meters,
+  t.internal_point_lon,
+  t.internal_point_lat,
+  t.internal_point_geom,
+  t.csa_geom
 FROM `bigquery-public-data.geo_us_boundaries.csa` AS t

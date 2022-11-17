@@ -17,3 +17,10 @@ job_write_mode: WRITE_TRUNCATE
 target_hx_loading_indicator: N
 stage_loading_query: queries/bas_geo_openstreetmap.planet_features_multilinestrings.sql
 job_data_quality_query: queries/general_check.sql
+
+
+descriptions:
+  columns:
+    osm_timestamp: Last-modified timestamp for this object.
+    geometry: GEOGRAPHY-encoded point
+    all_tags: Unstructured key=value attributes for this object.

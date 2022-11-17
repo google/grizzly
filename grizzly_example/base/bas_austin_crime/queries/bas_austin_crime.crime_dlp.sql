@@ -12,23 +12,23 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-select
-unique_key,
-address,
-census_tract,
-clearance_date,
-clearance_status,
-council_district_code,
-description,
-district,
-latitude,
-longitude,
-location,
-location_description,
-primary_type,
-timestamp,
-x_coordinate,
-y_coordinate,
-year,
-zipcode
-from `bigquery-public-data.austin_crime.crime`
+SELECT
+  unique_key,
+  address,
+  census_tract,
+  clearance_date,
+  clearance_status,
+  council_district_code,
+  description,
+  district,
+  latitude,
+  longitude,
+  location,
+  location_description,
+  primary_type,
+  timestamp,
+  x_coordinate,
+  y_coordinate,
+  year,
+  zipcode
+FROM `bigquery-public-data.austin_crime.crime`

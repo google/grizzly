@@ -27,8 +27,10 @@ riot_per_year AS (
         zip_code
 )
 SELECT
-riot_per_year.*,
-zc.zip_code_geom
+  riot_per_year.year,
+  riot_per_year.zip_code,
+  riot_per_year.riot_per_year,
+  zc.zip_code_geom
 FROM
 riot_per_year
 LEFT JOIN

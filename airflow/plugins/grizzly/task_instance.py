@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class TaskInstance():
 
   Attributes:
     _default_attribute_values (dict): Default configuration values. In case if
-      some parameter was not defined in YML file default value could be recieved
+      some parameter was not defined in YML file default value could be received
       by __getattr__ from this attribute.
       Each YML file attribute has correspondent attribute in TaskInstance class.
     _load_as_sql (list(string)): List of attributes defined in task YML file
@@ -65,7 +65,7 @@ class TaskInstance():
     schedule_interval (string): Schedule interval. Task could have custom
       schedule interval defined in attribute [schedule_interval] that could
       override DAG schedule defined in SCOPE.yml file. If defined Task schedule
-      should beless frequent than DAG schedule.
+      should be less frequent than DAG schedule.
     is_custom_schedule (bool): True if custom schedule interval was defined in
       task YML file.
     target_hx_loading_indicator (string): Define importance of history table
@@ -88,7 +88,7 @@ class TaskInstance():
   _load_as_sql = ['stage_loading_query']
   _load_as_json = ['data_catalog_tags']
   _load_as_yml = [
-  ]  # just placeholder for future YML files refferenced by task config
+  ]  # just placeholder for future YML files referenced by task config
   _load_as_list_of_sql = [
       'job_data_quality_query', 'pre_etl_scripts', 'post_etl_scripts',
       'access_scripts'
@@ -129,7 +129,9 @@ class TaskInstance():
       'export_config': None,
       'notification_pubsub': None,
       # Audit
-      'target_audit_indicator': 'N'
+      'target_audit_indicator': 'N',
+      # Descriptions
+      'descriptions': {'table': None, 'columns': {}}
     }
 
   def __init__(self, task_config_path: str, context: Any) -> None:
@@ -236,7 +238,7 @@ class TaskInstance():
   def __getattr__(self, name: str) -> Any:
     """Return default task instance attribute values.
 
-    Return default attribute value in case if it was not defind in task YML
+    Return default attribute value in case if it was not defined in task YML
     or if it was not precalculated inside init method.
     Look up for default value in _default_attribute_values dictionary.
 
@@ -257,7 +259,7 @@ class TaskInstance():
       file (string): Reference to file to be loaded.
       file_format (string): File type. This attribute affects how file will be
         loaded.
-        Will it be laoded as text or as object for JSON and YML.
+        Will it be loaded as text or as object for JSON and YML.
       **kwargs (dict): Additional parameters to be passed to JINJA2 template
         renderer.
 

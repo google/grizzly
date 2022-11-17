@@ -26,7 +26,7 @@ SELECT
   scout_score,
   NULL AS sys_job_id,
   # BIGQUERY and Superset has different JSON format for work with a geo data.
-  # Bellow is the removal extra breckets and begin of string.
+  # Below is the removal extra brackets and begin of string.
   # SUBSTRING 39 for Polygon, 46 for MultiPolygon
   IF(SUBSTR(ST_ASGEOJSON(zip_code_geom), 0, 37) = '{ "type": "Polygon", "coordinates": [',
     REPLACE(REPLACE(REPLACE(SUBSTR(ST_ASGEOJSON(zip_code_geom), 39),' ] ] }',']'),'[ ','['),'] ], [[','], ['),

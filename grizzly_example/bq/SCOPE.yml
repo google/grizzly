@@ -30,3 +30,4 @@ deployment_scope:
   - views/etl_log.vw_subject_areas_build.sql
   - functions/data_lineage_functions.sql
   - tables/bas_austin_crime.crime_dlp.sql
+  - functions/tables_desc_history_functions.sql

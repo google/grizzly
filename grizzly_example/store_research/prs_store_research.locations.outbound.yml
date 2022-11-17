@@ -14,4 +14,4 @@
 
 job_write_mode: EXPORT_DATA
 stage_loading_query: queries/prs_store_research.locations.outbound.sql
-notification_pubsub: gizzly_data_outbound_feed
+notification_pubsub: grizzly_data_outbound_feed

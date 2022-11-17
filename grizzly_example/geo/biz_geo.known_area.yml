@@ -22,4 +22,3 @@ pre_etl_scripts:
   - queries/ad-hoc/truncate_table.sql
 post_etl_scripts:
   - queries/ad-hoc/table_sampling.sql
-  - queries/ad-hoc/biz_geo.known_area_description.sql

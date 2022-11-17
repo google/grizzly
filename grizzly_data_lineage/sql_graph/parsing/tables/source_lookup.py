@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 from typing import Tuple
 
 from sql_graph.exceptions import ColumnLookupError
@@ -6,47 +20,29 @@ from sql_graph.exceptions import TableLookupError
 from sql_graph.typing import TTable
 
 
-def lookup_external_source_table(table: TTable) -> str:
-  """Returns the name external table if there is one and only one such table.
+def lookup_source_table_with_star_column(table: TTable) -> str:
+  """Returns the name of table with SC if there is one and only one such table.
 
   Is used in cases where the column was not found among common sources by
-  name. In such case, the only external table would be inferred as the source
-  table. If there are multiple external tables, there would be more than one
-  possibility for the source table because there is no information about
-  external tables' columns, so a TableLookupError would be raised.
+  name. In such case, the table with star column (if there is one and only one)
+  would be inferred as the source table. If there are multiple such tables,
+  there would be more than one possibility for the source table because there
+  is no information about what columns are masked by star column,
+  so a TableLookupError would be raised.
 
   Args:
     table (TTable): table to search in.
   Returns:
      str: table name
   """
-  from sql_graph.parsing.tables import ExternalTable
-  external_sources = [t for t in table.get_sources() if 
-                      isinstance(t, ExternalTable)]
-  if len(external_sources) == 1:
-    return external_sources[0].name
-  elif len(external_sources) > 1:
-    raise TableLookupError("More than one external table")
+  sources_with_star_column = [t for t in table.get_sources()
+                              if t.columns.star_column.initialized]
+  if len(sources_with_star_column) == 1:
+    return sources_with_star_column[0].name
+  elif len(sources_with_star_column) > 1:
+    raise TableLookupError("More than one table with star column")
   else:
-    raise TableLookupError("No external tables")
-
-
-def lookup_single_source_table(table: TTable) -> str:
-  """Returns the table name if there is one and only one common source.
-
-  If there is only one table in common_sources, then it is inferred to be the
-  source for columns, source of which was not found by any other methods.
-  Otherwise, raises TableLookupError.
-
-  Args:
-    table (TTable): table to search in.
-  Returns:
-     str: table name
-  """
-  if len(table.get_sources()) == 1:
-    return table.get_sources()[0].name
-  else:
-    raise TableLookupError("Number of common sources is not equal one")
+    raise TableLookupError("No tables with star column")
 
 
 def lookup_source_table_by_column(table: TTable, column_name: str) -> str:
@@ -88,8 +84,5 @@ def lookup_source(table: TTable, source: str) -> Tuple[str, str]:
     try:
       table_name = lookup_source_table_by_column(table, source)
     except ParsingLookupError:
-      try:
-        table_name = lookup_external_source_table(table)
-      except TableLookupError:
-        table_name = lookup_single_source_table(table)
+      table_name = lookup_source_table_with_star_column(table)
   return table_name, column_name

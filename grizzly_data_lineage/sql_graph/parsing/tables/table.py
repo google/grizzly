@@ -1,11 +1,25 @@
-"""Abstract table class."""
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
+"""Abstract table class."""
 import abc
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Set
 
+from sql_graph.exceptions import ParsingError
 from sql_graph.exceptions import TableLookupError
 from sql_graph.parsing.columns import Column
 from sql_graph.parsing.columns import ColumnContainer
@@ -15,6 +29,7 @@ from sql_graph.parsing.primitives import Container
 from sql_graph.parsing.primitives import TextInfoPanel
 from sql_graph.parsing.primitives.settings import TABLE_CHILD_SPACING
 from sql_graph.parsing.primitives.settings import TABLE_HORIZONTAL_MARGIN
+from sql_graph.parsing.primitives.settings import TABLE_MAX_WIDTH_PENALTY
 from sql_graph.parsing.primitives.settings import TABLE_VERTICAL_MARGIN
 from sql_graph.parsing.utils.namespace import TableNamespace
 from sql_graph.typing import TGridItem
@@ -45,6 +60,7 @@ class Table(Container, abc.ABC):
   HORIZONTAL_MARGIN = TABLE_HORIZONTAL_MARGIN
   VERTICAL_MARGIN = TABLE_VERTICAL_MARGIN
   CHILD_SPACING = TABLE_CHILD_SPACING
+  MAX_WIDTH_PENALTY = TABLE_MAX_WIDTH_PENALTY
 
   def _add_source_by_name(self, source_name: str) -> None:
     """Looks up table by name and adds it.
@@ -100,10 +116,39 @@ class Table(Container, abc.ABC):
 
   def get_all_sources(self) -> Set[TTable]:
     """Override of get_all_sources to convert columns' sources to tables."""
-    sources = set(self.get_sources())
-    for source in [s for c in self for s in c.get_sources()]:
-      sources.add(source.table)
-    return sources
+    sources = super(Table, self).get_all_sources()
+    result = set()
+    for source in sources:
+      if isinstance(source, Column):
+        source = source.table
+      if isinstance(source, Table) and source not in result:
+        result.add(source)
+    return result
+
+  def get_all_table_references(self) -> Set[TTable]:
+    """Modified version of get_all_references, which converts refs to tables."""
+    references = super(Table, self).get_all_references()
+    result = set()
+    for reference in references:
+      if isinstance(reference, Column):
+        reference = reference.table
+      if isinstance(reference, Table) and reference not in result:
+        result.add(reference)
+    return result
+
+  def remove_source(self, source: TGridItem) -> None:
+    """Override of remove_source to control for a special case.
+
+    If a source, which is requested to be removed, it not a direct source, but
+    a source from one of the table columns, the ParsingError will not be raised.
+    """
+    try:
+      super(Table, self).remove_source(source)
+    except ParsingError as e:
+      if source in self.get_all_sources():
+        return
+      else:
+        raise e
 
   def refresh_source(self, old_source: TTable) -> None:
     """Removes and adds source by name to refresh it."""
@@ -147,8 +192,11 @@ class Table(Container, abc.ABC):
     """
     physical_sources = []
     for source in self.get_all_sources():
-      physical_sources.extend(source.relink_to_physical_ancestors())
-    self._sources = physical_sources
+      if source.physical:
+        physical_sources.append(source)
+      else:
+        physical_sources.extend(source.relink_to_physical_ancestors())
+    self.replace_sources(physical_sources)
     super(Table, self).relink_to_physical_ancestors()
     return [self] if self.physical else self.get_sources()
 

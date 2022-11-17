@@ -1,3 +1,17 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Cycle breaker table."""
 from typing import Set
 
@@ -27,10 +41,13 @@ class CycleBreakerTable(Table):
                                              new_table=self)
 
   def _parse(self) -> None:
-    """Override of the parsing method to cop"""
-    self.add_source(self.source_table)
+    """Override of the parsing method to set up the CycleBreaker table.
+
+    Copies all columns from the source table and relinks references of the
+    target table.
+    """
     for column in self.source_table.columns:
-      column_copy = column.copy(new_table=self)
+      column_copy = column.copy(new_table=self, skip_parsing=True)
       for source in column_copy.get_sources():
         column_copy.remove_source(source)
       self.columns.add_column(column_copy)

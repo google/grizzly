@@ -12,5 +12,15 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.id,
+  t.version,
+  t.username,
+  t.changeset,
+  t.visible,
+  t.osm_timestamp,
+  t.geometry,
+  t.all_tags,
+  t.latitude,
+  t.longitude
 FROM `bigquery-public-data.geo_openstreetmap.planet_nodes` AS t

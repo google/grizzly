@@ -12,5 +12,9 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT t.*
+SELECT
+  t.geo_id,
+  t.full_name,
+  t.mtfcc_feature_class_code,
+  t.railway_geom
 FROM `bigquery-public-data.geo_us_boundaries.railways` AS t

@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
   Typical usage example:
 
-  sql_exec = ETLcdc.get_sql_statment(
+  sql_exec = ETLcdc.get_sql_statement(
     execution_context= self.execution_context,
     task_config=self.task_config)
 """
@@ -53,7 +53,7 @@ class ETLcdc:
                         execution_context: TGrizzlyOperator,
                         task_config: TGrizzlyTaskConfig,
                         sql: Optional[str] = None) -> str:
-    """Return SQL stetment with CDC values.
+    """Return SQL statement with CDC values.
 
     This method used to inject additional columns into user's
     sql to execute in BQ.
@@ -64,7 +64,7 @@ class ETLcdc:
       sql (str, optional): sql of execution
 
     Returns:
-      SQL statment with injected CDC columns
+      SQL statement with injected CDC columns
     """
 
     template_folder = pathlib.Path("/home/airflow/gcs/plugins/templates")

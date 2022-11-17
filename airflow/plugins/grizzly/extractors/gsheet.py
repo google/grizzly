@@ -1,4 +1,4 @@
-# Copyright 2021 Google LLC
+# Copyright 2022 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ class ExtractorGSheet(BaseExtractor):
 
   Attributes:
     task_config (TGrizzlyTaskConfig): Task configuration with
-        parsed and pre-proccessed information from task YML file.
+        parsed and pre-processed information from task YML file.
     target_table (string): Name of a table where GSheet data should be stored.
     execution_context (TGrizzlyOperator): Instance of GrizzlyOperator executed.
     write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY,
@@ -69,7 +69,7 @@ class ExtractorGSheet(BaseExtractor):
       inited as False else as True.  After upload of first chunk of data it
       changed to False.
     gsheet_id (string): GSheet Id
-    range_name (string): Gsheet range name. Could be defined as sheeet(page)
+    range_name (string): Gsheet range name. Could be defined as sheet(page)
       name or as cells range in GSheet supported format for example
       <<Job!A1:B2>>.
     sheet (spreadsheets): Client for work with Google spreadsheets API.
@@ -90,10 +90,10 @@ class ExtractorGSheet(BaseExtractor):
       execution_context (TGrizzlyOperator): Instance of GrizzlyOperator
         executed.
       task_config (TGrizzlyTaskConfig): Task configuration with
-        parsed and pre-proccessed information from task YML file.
+        parsed and pre-processed information from task YML file.
       target_table (string): Name of a table where GSheet data should be stored.
       write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY
-        WRITE_TRUNCATE. In case if etl_factory use EtractorBQ for staging table
+        WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table
         it will be WRITE_TRUNCATE. If it executed for table defined in
         [target_table_name] attribute of task YML file this class attribute will
         be  equal to [job_write_mode] attribute of task YML file.
@@ -209,7 +209,7 @@ class ExtractorGSheet(BaseExtractor):
 
     Args:
       value (Any): Gsheet value.
-      metadata (dict): Information about preffered BQ datatype and column name.
+      metadata (dict): Information about preferred BQ datatype and column name.
 
     Returns:
       (str): String with BQ CAST.
@@ -230,7 +230,7 @@ class ExtractorGSheet(BaseExtractor):
     """Get table header from GSheet.
 
     Table header extracted from a 1st row in GSheet range.
-    Method able to perform BQ column name maping to GSheet header.
+    Method able to perform BQ column name mapping to GSheet header.
     Column mapping could be defined in attribute [source_columns] of task YML
     file.
 
@@ -257,10 +257,10 @@ class ExtractorGSheet(BaseExtractor):
         # replace all non alpha_numeric characters in column name with ''
         column_name_parsed = column_name_raw['formattedValue'].strip()
         column_name_adjusted = re.sub(r'\W', '', column_name_parsed)
-        # Get a count of columns with a same name already proccessed.
+        # Get a count of columns with a same name already processed.
         dub_count = columns_dup.count(column_name_adjusted.lower())
         # Put column name before duplicate naming resolved
-        # Cast to lower as BQ column names are case insensetive
+        # Cast to lower as BQ column names are case-insensitive
         columns_dup.append(column_name_adjusted.lower())
         if dub_count:
           # if column has duplicates in spreadsheet
@@ -316,7 +316,7 @@ class ExtractorGSheet(BaseExtractor):
 
     Extract information from GSheet and yield chunks of data for further
     uploading into target BQ table.
-    Chunk side is calculated dinamically on a base of size of data extracted
+    Chunk side is calculated dynamically on a base of size of data extracted
     from GSheet.
     extract method applies new column names on a base of configuration in
     ['source_columns'] attribute of task YML file.
@@ -463,7 +463,7 @@ class ExtractorGSheet(BaseExtractor):
 
     # create staging table in case if it first run of load method
     # in further ETL run append data to existing staging table.
-    # this functionality is importante for batch/chunk loads
+    # this functionality is important for batch/chunk loads
     write_disposition = ('WRITE_TRUNCATE' if self.is_new_table_flag
                          else 'WRITE_APPEND')
     self.is_new_table_flag &= False

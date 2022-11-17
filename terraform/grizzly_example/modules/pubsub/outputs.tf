@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,5 +15,5 @@
  */
 
 output "pub_sub_id" {
-  value = google_pubsub_topic.gizzly_data_outbound_feed.id
+  value = google_pubsub_topic.grizzly_data_outbound_feed.id
 }
