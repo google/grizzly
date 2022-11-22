@@ -301,7 +301,7 @@ session to initialize.
         ```
 
     *   On your desktop, open Superset in a browser window by entering
-        [http://localhost:8088](http://localhost:8088). Username and password
+        [http://localhost:8088](http://localhost:8080). Username and password
         are admin.
 
     *   In the [stem_name]-dev project,
@@ -323,7 +323,7 @@ session to initialize.
         BigQuery".
 
     *   Using your browser,
-        [download](https://github.com/google/grizzly-dev/blob/main/grizzly_example/dashboard_examples.zip)
+        [download](https://github.com/google/grizzly/blob/main/grizzly_example/dashboard_examples.zip)
         the eight example dashboard json files to your desktop.  Using Superset, import
         each dashboard (Settings -> Import Dashboards).
         ![](./images/superset.png)
