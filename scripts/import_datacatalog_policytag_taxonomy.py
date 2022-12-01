@@ -46,7 +46,7 @@ def main(args: argparse.Namespace) -> None:
   """
   Auth.auth()
   gcp_resource_location = args.gcp_resource_location
-  # Get a set of locations. As GCP composer and BQ could operates only with
+  # Get a set of locations. As GCP composer and BQ could operate only with
   # DataCatalog taxonomies in a same location. We will get location from
   # GCP Composer environment plus multi-region locations.
   # For example: [us-central1, us]

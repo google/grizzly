@@ -1,7 +1,7 @@
 create table {{ task_config.target_table_name }}
 as
 select source.*,
-  TO_JSON_STRING( struct( {{ task_config.keys|join(',') }} )) as sys_kyes,
+  TO_JSON_STRING( struct( {{ task_config.keys|join(',') }} )) as sys_keys,
 
     {%- if task_config|attr('delta_compare') %}
       MD5( TO_JSON_STRING( struct( {{ task_config.delta_compare|join(',') }} )) ) as sys_hash,

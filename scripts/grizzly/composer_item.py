@@ -15,7 +15,7 @@
 """Definition of base class for all grizzly items.
 
 Base class is used for definition of Scope and Task classes.
-Also it contains methods common for all grizzly items.
+Also, it contains methods common for all grizzly items.
 
 Typical usage example:
 class Task(ComposerItem):
@@ -56,7 +56,7 @@ class ComposerItem():
   def _normalize_file_name(
       self,
       file_name: str,
-      file_extention: str
+      file_extension: str
   ) -> pathlib.Path:
     """Normalize file names.
 
@@ -67,16 +67,16 @@ class ComposerItem():
 
     Args:
       file_name (string): File name to be verified and adjusted.
-      file_extention (string): File extension. File extension depends from YML
+      file_extension (string): File extension. File extension depends on YML
         parameter. Some parameters require SQL, other YML extension. If user
-        did not defined file reference with extension then default extension
+        did not define file reference with extension then default extension
         will be applied.
 
     Returns:
         (pathlib.Path) Reference to file.
     """
     normalized_file_name = self.source_path / file_name
-    if normalized_file_name.suffix != file_extention:
+    if normalized_file_name.suffix != file_extension:
       normalized_file_name = normalized_file_name.parent / (
-          f'{normalized_file_name.name}{file_extention}')
+          f'{normalized_file_name.name}{file_extension}')
     return normalized_file_name

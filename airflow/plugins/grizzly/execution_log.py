@@ -83,7 +83,7 @@ class ExecutionLog():
 
   Attributes:
     job_start_timestamp (string): Time when task was started.
-    job_id (int): DAG run Id. All tasks executed during DAG run will have
+    job_id (int): DAG run ID. All tasks executed during DAG run will have
       the same job_id.
     job_name (string): Airflow task name.
     job_end_timestamp (string): Time when  Airflow task completed or failed.

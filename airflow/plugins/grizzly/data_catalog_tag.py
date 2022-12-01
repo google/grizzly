@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Setup a DataCatalog tags and Column Level security.
+"""Set up a DataCatalog tags and Column Level security.
 
 Deployment and configuration DataCatalog entities.
 Read more about Data Catalog and column level security here:
@@ -51,7 +51,7 @@ class DataCatalogTag:
     execution_context (GrizzlyOperator): Instance of GrizzlyOperator executed.
     column_policy_tags (list[dict]): List of Column level policy (security) tags
       to be applied in format
-      { 'column_name: 'column_policy_tag_id'}
+      { 'column_name': 'column_policy_tag_id'}
     datacatalog_tags (list[dict]): Content of JSON file defined in
       [data_catalog_tags] attribute of task YML file. Content is rendered as
       JINJA2 template and loaded as list of dictionaries with definition of
@@ -77,7 +77,7 @@ class DataCatalogTag:
         executed.
       column_policy_tags (list): List of Column level policy (security)
         tags to be applied in format
-        {'column_name: 'taxonomy|tag_hierarchy'}
+        {'column_name': 'taxonomy|tag_hierarchy'}
         Contains column level security configuration.
       datacatalog_tags (list): Content of JSON file defined in
         [data_catalog_tags] attribute of task YML file. Content is rendered as
@@ -140,7 +140,7 @@ class DataCatalogTag:
 
     Args:
       column_policy_tags (list[dict]): List of column policy tag definition to
-        be parsed in format: {'column_name: 'taxonomy|tag_hierarchy'}
+        be parsed in format: {'column_name': 'taxonomy|tag_hierarchy'}
 
     Raises:
       AirflowException: Raise error in case if Column policy taxonomy as not
@@ -149,7 +149,7 @@ class DataCatalogTag:
 
     Returns:
       (dict): List of column policy tag definition in format
-        {'column_name: 'column_policy_tag_id'}
+        {'column_name': 'column_policy_tag_id'}
     """
     column_policy_tags_mapping = {}
     # get a set of all applicable taxonomies
@@ -214,7 +214,7 @@ class DataCatalogTag:
     """Get Data Catalog Taxonomy tag hierarchy mapping.
 
     Method performs recursive scan of taxonomy tags hierarchy and creates
-    mapping between DataCatalog policy tag id and human readable
+    mapping between DataCatalog policy tag id and human-readable
     representation of this tag in format similar to 'taxonomy|tag_hierarchy'
 
     Args:
@@ -224,7 +224,7 @@ class DataCatalogTag:
       tag (dict): Rest API definition of policy tag. More details about format
         of dictionary you can find here:
         https://cloud.google.com/data-catalog/docs/reference/rest/v1/projects.locations.taxonomies.policyTags#PolicyTag
-      tag_display_name (string): Tag name in human readable format
+      tag_display_name (string): Tag name in human-readable format
         'parent_tag_1|parent_tag_1.1|tag'
       tag_id (string): Tag id in format supported by Data Catalog Rest API.
         projects/{project}/locations/{location}/taxonomies/{taxonomies}/policyTags/{policytag}
@@ -295,7 +295,7 @@ class DataCatalogTag:
     task YML file.
 
     Args:
-      target_table (string): Name of a table on which you want to setup column
+      target_table (string): Name of a table on which you want to set up column
         level security.
     """
     if self.column_policy_tags:

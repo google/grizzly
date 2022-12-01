@@ -40,7 +40,7 @@ class BaseExtractor:
   Attributes:
     task_config (TGrizzlyTaskConfig): Task configuration with
       parsed and pre-processed information from task YML file.
-    target_table (string): Name of a ETL target table.
+    target_table (string): Name of an ETL target table.
     execution_context (TGrizzlyOperator): Instance of GrizzlyOperator executed.
     write_disposition (string): BQ write disposition WRITE_APPEND, WRITE_EMPTY,
       WRITE_TRUNCATE. In case if etl_factory use ExtractorBQ for staging table

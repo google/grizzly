@@ -12,10 +12,17 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-SELECT
-  IF (LENGTH(ap.Postcode)<4, LPAD(ap.Postcode, 4, '0'), ap.Postcode) AS postcode,
-  ap.State__Territory1 AS state_territory,
-  ap.Total AS total_population,
-  ap.age_65_over AS over_65_population,
-  ap.age_65_over / ap.Total AS over_65_population_rate
-FROM `bas_geo_australia.tax_individual_age_by_postcode` AS ap
+create or replace view etl_log.vw_build_data_lineage_queue
+as
+with sa_builds as (
+select build_id, build_datetime from etl_log.subject_area_build 
+union all
+select build_id, build_datetime from etl_log.subject_area_delete_build
+)
+select sab.*, cast( substr(sab.build_datetime,0,19) as datetime) as dt_build_datetime
+ from sa_builds as  sab
+where not exists (
+  select 1 from `etl_log.data_lineage_build` dlb
+  where dlb.data_lineage_build_id = sab.build_id
+)
+order by sab.build_datetime desc

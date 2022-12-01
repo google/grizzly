@@ -16,7 +16,7 @@
 
   TaskInstance is used as an additional level on the Airflow task instance
   to add more functionality and configuration to Grizzly platform.
-  It represent Task Instance configuration on a base of task YML file.
+  It represents Task Instance configuration on a base of task YML file.
 
   Typical usage example:
 
@@ -160,7 +160,7 @@ class TaskInstance():
     self._raw_config = self.get_value_from_file(
         file=str(self._task_config_file), file_format='yml')
 
-    # get schedule_interval from scope in case if it not defined per task
+    # get schedule_interval from scope in case if it is not defined per task
     if 'schedule_interval' not in self._raw_config:
       self.schedule_interval = self._context['dag'].schedule_interval
       self.is_custom_schedule = False
@@ -229,7 +229,7 @@ class TaskInstance():
 
   @property
   def is_legacy_sql(self) -> bool:
-    """Return True if use_legacy_sql was defined as True or Y in task YML file."""
+    """Return True if use_legacy_sql was True or Y in task YML file."""
     if self.use_legacy_sql in ['Y', 'y', 'True', 'true', True]:
       return True
     else:

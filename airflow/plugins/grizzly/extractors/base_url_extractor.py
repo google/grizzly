@@ -89,7 +89,7 @@ class BaseURLExtractor(BaseExtractor):
 
 
     Raises:
-      AirflowException: Raise exception in case if GSheet Id reference was not
+      AirflowException: Raise exception in case if GSheet ID reference was not
         defined in task YML file.
     """
     super().__init__(execution_context, task_config, target_table,
@@ -100,7 +100,7 @@ class BaseURLExtractor(BaseExtractor):
     self.data_path = pathlib.Path(self.COMPOSER_DATA_FOLDER,
                                   self.dag_name,
                                   self.task_name)
-    # generate directory if it does not exists
+    # generate directory if it does not exist
     self.data_path.mkdir(parents=True, exist_ok=True)
 
   def extract(self) -> Generator[Dict[str, Any], None, None]:

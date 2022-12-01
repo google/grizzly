@@ -4,7 +4,7 @@ using
 
   select * from (
   select source.*,
-    TO_JSON_STRING( struct( {{ task_config.keys|join(',') }} )) as sys_kyes,
+    TO_JSON_STRING( struct( {{ task_config.keys|join(',') }} )) as sys_keys,
 
     {%- if task_config|attr('delta_compare') %}
       MD5( TO_JSON_STRING( struct( {{ task_config.delta_compare|join(',') }} )) ) as sys_hash,
@@ -20,14 +20,14 @@ using
     (
       select 1 from {{ task_config.target_table_name }} as target
       where
-            target.sys_kyes = source.sys_kyes
+            target.sys_keys = source.sys_keys
         and target.sys_hash = source.sys_hash
     )
 
 ) as source
 on
 (
-  target.sys_kyes = source.sys_kyes
+  target.sys_keys = source.sys_keys
 )
 WHEN MATCHED THEN
   UPDATE SET
@@ -35,14 +35,14 @@ WHEN MATCHED THEN
       {%- if not loop.first %} , {%endif%}
         target.{{f.name}} =  source.{{f.name}}
     {%- endfor%}
-    , target.sys_kyes = source.sys_kyes
+    , target.sys_keys = source.sys_keys
     , target.sys_hash = source.sys_hash
     , target.sys_act_ts = source.sys_act_ts
     , target.sys_act_id = 'U'
 WHEN NOT MATCHED BY TARGET THEN
   INSERT (
     {{ data.source.schema|join(',', attribute='name') }}
-    , sys_kyes
+    , sys_keys
     , sys_hash
     , sys_act_ts
     , sys_act_id
@@ -51,7 +51,7 @@ WHEN NOT MATCHED BY TARGET THEN
   {% for f in data.source.schema %}
     {%- if not loop.first %} , {%endif%} source.{{f.name}}
   {%- endfor%}
-  , source.sys_kyes
+  , source.sys_keys
   , source.sys_hash
   , source.sys_act_ts
   , source.sys_act_id

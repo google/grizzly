@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# examples of PostgresSQL and MySQL usage
-schedule_interval: 0 0 1 1 *
-execution_timeout_per_table: 1200
-etl_scope:
-  - bas_taxi.vw_taxi_mysql
-  - bas_taxi.vw_taxi_postgres
+target_table_name: bas_taxi.vw_taxi_postgres
+job_write_mode: CREATE_VIEW
+stage_loading_query: queries/bas_taxi.vw_taxi_postgres.sql

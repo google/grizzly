@@ -16,7 +16,7 @@ deployment_scope:
   - datasets/init_example_datasets.sql
   - functions/common_functions_library.LocalDatetime.sql
   - tables/etl_log.metadata.sql
-  - views/etl_log.vw_build_data_lineage_queq.sql
+  - views/etl_log.vw_build_data_lineage_queue.sql
   - views/etl_log.vw_subject_area_build_files.sql
   - views/etl_log.vw_last_git_commit.sql
   - views/etl_log.vw_build_repository_difference.sql

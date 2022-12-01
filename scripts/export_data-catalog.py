@@ -163,10 +163,10 @@ def main(args: argparse.Namespace) -> None:
   repo = Repo(folder)
   print(f'Repo folder: {folder}')
 
-  dest_folder = f'{folder}/{FILES_FOLDER}'
-  pathlib.Path(dest_folder).mkdir(parents=True, exist_ok=True)
+  destination_folder = f'{folder}/{FILES_FOLDER}'
+  pathlib.Path(destination_folder).mkdir(parents=True, exist_ok=True)
 
-  files = glob.glob(f'{dest_folder}/*.gcp_proto')
+  files = glob.glob(f'{destination_folder}/*.gcp_proto')
 
   print('Removing deleted files from git repo')
   for f in files:
@@ -175,14 +175,14 @@ def main(args: argparse.Namespace) -> None:
 
   print(f'Deleted files: {files}')
 
-  pathlib.Path(dest_folder).mkdir(parents=True, exist_ok=True)
+  pathlib.Path(destination_folder).mkdir(parents=True, exist_ok=True)
 
   for name, template in source_tags.items():
     file_name = DeploymentUtils.proto_save(
         obj=template,
         class_message=TagTemplate,
         file_name=f'{name}.gcp_proto',
-        path=dest_folder)
+        path=destination_folder)
     repo.git.add([file_name])
     print(file_name)
 

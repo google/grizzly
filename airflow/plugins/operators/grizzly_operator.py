@@ -53,7 +53,7 @@ class GrizzlyOperator(BaseOperator):
   Upload data into target BigQuery table.
 
   Attributes:
-    bigquery_conn_id (string): Airflow connection Id.
+    bigquery_conn_id (string): Airflow connection ID.
       Default value [bigquery_default].
 
     bq_cursor (google.cloud.bigquery.dbapi.Cursor): DB-API Cursor to Google
@@ -407,7 +407,7 @@ class GrizzlyOperator(BaseOperator):
     Args:
       target_table (string): Target table name.
     """
-    # if access scripts are not defined do nothing
+    # if access scripts are not defined, do nothing
     if self.task_config.access_scripts:
       self.log.info(f'ETL: Running access scripts on table [{target_table}]')
       # Pass RAW access_scripts from task yml file

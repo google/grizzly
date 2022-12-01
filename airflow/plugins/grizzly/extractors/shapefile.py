@@ -16,7 +16,7 @@
 
 ExtractorBQ is inherited from grizzly.extractors.base_extractor.BaseExtractor
 Only load method implemented. Extract and load methods are inherited from
-BaseExtractor and they just bypass default empty objects.
+BaseExtractor, and they just bypass default empty objects.
 Instance of this class created and used by grizzly.etl_factory.ETLFactory
 For more insights check implementation of base_extractor and etl_factory.
 """

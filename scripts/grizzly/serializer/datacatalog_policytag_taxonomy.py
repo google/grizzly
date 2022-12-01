@@ -17,7 +17,7 @@ Could be used for import/export policy tag taxonomies from proto files.
 
 Typical usage example:
   t = DataCatalogPolicyTagTaxonomy(
-        gcp_project_id='MY_GCP_PROJECT_ID,
+        gcp_project_id='MY_GCP_PROJECT_ID',
         location='us-central1')
   t.export_taxonomy(template_path='/tmp/data-catalog-policytag-taxonomy-templates')
   t.import_taxonomy(template_path='/tmp/data-catalog-policytag-taxonomy-templates')

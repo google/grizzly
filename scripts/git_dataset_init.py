@@ -51,18 +51,18 @@ from grizzly_git.config import SUBJECT_AREA_TABLE_NAME
 from grizzly_git.config import SUBJECT_AREA_TABLE_SCHEMA
 
 
-def create_table(bq_uitls: BQUtils,
+def create_table(bq_utils: BQUtils,
                  table_name: str,
                  table_schema: List[Any]) -> None:
   """Create BQ table with defined schema.
 
   Args:
-      bq_uitls (BQUtils): Instance of BQUtils used for work with tables.
+      bq_utils (BQUtils): Instance of BQUtils used for work with tables.
       table_name (str): Name of a table to be created.
       table_schema (List[Any]): BQ table definition.
   """
   table_name = f'{GIT_DATASET}.{table_name}'
-  bq_uitls.create_table(table_name=table_name, table_schema=table_schema)
+  bq_utils.create_table(table_name=table_name, table_schema=table_schema)
 
 
 def main(args: argparse.Namespace) -> None:
@@ -74,25 +74,25 @@ def main(args: argparse.Namespace) -> None:
 
   bq_utils = BQUtils(gcp_project_id=config.gcp_environment_target)
 
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=GIT_COMMITS_TABLE_NAME,
                table_schema=GIT_COMMITS_TABLE_SCHEMA)
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=GIT_FILES_TABLE_NAME,
                table_schema=GIT_FILES_TABLE_SCHEMA)
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=GIT_FILES_VERSION_TABLE_NAME,
                table_schema=GIT_FILES_VERSION_TABLE_SCHEMA)
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=JOB_BUILD_TABLE_NAME,
                table_schema=JOB_BUILD_TABLE_SCHEMA)
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=CB_TRIGGER_EXECUTION_TABLE_NAME,
                table_schema=CB_TRIGGER_EXECUTION_TABLE_SCHEMA)
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=SUBJECT_AREA_TABLE_NAME,
                table_schema=SUBJECT_AREA_TABLE_SCHEMA)
-  create_table(bq_uitls=bq_utils,
+  create_table(bq_utils=bq_utils,
                table_name=SUBJECT_AREA_BUILD_TABLE_NAME,
                table_schema=SUBJECT_AREA_BUILD_TABLE_SCHEMA)
 

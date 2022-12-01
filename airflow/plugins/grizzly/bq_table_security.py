@@ -181,7 +181,7 @@ class BQTableSecurity():
           sql=f'DROP ALL ROW ACCESS POLICIES ON `{target_table_str}`;')
     else:
       # remove all rules that were not changed after access scripts apply.
-      # If they where not changed then they are not in security scope anymore
+      # If they were not changed then they are not in security scope anymore
       rules_to_be_removed = {
           p for p, t in after_row_policy_dict.items()
           if before_row_policy_dict.get(p, None) == t

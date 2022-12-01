@@ -29,7 +29,7 @@ WITH CTE_years AS (
   WHERE tags.value = 'supermarket'
     AND tags.key = 'shop'
   GROUP BY zip_code, year
-), CTE_store_by_year_comulative AS (
+), CTE_store_by_year_cumulative AS (
   SELECT
     z.zip_code,
     IFNULL(z.year, s.year) AS year,
@@ -47,5 +47,5 @@ SELECT
   s.zip_code,
   s.year,
   IFNULL(supermarket_count, 0) AS supermarket_count
-FROM CTE_store_by_year_comulative AS s
+FROM CTE_store_by_year_cumulative AS s
 WHERE s.year BETWEEN 2013 AND 2018

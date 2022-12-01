@@ -13,3 +13,7 @@
   - Added the ability to track schema changes.
   - Added the ability to maintain BigQuery table and column descriptions.
   - Updated example schema to include more table and column descriptions.   
+
+1.2.1
+  - Updated Node.js dependencies for column-level data lineage visualization.
+  - Bugfixes for the Google Sheet exporter. 

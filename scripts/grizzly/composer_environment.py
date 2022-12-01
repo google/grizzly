@@ -53,7 +53,7 @@ class ComposerEnvironment():
 
   def __init__(self, project_id: str, location: str,
                environment_name: str) -> None:
-    """Initialize the instance of of composer environment.
+    """Initialize the instance of composer environment.
 
     Args:
       project_id (string): GCP project Id.

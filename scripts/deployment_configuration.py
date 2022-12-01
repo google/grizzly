@@ -26,7 +26,7 @@ class DeploymentToolConfig:
     gcp_project_id (str): GCP Project Id.
     airflow_location (str): Compute Engine region in which composer environment
       was created.
-    airflow_environmnet (str): GCP Composer environment name.
+    airflow_environment (str): GCP Composer environment name.
     gcp_bucket (str): Google Storage bucket used by GCP Composer environment.
     project_path (str): Domain folder.
     scope_file_path (str): Full SCOPE file path.
@@ -57,12 +57,12 @@ class DeploymentToolConfig:
 
     self.gcp_project_id = environment_config['GCP_ENVIRONMENT']
     self.airflow_location = environment_config['AIRFLOW_LOCATION']
-    self.airflow_environmnet = environment_config['AIRFLOW_ENVIRONMENT']
+    self.airflow_environment = environment_config['AIRFLOW_ENVIRONMENT']
 
     composer = ComposerEnvironment(
         project_id=self.gcp_project_id,
         location=self.airflow_location,
-        environment_name=self.airflow_environmnet)
+        environment_name=self.airflow_environment)
 
     self.gcp_bucket = composer.gs_bucket
 

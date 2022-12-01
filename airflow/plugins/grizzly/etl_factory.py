@@ -37,7 +37,7 @@ from grizzly.grizzly_typing import TQueryJob
 
 
 sys_columns = {
-    'sys_kyes': 'string',
+    'sys_keys': 'string',
     'sys_hash': 'string',
     'sys_act_ts': 'timestamp',
     'sys_act_id': 'string'
@@ -123,8 +123,6 @@ class ETLMerge:
       return False
     except Exception as ex:
       raise ex
-
-    return True
 
   def _get_columns(self, table_name: str) -> Dict[str, Any]:
     """Return columns of table.

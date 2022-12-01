@@ -14,7 +14,7 @@
 
 SELECT
   pc.POA_CODE21 AS postcode,
-  e.state_erritory,
+  e.state_territory,
   e.total_population,
   e.over_65_population,
   e.over_65_population_rate,

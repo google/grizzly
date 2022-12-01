@@ -82,7 +82,7 @@ class ExtractorExcel(BaseURLExtractor):
       **kwargs (dict): Optional attributes.
 
     Raises:
-      AirflowException: Raise exception in case if GSheet Id reference was not
+      AirflowException: Raise exception in case if GSheet ID reference was not
         defined in task YML file.
     """
     super().__init__(execution_context, task_config, target_table,

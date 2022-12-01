@@ -204,7 +204,7 @@ class Scope(ComposerItem):
               task_instance.task_id)
     return
 
-  def generate_stagging_files(self) -> None:
+  def generate_staging_files(self) -> None:
     """Copy deployment files into [/tmp] folder.
 
     All files references in domain scope (yml, sql, md, json, etc.) will be

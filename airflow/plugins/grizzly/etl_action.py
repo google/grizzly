@@ -75,7 +75,7 @@ def dry_run(execution_context: TGrizzlyOperator,
   """Perform dry-run of the query and return some basic statistic.
 
   This method could be used for understanding of query structure before it
-  executed. For example you can understand is it multistep SQL or single step
+  executed. For example, you can understand is it multistep SQL or single step
   SQL or estimate query cost.
 
   Args:

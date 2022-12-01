@@ -76,7 +76,7 @@ def crate_job_build_table(bq_utils: BQUtils) -> Table:
 
 def merge_job_build_tmp_to_job_build(bq_utils: BQUtils,
     job_build_tmp_table_name: str) -> None:
-  """Merge data between temporary and non temporary job_build table."""
+  """Merge data between temporary and non-temporary job_build table."""
 
   sql = SQL_MERGE_TMP_TO_JOB_BUILD.format(GIT_DATASET=GIT_DATASET,
                                           tmp_table=job_build_tmp_table_name)
@@ -153,7 +153,7 @@ def main(args: argparse.Namespace):
     project_gcp=args.gcp_project_id,
     metadata_project_gcp=args.gcp_project_metadata_id
   )
-  deployment_scope.generate_stagging_files()
+  deployment_scope.generate_staging_files()
   deployment_scope.generate_DAG_file(TEMPLATE_PATH / "dag.py.jinja2")
 
   gcp_composer_environment.publish_scope(deployment_scope)

@@ -289,7 +289,7 @@ def git_files_version_data_proc(
   bq_utils.bq_client.query(sql_merge).result()
 
 
-def subjec_area_data_proc(bq_utils: BQUtils) -> None:
+def subject_area_data_proc(bq_utils: BQUtils) -> None:
   """Loading data into subject_area table by merge."""
 
   print('Loading data into subject_area table by insert')
@@ -320,7 +320,7 @@ def main(args: argparse.Namespace) -> None:
 
   git_files_version_data_proc(bq_utils=bq_utils, config=config, files=files)
 
-  subjec_area_data_proc(bq_utils=bq_utils)
+  subject_area_data_proc(bq_utils=bq_utils)
 
 if __name__ == '__main__':
 

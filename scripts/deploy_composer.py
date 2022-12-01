@@ -44,7 +44,7 @@ def main(args: argparse.Namespace) -> None:
       environment_name=args.gcp_composer_env_name)
   source_path = pathlib.Path(args.source_path)
   deployment_scope = Scope(source_path)
-  deployment_scope.generate_stagging_files()
+  deployment_scope.generate_staging_files()
   deployment_scope.generate_DAG_file(TEMPLATE_PATH / 'dag.py.jinja2')
   gcp_composer_environment.publish_scope(deployment_scope)
   return

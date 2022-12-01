@@ -41,7 +41,7 @@ def main(args: argparse.Namespace) -> None:
     args (argparse.Namespace): Input arguments
   """
   Auth.auth()
-  # Get a set of locations. As GCP composer and BQ could operates only with
+  # Get a set of locations. As GCP composer and BQ could operate only with
   # DataCatalog taxonomies in a same location. We will get location from
   # GCP Composer environment plus multi-region locations.
   # For example: [us-central1, us]

@@ -114,7 +114,7 @@ class Task(ComposerItem):
       stage_loading_query = self._normalize_file_name(
           self.raw_config['stage_loading_query'], '.sql').read_text()
     # remove all comments from SQL code for cleanup it.
-    # Need to cleanup as comment could contain reference for some tables.
+    # Need to clean up as comment could contain reference for some tables.
     sql_text = re.sub(r'(((/\*)+?[\w\W]+?(\*/)+))|(--.*)|(#.*)', ' ',
                       stage_loading_query)
     # return a list of all used source(parent) tables.
@@ -129,14 +129,14 @@ class Task(ComposerItem):
     return parent_table_list
 
   def _get_files_by_reference(self, parameter_name: str,
-                              file_extention: str) -> Set[pathlib.Path]:
+                              file_extension: str) -> Set[pathlib.Path]:
     """Return files defined in Task parameters.
 
     File could be defined as a string value or as a List.
 
     Args:
       parameter_name (str): Name of parameter from task YML file to be analysed.
-      file_extention (str): File extension to be used in case if it was not
+      file_extension (str): File extension to be used in case if it was not
         defined in parameter file reference.
 
     Returns:
@@ -149,5 +149,5 @@ class Task(ComposerItem):
         fl = [self.raw_config[parameter_name]]
       else:
         fl = self.raw_config[parameter_name]
-      resultset = {self._normalize_file_name(f, file_extention) for f in fl}
+      resultset = {self._normalize_file_name(f, file_extension) for f in fl}
     return resultset

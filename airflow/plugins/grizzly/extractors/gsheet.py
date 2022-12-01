@@ -102,13 +102,13 @@ class ExtractorGSheet(BaseExtractor):
 
 
     Raises:
-      AirflowException: Raise exception in case if GSheet Id reference was not
+      AirflowException: Raise exception in case if GSheet ID reference was not
         defined in task YML file.
     """
     super().__init__(execution_context, task_config, target_table,
                      write_disposition, *args, **kwargs)
     self.target_table_parsed = grizzly.etl_action.parse_table(
-        task_config.target_table_name)
+      task_config.target_table_name)
     self.is_new_table_flag = (False if write_disposition == 'WRITE_APPEND'
                               else True)
     # if source_gsheet_id was defined in YML file
@@ -121,8 +121,8 @@ class ExtractorGSheet(BaseExtractor):
       spreadsheet_id = source_config['source_gsheet_id']
     else:
       raise AirflowException(
-          ('GSheet was not configured. Check '
-           '[source_config or source_gsheet_id] parameter in your YML file.')
+        ('GSheet was not configured. Check '
+         '[source_config or source_gsheet_id] parameter in your YML file.')
       )
 
     self.gsheet_id = spreadsheet_id
@@ -135,8 +135,8 @@ class ExtractorGSheet(BaseExtractor):
     if not self.range_name:
       self.range_name = self.target_table_parsed['table_id']
     execution_context.log.info(
-        (f'Extracting data from GSHEET_ID [{self.gsheet_id}], '
-         f'RANGE_NAME [{self.range_name}].')
+      (f'Extracting data from GSHEET_ID [{self.gsheet_id}], '
+       f'RANGE_NAME [{self.range_name}].')
     )
     # Call the Sheets API
     self.sheet = build('sheets', 'v4', cache_discovery=False).spreadsheets()
@@ -154,41 +154,41 @@ class ExtractorGSheet(BaseExtractor):
       cast_datetime = lambda arg: (
           datetime.datetime(1899, 12, 30) + datetime.timedelta(arg))
       cast_date = lambda arg: arg.strip() if 'stringValue' in x.get(
-          'effectiveValue', {}) else cast_datetime(arg).date()
+        'effectiveValue', {}) else cast_datetime(arg).date()
       defined_cell_format = x.get('userEnteredFormat',
                                   {}).get('numberFormat', {}).get('type', '')
       if x == {}:
         result = {'Type': None, 'Value': np.NaN}
       elif force_string:
         result = {
-            'Type': 'STRING',
-            'Value': np.NaN if val is None else x.get('formattedValue', np.NaN)
+          'Type': 'STRING',
+          'Value': np.NaN if val is None else x.get('formattedValue', np.NaN)
         }
       elif 'stringValue' in x.get('effectiveValue', {}):
         result = {'Type': 'STRING', 'Value': np.NaN if val is None else val}
       elif defined_cell_format == 'TEXT':
         result = {
-            'Type':
-                'STRING',
-            'Value':
-                x.get('effectiveValue', {}).get('stringValue',
-                                                x.get('formattedValue', None))
+          'Type':
+            'STRING',
+          'Value':
+            x.get('effectiveValue', {}).get('stringValue',
+                                            x.get('formattedValue', None))
         }
       elif defined_cell_format == 'DATE' and 'formattedValue' in x:
         result = {
-            'Type': 'DATE',
-            'Value': np.NaN if val is None else str(cast_date(val))
+          'Type': 'DATE',
+          'Value': np.NaN if val is None else str(cast_date(val))
         }
       elif defined_cell_format == 'DATE_TIME' and 'formattedValue' in x:
         result = {
-            'Type': 'TIMESTAMP',
-            'Value': np.NaN if val is None else str(cast_datetime(val))
+          'Type': 'TIMESTAMP',
+          'Value': np.NaN if val is None else str(cast_datetime(val))
         }
       elif ('numberValue' in x.get('effectiveValue', {})
             and 'formattedValue' in x):
         result = {
-            'Type': 'FLOAT64' if isinstance(val, float) else 'INT64',
-            'Value': np.NaN if val is None else str(val)
+          'Type': 'FLOAT64' if isinstance(val, float) else 'INT64',
+          'Value': np.NaN if val is None else str(val)
         }
       elif 'formattedValue' in x:
         result = {'Type': 'STRING', 'Value': x['formattedValue']}
@@ -219,9 +219,9 @@ class ExtractorGSheet(BaseExtractor):
     if str(value) == 'nan':
       vfs = None
     result = 'CAST({value} AS {type}) AS `{name}`'.format(
-        value=grizzly.etl_action.prepare_value_for_sql(vfs),
-        type=metadata['type'],
-        name=metadata['name']
+      value=grizzly.etl_action.prepare_value_for_sql(vfs),
+      type=metadata['type'],
+      name=metadata['name']
     )
     return result
 
@@ -268,7 +268,11 @@ class ExtractorGSheet(BaseExtractor):
           column_name_adjusted = f'{column_name_adjusted}{dub_count}'
           column_name_parsed = f'{column_name_parsed}.{dub_count}'
         # Column name to column id mapping
-        column_ids.append((column_id, column_name_adjusted))
+        column_ids.append({
+          'column_id': column_id,
+          'column_name_parsed': column_name_parsed,
+          'column_name_adjusted': column_name_adjusted
+        })
         columns.append(column_name_parsed)
     # get a list of column from config
     config_column_list = self.task_config.source_columns
@@ -278,36 +282,37 @@ class ExtractorGSheet(BaseExtractor):
       for ccn in config_column_name_list:
         if ccn not in columns:
           raise AirflowException(
-              (f'Configuration contains column [{ccn}] that '
-               'does not exit in Gsheet')
+            (f'Configuration contains column [{ccn}] that '
+             'does not exit in Gsheet')
           )
       df_config = pd.DataFrame(config_column_list)
       df_sheet = pd.DataFrame([{
-          'source_name': ci[1],
-          'column_id': ci[0]
+        'source_name': ci['column_name_parsed'],
+        'adjusted_name': ci['column_name_adjusted'],
+        'column_id': ci["column_id"]
       } for ci in column_ids])
       # if columns defined. Exclude all not in list. LEFT JOIN
       df_merged = pd.merge(df_config, df_sheet, on='source_name', how='left')
       # if columns defined. Rename in case of importance
       if 'target_name' not in df_merged:
-        df_merged['target_name'] = df_merged['source_name']
+        df_merged['target_name'] = df_merged['adjusted_name']
       else:
         df_merged['target_name'] = df_merged['target_name'].fillna(
-            df_merged['source_name'])
+          df_merged['adjusted_name'])
       # replace all non alpha_numeric characters in column names with ''
       column_ids = [{
-          'column_id': x['column_id'],
-          'name': re.sub(r'\W', '', x['target_name']),
-          'type': 'STRING' if x.get('force_string', '') == 'Y' else None
+        'column_id': x['column_id'],
+        'name': re.sub(r'\W', '', x['target_name']),
+        'type': 'STRING' if x.get('force_string', '') == 'Y' else None
       } for x in df_merged.T.to_dict().values()]
     else:
       column_ids = [
-          {
-              'column_id': x[0],
-              'name': x[1],
-              'type': None
-          }
-          for x in column_ids
+        {
+          'column_id': x['column_id'],
+          'name': x["column_name_adjusted"],
+          'type': None
+        }
+        for x in column_ids
       ]
     return column_ids
 
@@ -337,11 +342,11 @@ class ExtractorGSheet(BaseExtractor):
     while True:
       try:
         trix_data = self.sheet.get(
-            spreadsheetId=self.gsheet_id,
-            ranges=[self.range_name],
-            fields=('sheets(data(rowData(values(userEnteredFormat/numberFormat,'
-                    'userEnteredValue,effectiveValue,formattedValue)),'
-                    'startColumn,startRow))')
+          spreadsheetId=self.gsheet_id,
+          ranges=[self.range_name],
+          fields=('sheets(data(rowData(values(userEnteredFormat/numberFormat,'
+                  'userEnteredValue,effectiveValue,formattedValue)),'
+                  'startColumn,startRow))')
         ).execute()
         break
       except:
@@ -360,7 +365,7 @@ class ExtractorGSheet(BaseExtractor):
     # get header from 1st row. Columns without names are excluded
     sheet_headers = self.__get_header(trix_data[0]['values'])
     force_string_columns = [
-        h['name'] for h in sheet_headers if h['type'] == 'STRING'
+      h['name'] for h in sheet_headers if h['type'] == 'STRING'
     ]
     # get data starting from 2nd row
     frame_data = {c['name']: [] for c in sheet_headers}
@@ -372,7 +377,7 @@ class ExtractorGSheet(BaseExtractor):
         c_id, c_name = header['column_id'], header['name']
         force_string = c_name in force_string_columns
         cell_value = self.__extract_row_value(
-            data_row['values'][c_id] if c_id < row_len else {}, force_string)
+          data_row['values'][c_id] if c_id < row_len else {}, force_string)
         frame_data[c_name].append(cell_value['Value'])
         # Try to define type of data
         if sheet_headers[si]['type'] is None:
@@ -407,27 +412,27 @@ class ExtractorGSheet(BaseExtractor):
       target_ds_id = target_table_dic['dataset_id']
       target_table_id = target_table_dic['table_id']
       self.execution_context.bq_cursor.run_table_delete(
-          deletion_dataset_table='{}.{}.{}'.format(target_project_id,
-                                                   target_ds_id,
-                                                   target_table_id),
-          ignore_if_missing=True)
+        deletion_dataset_table='{}.{}.{}'.format(target_project_id,
+                                                 target_ds_id,
+                                                 target_table_id),
+        ignore_if_missing=True)
       self.execution_context.bq_cursor.create_empty_table(
-          project_id=target_project_id,
-          dataset_id=target_ds_id,
-          table_id=target_table_id,
-          schema_fields=sheet_headers)
+        project_id=target_project_id,
+        dataset_id=target_ds_id,
+        table_id=target_table_id,
+        schema_fields=sheet_headers)
     else:
 
       # prepare SQL
       field_count = len(sheet_headers)
       row_to_string_func = lambda x: 'STRUCT(' + ', '.join([
-          self.__generate_sql_field(
-              (x[i] if len(x[i:]) != 0 else None),
-              sheet_headers[i])
-          for i in range(field_count)
+        self.__generate_sql_field(
+          (x[i] if len(x[i:]) != 0 else None),
+          sheet_headers[i])
+        for i in range(field_count)
       ]) + ')'
       df['SQL_QUERY'] = df.apply(
-          lambda x: row_to_string_func(x.astype(str)), axis=1)
+        lambda x: row_to_string_func(x.astype(str)), axis=1)
       # div by 1Mb chunks
       df['SQL_LEN_CUMSUM'] = df['SQL_QUERY'].apply(len).cumsum() // 1000000
       min_chunk = int(df['SQL_LEN_CUMSUM'].min())
@@ -439,9 +444,9 @@ class ExtractorGSheet(BaseExtractor):
 
         self.current_load += len(rows)
         yield {
-            'metadata': sheet_headers,
-            'rows': rows,
-            'row_counter': self.current_load
+          'metadata': sheet_headers,
+          'rows': rows,
+          'row_counter': self.current_load
         }
 
   def load(self, data: Any) -> None:
@@ -461,7 +466,7 @@ class ExtractorGSheet(BaseExtractor):
     rows = ',\n'.join(rows_generator)
     insert_sql = f'SELECT * FROM UNNEST([{rows}]) AS v'
 
-    # create staging table in case if it first run of load method
+    # create staging table in case if it is the first run of the load method
     # in further ETL run append data to existing staging table.
     # this functionality is important for batch/chunk loads
     write_disposition = ('WRITE_TRUNCATE' if self.is_new_table_flag
@@ -469,10 +474,10 @@ class ExtractorGSheet(BaseExtractor):
     self.is_new_table_flag &= False
 
     self.job_stat = grizzly.etl_action.run_bq_query(
-        execution_context=self.execution_context,
-        sql=insert_sql,
-        destination_table=self.target_table,
-        write_disposition=write_disposition)
+      execution_context=self.execution_context,
+      sql=insert_sql,
+      destination_table=self.target_table,
+      write_disposition=write_disposition)
 
     self.execution_context.log.info(
-        f'!!! Loaded [{data["row_counter"]}] of [{self.total_rows}].')
+      f'!!! Loaded [{data["row_counter"]}] of [{self.total_rows}].')

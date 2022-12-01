@@ -37,7 +37,7 @@ def main(args: argparse.Namespace):
   bq_utils = BQUtils(gcp_project_id=args.gcp_project_id)
   LoadDataLineageBuild.create_dl_build_log_table(bq_utils)
   results = bq_utils.bq_client.query(
-    query="select * from etl_log.vw_build_data_lineage_queq").result()
+    query="select * from etl_log.vw_build_data_lineage_queue").result()
 
   for row in results:
     print(f"Build_id={row.build_id}: build_datetime={row.build_datetime}")
