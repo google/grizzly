@@ -23,14 +23,23 @@
   task_config = grizzly.task_instance.TaskInstance(config_file_ref, context)
 """
 
+import enum
 import json
 import pathlib
 from typing import Any, Optional
-from typing import List
+from typing import List, Dict
+
 from grizzly.config import Config as GrizzlyConfig
 from grizzly.etl_action import parse_table
 import jinja2
 import yaml
+
+
+class CaseSens(enum.Enum):
+  SENSIVE = (lambda x: x)
+  UPPER = (lambda x: x.upper())
+  LOWER = (lambda x: x.lower())
+  LOWER_DIC_LEVEL1 = (lambda x: {k.lower(): v for k, v in x.items()})
 
 
 class TaskInstance():
@@ -132,6 +141,17 @@ class TaskInstance():
       'target_audit_indicator': 'N',
       # Descriptions
       'descriptions': {'table': None, 'columns': {}}
+    }
+
+  _attribute_values_case_sensive_rule = {
+      'target_hx_loading_indicator': CaseSens.UPPER,
+      'job_write_mode': CaseSens.UPPER,
+      'use_legacy_sql': CaseSens.UPPER,
+      'source_type': CaseSens.LOWER,
+      'trigger_rule': CaseSens.LOWER,
+      'export_type': CaseSens.LOWER,
+      'target_audit_indicator': CaseSens.UPPER,
+      'descriptions': CaseSens.LOWER_DIC_LEVEL1
     }
 
   def __init__(self, task_config_path: str, context: Any) -> None:
@@ -250,6 +270,29 @@ class TaskInstance():
     """
     return self._default_attribute_values[name]
 
+  def _yaml_load(self, file_name: str) -> Dict[str, Any]:
+    """Read yaml file and correct keys and values.
+
+    Args:
+      file_name (string): Reference to file to be loaded.
+
+    Returns:
+      (dict[str, Any]): dictionary.
+    """
+
+    yaml_data: dict[str, Any] = yaml.safe_load(file_name)
+    yaml_data_ret = {}
+
+    for k, v in yaml_data.items():
+      k_new, v_new = k.lower(), v
+
+      if k_new in self._attribute_values_case_sensive_rule:
+        v_new = self._attribute_values_case_sensive_rule[k_new](v_new)
+
+      yaml_data_ret[k_new] = v_new
+
+    return yaml_data_ret
+
   def get_value_from_file(self, file: str, file_format: str, **kwargs) -> Any:
     """Enrich task attribute with data from referenced file.
 
@@ -270,7 +313,7 @@ class TaskInstance():
         'text': (lambda x: x),
         'sql': (lambda x: x),
         'json': (json.loads),
-        'yml': (yaml.safe_load),
+        'yml': (self._yaml_load),
     }
     file_path = self._task_config_folder / file
     file_text_raw = file_path.read_text()

@@ -25,7 +25,7 @@ task_instance = Task(task_file, self.source_path)
 
 import pathlib
 import re
-from typing import List, Set
+from typing import List, Set, Dict, Any
 from grizzly.composer_item import ComposerItem
 import yaml
 
@@ -72,7 +72,7 @@ class Task(ComposerItem):
     self.file_id = file_path.relative_to(source_path)
     self.files = {file_path}
     # read YML file
-    self.raw_config = yaml.safe_load(file_path.read_text())
+    self.raw_config = self._yaml_load(file_path.read_text())
     self.target_table_name = self.raw_config.get('target_table_name', None)
     self.schedule_interval = self.raw_config.get('schedule_interval', None)
     self.operator_type = self.raw_config.get('operator_type', 'GrizzlyOperator')
@@ -98,6 +98,18 @@ class Task(ComposerItem):
     # Get a list of source tables
     self.source_tables = self._get_source_tables()
     return
+
+  def _yaml_load(self, file_name: str) -> Dict[str, Any]:
+    """Read yaml file and return values in normal form."""
+
+    raw_data = yaml.safe_load(file_name)
+    ret_data = {}
+
+    for k, v in raw_data.items():
+      k_new = k.lower()
+      ret_data[k_new] = v
+
+    return ret_data
 
   def _get_source_tables(self) -> List[str]:
     """Parse SQL query and return a list of source tables.

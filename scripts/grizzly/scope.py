@@ -25,7 +25,7 @@ deployment_scope = Scope(source_path)
 import pathlib
 import shutil
 import tempfile
-
+from typing import Dict, Any
 from grizzly.app import Datalineage
 from grizzly.composer_item import ComposerItem
 from grizzly.task import Task
@@ -53,6 +53,7 @@ class ScopeConfig():
       or notes to your DAGs objects that are visible in the web interface
     tags (List[string]): List of DAG's tags. Tags could be used in Airflow UI
       for filtering purpose.
+    raw_config (Dict): Raw configuration.
   """
 
   def __init__(self, scope_file: pathlib.Path) -> None:
@@ -62,7 +63,7 @@ class ScopeConfig():
         scope_file (pathlib.Path): Path to SCOPE.yml file with definition of ETL
           used for DAG(domain) generation.
     """
-    raw_config = yaml.safe_load(scope_file.read_text())
+    raw_config = self._yaml_load(scope_file.read_text())
     self.raw_config = raw_config
     # MANDATORY parameters
     self.etl_scope = raw_config['etl_scope']
@@ -81,6 +82,18 @@ class ScopeConfig():
     if 'tags' in raw_config:
       self.tags = [raw_config['tags']] if isinstance(
           raw_config['tags'], str) else raw_config['tags']
+
+  def _yaml_load(self, file_name: str) -> Dict[str, Any]:
+    """Read yaml file and return values in normal form."""
+
+    raw_data = yaml.safe_load(file_name)
+    ret_data = {}
+
+    for k, v in raw_data.items():
+      k_new = k.lower()
+      ret_data[k_new] = v
+
+    return ret_data
 
 
 class Scope(ComposerItem):
@@ -137,10 +150,11 @@ class Scope(ComposerItem):
         {'table_name': [task_id_1, task_id_2]}
   """
 
-  def __init__(self, 
-    source_path: pathlib.Path, 
-    project_gcp: str, 
-    metadata_project_gcp: str) -> None:
+  def __init__(
+      self,
+      source_path: pathlib.Path,
+      project_gcp: str,
+      metadata_project_gcp: str) -> None:
     """Init instance of Scope with data from SCOPE.yml file.
 
     File references will be extended with file extension.
@@ -148,6 +162,8 @@ class Scope(ComposerItem):
     Args:
         source_path (pathlib.Path): Reference to domain folder. This path is
           passed as [source_path] input parameter for application.
+        project_gcp (str): project id.
+        metadata_project_gcp (str): metadata project id.
     """
     self.scope_file = source_path / 'SCOPE.yml'
     super().__init__(source_path, self.scope_file)
@@ -162,17 +178,15 @@ class Scope(ComposerItem):
       self.config.doc_md = self._normalize_file_name(self.config.doc_md, '.md')
       self.files.add(self.config.doc_md)
     else:
-      default_scope_md = self._normalize_file_name("default_scope", '.md')
+      default_scope_md = self._normalize_file_name('default_scope', '.md')
       Datalineage.create_default_md(
-        metadata_project_gcp=metadata_project_gcp,
-        project_gcp=project_gcp,
-        domain=self.config.domain_name,
-        file_path=default_scope_md)
+          metadata_project_gcp=metadata_project_gcp,
+          project_gcp=project_gcp,
+          domain=self.config.domain_name,
+          file_path=default_scope_md)
 
       self.config.doc_md = default_scope_md
-      
 
-          
     # Load task .yml files
     self.tasks = dict()
     # we use self.scope_tables dict for build dependencies in DAG files
