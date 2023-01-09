@@ -14,19 +14,49 @@
  * limitations under the License.
  */
 
+resource "google_project_iam_member" "composer_v2_api_service_agent_extension" {
+  project = var.gcp_project_id
+  role    = "roles/composer.ServiceAgentV2Ext"
+  member  = "serviceAccount:service-${var.gcp_project_number}@cloudcomposer-accounts.iam.gserviceaccount.com"
+}
+
 resource "google_composer_environment" "grizzly_airflow" {
   project = var.gcp_project_id
   name = var.composer_environment_name
   region = var.composer_location
+  depends_on = [
+    google_project_iam_member.composer_v2_api_service_agent_extension
+  ]
 
   config {
-    environment_size = "ENVIRONMENT_SIZE_LARGE"
+    environment_size = "ENVIRONMENT_SIZE_MEDIUM"
     software_config {
       image_version = var.composer_image_version
+      airflow_config_overrides = local.airflow_config_overrides
       pypi_packages = {
-        geopandas = ""
+        geopandas = "==0.11.1"
         openpyxl = ""
-      }      
+      }
+    }
+    workloads_config {
+      scheduler {
+        cpu = 2
+        memory_gb = 7.5
+        storage_gb = 5
+        count = 2
+      }
+      web_server {
+        cpu = 2
+        memory_gb = 4
+        storage_gb = 4
+      }
+      worker {        
+        cpu = 2
+        memory_gb = 8
+        storage_gb = 5
+        min_count = 3
+        max_count = 25
+      }
     }
   }
 }

@@ -23,6 +23,13 @@ locals {
         "serviceAccount:${var.gcp_project_number}-compute@developer.gserviceaccount.com"
       ]
     },
+    # Composer Worker
+    {
+      role: "roles/composer.worker"
+      members: [
+        "serviceAccount:${var.gcp_project_number}-compute@developer.gserviceaccount.com"
+      ]
+    },    
     # BigQuery Data Owner
     {
       role: "roles/bigquery.dataOwner"
@@ -49,13 +56,6 @@ locals {
       role: "roles/datacatalog.tagTemplateUser"
       members: [
         "serviceAccount:${var.gcp_project_number}-compute@developer.gserviceaccount.com"
-      ]
-    },
-    # Cloud Composer v2 API Service Agent Extension
-    {
-      role: "roles/composer.ServiceAgentV2Ext"
-      members: [
-        "serviceAccount:service-${var.gcp_project_number}@cloudcomposer-accounts.iam.gserviceaccount.com"
       ]
     },
   ]

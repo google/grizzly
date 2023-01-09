@@ -430,7 +430,6 @@ class GrizzlyOperator(BaseOperator):
         self.config_file_ref, context)
     # open BQ connection
     self.bq_hook = BigQueryHook(
-        bigquery_conn_id=self.bigquery_conn_id,
         use_legacy_sql=False,
         location=GrizzlyConfig.GCP_RESOURCE_LOCATION,
     )
@@ -548,7 +547,7 @@ class GrizzlyOperator(BaseOperator):
       # ETL. Run post ETL queries
       self.run_post_etl(self.task_config, self.etl_log)
       self.run_descriptions(self.task_config)
-      self.run_metadata_collector(self.task_config, self.etl_log)
+      # self.run_metadata_collector(self.task_config, self.etl_log)
     except AirflowSkipException as ae:
       self.etl_log.log_flush(execution_context=self, status='SKIPPED')
       raise ae

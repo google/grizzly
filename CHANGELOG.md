@@ -1,7 +1,7 @@
 # Change Log
 
 1.0.0
-- Initial version.
+  - Initial version.
 
 1.1.0
   - Added the ability to import Shapefiles, Excel files, and csv files from a URL source.
@@ -17,3 +17,8 @@
 1.2.1
   - Updated Node.js dependencies for column-level data lineage visualization.
   - Bugfixes for the Google Sheet exporter. 
+
+1.3.0
+  - Added support of GCP Composer autoscaling mechanism.
+  - Made ETL parameters in the yml files case insensitive.
+  - Implemented Wordpress extractor.

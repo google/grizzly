@@ -54,8 +54,8 @@ module "composer_v2" {
   composer_environment_name = var.composer_environment_name
   composer_image_version = var.composer_image_version
   composer_location = var.composer_location
-  composer_node_zone = var.composer_node_zone
   gcp_project_id = local.gcp_project_id
+  gcp_project_number = local.gcp_project_number
   default_datacatalog_taxonomy_location = var.default_datacatalog_taxonomy_location
   gcp_resource_location = var.gcp_resource_location
 }

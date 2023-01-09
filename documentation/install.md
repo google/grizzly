@@ -100,7 +100,7 @@ session to initialize.
         --GCP_RESOURCE_LOCATION "[gcp_resource_location]" \
         --AIRFLOW_LOCATION "[composer_location]" \
         --APP_ENGINE_LOCATION "[app_engine_location]" \
-        --COMPOSER_IMAGE "composer-1.19.11-airflow-2.2.5" \
+        --COMPOSER_IMAGE "composer-2.1.1-airflow-2.3.4" \
         --SECURITY_USER "[security_user]" 
         ```
 
@@ -116,7 +116,7 @@ session to initialize.
         --GCP_RESOURCE_LOCATION "us" \
         --AIRFLOW_LOCATION "us-central1" \
         --APP_ENGINE_LOCATION "us-central" \
-        --COMPOSER_IMAGE "composer-1.19.11-airflow-2.2.5" \
+        --COMPOSER_IMAGE "composer-2.1.1-airflow-2.3.4" \
         --SECURITY_USER "user:abc@example.com" 
         ```
 

@@ -31,10 +31,10 @@ from typing import Any, Dict, Optional
 from airflow.exceptions import AirflowException
 from google.api_core.exceptions import NotFound
 from grizzly.etl_action import execute_bq_template
+from grizzly.extractors import EXTRACTOR_CLASSES_ALIAS
 from grizzly.grizzly_typing import TGrizzlyOperator
 from grizzly.grizzly_typing import TGrizzlyTaskConfig
 from grizzly.grizzly_typing import TQueryJob
-
 
 sys_columns = {
     'sys_keys': 'string',
@@ -193,6 +193,11 @@ class ETLFactory:
 
     # get upstream data source_type. If not defined use BQ as source
     source_type = task_config.source_type
+    src_extractor = task_config.source_extractor
+
+    if isinstance(src_extractor, str):
+      src_extractor = src_extractor.lower()
+
     source_extractor = {
         'bq': 'grizzly.extractors.bq.ExtractorBQ',
         'bq_scripting': 'grizzly.extractors.bq.ExtractorBQ',
@@ -203,7 +208,7 @@ class ETLFactory:
         'shapefile': 'grizzly.extractors.shapefile.ExtractorShapefile',
         'csv': 'grizzly.extractors.csv_url.ExtractorCSV',
         'excel': 'grizzly.extractors.excel_url.ExtractorExcel',
-        'custom': task_config.source_extractor
+        'custom': src_extractor
     }
 
     if source_type not in source_extractor:
@@ -212,7 +217,19 @@ class ETLFactory:
            f'[{source_type}] has no implementation.')
       )
 
-    module_name, class_name = source_extractor[source_type].rsplit('.', 1)
+    if source_type == 'custom':
+
+      plugin_class = source_extractor['custom']
+
+      if plugin_class in EXTRACTOR_CLASSES_ALIAS:
+        module_name, class_name = EXTRACTOR_CLASSES_ALIAS[
+            plugin_class].rsplit('.', 1)
+      else:
+        module_name, class_name = plugin_class.rsplit('.', 1)
+
+    else:
+      module_name, class_name = source_extractor[source_type].rsplit('.', 1)
+
     extractor_class = getattr(importlib.import_module(module_name), class_name)
     extractor = extractor_class(
         execution_context=execution_context,

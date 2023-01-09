@@ -19,6 +19,11 @@ variable "gcp_project_id" {
   description = "The ID of the GCP project."
 }
 
+variable "gcp_project_number" {
+  type = string
+  description = "The numeric identifier of the project."
+}
+
 variable "composer_environment_name" {
   type    = string
   description = "Name of the GCP Composer/Airflow environment."
@@ -34,24 +39,7 @@ variable "composer_location" {
   description = "Compute Engine region where the Composer environment's GKE cluster is located."
 }
 
-variable "composer_node_zone" {
-  type    = string
-  description = "The Compute Engine zone in which to deploy the VMs running the Apache Airflow software."
-}
-
 #### Default parameters
-
-variable "composer_node_count" {
-  type    = string
-  description = "The number of nodes in the Kubernetes Engine cluster that will be used to run your environment."
-  default = 25
-}
-
-variable "composer_machine_type" {
-  type    = string
-  description = "The Compute Engine machine type used for cluster instances."
-  default = "e2-highmem-2"
-}
 
 variable "default_datacatalog_taxonomy_location" {
   type    = string
@@ -81,8 +69,22 @@ locals {
     FORCE_OFF_HX_LOADING: "N",
     GCP_PROJECT_ID: var.gcp_project_id,
     HISTORY_TABLE_CONFIG: "{\n  \"dataset_id\": \"{{ target_dataset_id }}_hx\",\n  \"default_history_expiration\": 180,\n  \"table_id\": \"{{ target_table_id }}_hx\"\n}",
-    # projects/{Config.GCP_PROJECT_ID}/locations/us/taxonomies
     DEFAULT_DATACATALOG_TAXONOMY_LOCATION: "projects/${var.gcp_project_id}/locations/${var.default_datacatalog_taxonomy_location}/taxonomies",
     GCP_RESOURCE_LOCATION: var.gcp_resource_location
+  }
+  airflow_config_overrides = {
+    core-load_example = "True",
+    celery-worker_concurrency=12,
+    core-non_pooled_task_slot_count=300,
+    core-dag_concurrency =300,
+    core-dagbag_import_timeout=120,
+    core-parallelism=300,
+    scheduler-max_threads=4,
+    webserver-instance_name="${var.composer_environment_name} : ${var.gcp_project_id}"
+  }
+  pool = {
+    name: "default_pool",
+    value: 128,
+    description: "Default pool"
   }
 }
