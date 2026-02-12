@@ -28,7 +28,7 @@ locals {
 
 resource "null_resource" "setup_grizzly_example_data" {
   provisioner "local-exec" {
-    command = "gsutil -m cp -r ../../grizzly_example/gis_examples/building-footprint-usa* ${local.airflow_gcs_bucket}/data/imports/building-footprint-usa/"
+    command = "gcloud storage cp --recursive ../../grizzly_example/gis_examples/building-footprint-usa* ${local.airflow_gcs_bucket}/data/imports/building-footprint-usa/"
   }
   depends_on = [
     data.google_composer_environment.grizzly_airflow
