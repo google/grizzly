@@ -24,7 +24,7 @@ resource "null_resource" "setup_airflow_plugin" {
     airflow_variable_ids = "airflow/plugins/${each.key}"
   }
   provisioner "local-exec" {
-    command = "gsutil cp -R ../airflow/plugins/${each.key}/ ${local.airflow_gcs_bucket}/plugins/"
+    command = "gcloud storage cp --recursive ../airflow/plugins/${each.key}/ ${local.airflow_gcs_bucket}/plugins/"
   }
   depends_on = [
     google_composer_environment.grizzly_airflow
